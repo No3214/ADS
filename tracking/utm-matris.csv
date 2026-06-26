@@ -1,0 +1,15 @@
+anahtar,kanal,utm_source,utm_medium,utm_campaign,not
+google-brand,Google Marka Search,google,cpc,brand,auto-tag varsa UTM opsiyonel
+google-nonbrand,Google Non-brand Search,google,cpc,nonbrand,utm_term=kelime ekle
+google-pmax,Google Performance Max,google,cpc,pmax,final URL expansion kapaliyken
+google-demandgen,Google Demand Gen,google,demandgen,demandgen,gorsel/video
+google-display,Google Display/Remarketing,google,display,remarketing,geri kazanim
+meta-prospecting,Meta Prospecting,meta,paid_social,prospecting,utm_content=reel-01 vb.
+meta-retargeting,Meta Retargeting,meta,paid_social,retargeting,site/checkout terk
+meta-whatsapp,Meta WhatsApp/Mesaj,meta,paid_social,whatsapp,lead amac
+instagram-organic,Instagram (organik/bio),instagram,social,bio-link,Linktree/bio
+email,E-posta,email,email,yaz-2026,kampanyaya gore degis
+whatsapp-organic,WhatsApp (organik),whatsapp,referral,destek,link paylasiminda
+gbp,Google Isletme Profili,gbp,organic,profil,Maps/isletme link
+tiktok-organic,TikTok (organik),tiktok,social,bio-link,bio
+linkedin-b2b,LinkedIn (B2B outreach),linkedin,social,b2b-aliaga,kurumsal

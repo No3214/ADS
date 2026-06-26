@@ -121,3 +121,57 @@ REMARKETING_FLOW = [
     {"tetik": "Rezervasyon yaptı", "1_kanal": "Hariç tut (suppression)", "2_kanal": "email/WhatsApp upsell", "mesaj": "teşekkür + ek hizmet + tekrar"},
     {"tetik": "Misafir oldu, ayrıldı", "1_kanal": "email sıra akışı", "2_kanal": "sezon Meta/Customer Match", "mesaj": "yorum iste + tekrar gel teklifi"},
 ]
+
+
+# =============================================================================
+# 4) UTM STANDARDI + matris — her kanalda tutarli etiketleme = temiz attribution
+#    Kural: kucuk harf, bosluk yok (tire), tutarli. utm_term=kelime, utm_content=varyant.
+# =============================================================================
+UTM_RULES = [
+    {"kural": "Kucuk harf", "ornek": "utm_source=meta (Meta degil)", "neden": "GA4 buyuk/kucuk ayrir"},
+    {"kural": "Bosluk yok", "ornek": "utm_campaign=yaz-kampanya", "neden": "tire kullan, bosluk/altcizgi karisir"},
+    {"kural": "source=platform", "ornek": "google / meta / instagram / email", "neden": "trafigin geldigi yer"},
+    {"kural": "medium=tur", "ornek": "cpc / paid_social / email / organic", "neden": "kanal tipi"},
+    {"kural": "campaign=amac", "ornek": "brand / pmax / retargeting / yaz-2026", "neden": "kampanya kimligi"},
+    {"kural": "term=kelime (Search)", "ornek": "utm_term=foca+otel", "neden": "paid search anahtar kelime"},
+    {"kural": "content=varyant", "ornek": "utm_content=rsa-a / reel-01", "neden": "A/B reklam/kreatif ayrimi"},
+    {"kural": "Marka Search'i etiketleme", "ornek": "auto-tagging (gclid) yeterli", "neden": "Google Ads zaten gclid ile baglar; UTM gclid'i ezmesin"},
+]
+
+# anahtar = kads utm build --channel <anahtar>
+UTM_MATRIX = [
+    {"anahtar": "google-brand", "kanal": "Google Marka Search", "utm_source": "google", "utm_medium": "cpc", "utm_campaign": "brand", "not": "auto-tag varsa UTM opsiyonel"},
+    {"anahtar": "google-nonbrand", "kanal": "Google Non-brand Search", "utm_source": "google", "utm_medium": "cpc", "utm_campaign": "nonbrand", "not": "utm_term=kelime ekle"},
+    {"anahtar": "google-pmax", "kanal": "Google Performance Max", "utm_source": "google", "utm_medium": "cpc", "utm_campaign": "pmax", "not": "final URL expansion kapaliyken"},
+    {"anahtar": "google-demandgen", "kanal": "Google Demand Gen", "utm_source": "google", "utm_medium": "demandgen", "utm_campaign": "demandgen", "not": "gorsel/video"},
+    {"anahtar": "google-display", "kanal": "Google Display/Remarketing", "utm_source": "google", "utm_medium": "display", "utm_campaign": "remarketing", "not": "geri kazanim"},
+    {"anahtar": "meta-prospecting", "kanal": "Meta Prospecting", "utm_source": "meta", "utm_medium": "paid_social", "utm_campaign": "prospecting", "not": "utm_content=reel-01 vb."},
+    {"anahtar": "meta-retargeting", "kanal": "Meta Retargeting", "utm_source": "meta", "utm_medium": "paid_social", "utm_campaign": "retargeting", "not": "site/checkout terk"},
+    {"anahtar": "meta-whatsapp", "kanal": "Meta WhatsApp/Mesaj", "utm_source": "meta", "utm_medium": "paid_social", "utm_campaign": "whatsapp", "not": "lead amac"},
+    {"anahtar": "instagram-organic", "kanal": "Instagram (organik/bio)", "utm_source": "instagram", "utm_medium": "social", "utm_campaign": "bio-link", "not": "Linktree/bio"},
+    {"anahtar": "email", "kanal": "E-posta", "utm_source": "email", "utm_medium": "email", "utm_campaign": "yaz-2026", "not": "kampanyaya gore degis"},
+    {"anahtar": "whatsapp-organic", "kanal": "WhatsApp (organik)", "utm_source": "whatsapp", "utm_medium": "referral", "utm_campaign": "destek", "not": "link paylasiminda"},
+    {"anahtar": "gbp", "kanal": "Google Isletme Profili", "utm_source": "gbp", "utm_medium": "organic", "utm_campaign": "profil", "not": "Maps/isletme link"},
+    {"anahtar": "tiktok-organic", "kanal": "TikTok (organik)", "utm_source": "tiktok", "utm_medium": "social", "utm_campaign": "bio-link", "not": "bio"},
+    {"anahtar": "linkedin-b2b", "kanal": "LinkedIn (B2B outreach)", "utm_source": "linkedin", "utm_medium": "social", "utm_campaign": "b2b-aliaga", "not": "kurumsal"},
+]
+
+# =============================================================================
+# 5) ATTRIBUTION MODELI — hangi temas donusumu alir; kanal arasi cift sayim cozumu
+# =============================================================================
+ATTRIBUTION = [
+    {"katman": "GA4 raporlama", "model": "Data-driven (DDA)", "pencere": "30 gun tikla / 1 gun gor", "not": "turizmde karar uzun; DDA varsayilan"},
+    {"katman": "Google Ads donusum", "model": "Data-driven (DDA)", "pencere": "30 gun", "not": "son-tik degil; tum yolu degerlendir"},
+    {"katman": "Meta Ads", "model": "7 gun tikla / 1 gun gor", "pencere": "7-1", "not": "view-through'a supheli yaklas"},
+    {"katman": "Kaynak otorite (dedup)", "model": "GA4 = tek gercek", "pencere": "-", "not": "Google+Meta ayni rezervasyonu sayar; GA4'te birlestir"},
+    {"katman": "purchase tekillik", "model": "transaction_id (HMS rez. no)", "pencere": "-", "not": "ayni rez. iki kez sayilmaz (tracking/)"},
+    {"katman": "Meta CAPI dedup", "model": "event_id eslesme", "pencere": "-", "not": "Pixel+CAPI ayni event_id (tracking/05)"},
+    {"katman": "Karar (yonetim)", "model": "Blended CPA/ROAS", "pencere": "aylik", "not": "tek platform metrigine takilma (docs)"},
+]
+ATTRIBUTION_NOTES = [
+    "Cross-domain ZORUNLU: purchase HMS'te ({slug}.hmshotel.net) olur; GA4 cross-domain yoksa yol kopar (tracking/03).",
+    "Google ve Meta ayni rezervasyonu kendine yazar -> toplam sisirilir. GA4'u hakem al, blended bak.",
+    "View-through (goruntuleme) donusumunu ayri raporla; karari click-through agirlikli ver.",
+    "Lookback turizmde uzun: 30 gun tikla mantikli. Kisa pencere yeni talebi olduren gosterir.",
+    "UTM tutarsizligi attribution'u bozar -> kads utm ile her linki standart etiketle.",
+]

@@ -807,6 +807,61 @@ def cmd_remarketing(args):
     return core.EX_OK
 
 
+# ---- buyume: UTM standardi/builder + attribution ----------------------------
+def cmd_utm(args):
+    fmt = _fmt(args)
+    sub = args[0] if args and not args[0].startswith("-") else "matrix"
+    if sub == "build":
+        from urllib.parse import urlencode, urlparse
+        url = _opt(args, "--url", "")
+        ch = _opt(args, "--channel", "")
+        if ch:
+            preset = next((r for r in dg.UTM_MATRIX if r["anahtar"] == ch), None)
+            if not preset:
+                print(core.red("Bilinmeyen kanal: " + ch + "  (liste: kads utm)"))
+                return core.EX_USAGE
+            src, med, camp = preset["utm_source"], preset["utm_medium"], preset["utm_campaign"]
+        else:
+            src, med, camp = _opt(args, "--source", ""), _opt(args, "--medium", ""), _opt(args, "--campaign", "")
+        term, content = _opt(args, "--term", ""), _opt(args, "--content", "")
+        if not url or not (src and med and camp):
+            print(core.red("Kullanim: kads utm build --url URL (--channel ANAHTAR | --source S --medium M --campaign C) [--term T --content C]"))
+            return core.EX_USAGE
+        params = [("utm_source", src), ("utm_medium", med), ("utm_campaign", camp)]
+        if term:
+            params.append(("utm_term", term))
+        if content:
+            params.append(("utm_content", content))
+        sep = "&" if urlparse(url).query else "?"
+        built = url + sep + urlencode(params)
+        if fmt == "json":
+            print(json.dumps({"url": built, **dict(params)}, ensure_ascii=False, indent=2))
+        else:
+            print(built)
+        return core.EX_OK
+    if sub in ("rules", "kural"):
+        core.emit(dg.UTM_RULES, fmt=fmt, title="UTM kurallari", columns=["kural", "ornek", "neden"])
+        return core.EX_OK
+    core.emit(dg.UTM_MATRIX, fmt=fmt, title="UTM standardi (kanal -> source/medium/campaign)",
+              columns=["anahtar", "kanal", "utm_source", "utm_medium", "utm_campaign", "not"])
+    if fmt == "table":
+        print(core.dim("\n  Uret: kads utm build --url https://www.kozbeylikonagi.com/odalar --channel google-pmax"))
+        print(core.dim("  Kurallar: kads utm rules  -  Detay: tracking/utm-standard.md"))
+    return core.EX_OK
+
+
+def cmd_attribution(args):
+    fmt = _fmt(args)
+    core.emit(dg.ATTRIBUTION, fmt=fmt, title="Attribution modeli (katman -> model)",
+              columns=["katman", "model", "pencere", "not"])
+    if fmt == "table":
+        print("")
+        for n in dg.ATTRIBUTION_NOTES:
+            print(core.dim("  - " + n))
+        print(core.dim("\n  Olcum kurulumu: tracking/  -  Cross-domain: tracking/implementation/03-ga4-cross-domain.md"))
+    return core.EX_OK
+
+
 # ---- selfcheck (kirilmaz / butunluk denetimi) -------------------------------
 def cmd_selfcheck(args):
     import json as _json, glob as _glob, tempfile as _tmp
@@ -878,6 +933,8 @@ def cmd_help(args: list[str]) -> int:
         ("pmax [specs|setup]", "Performance Max asset group + varlik + kurulum"),
         ("demandgen [audiences|specs]", "Demand Gen format + kitle + varlik"),
         ("remarketing [rlsa|flow]", "Google remarketing liste + RLSA + kanal akisi"),
+        ("utm [build|rules]", "UTM standardi + tutarli link uretici"),
+        ("attribution", "Attribution modeli + cift sayim dedup"),
         ("selfcheck", "Sistem bütünlük denetimi (kırılmaz)"),
         ("build google|meta|seo|all [--out DIR]", "Import-hazır dosyalar üret"),
         ("validate", "RSA uzunluk + bütçe + CSV doğrulama"),
@@ -918,6 +975,7 @@ def main(argv: list[str] | None = None) -> int:
         "season": cmd_season, "funnel": cmd_funnel, "offers": cmd_offers, "web": cmd_web,
         "b2b": cmd_b2b, "selfcheck": cmd_selfcheck,
         "pmax": cmd_pmax, "demandgen": cmd_demandgen, "remarketing": cmd_remarketing,
+        "utm": cmd_utm, "attribution": cmd_attribution,
         "validate": cmd_validate, "guard": cmd_guard, "monitor": cmd_monitor, "brief": cmd_brief,
     }
     fn = table.get(cmd)

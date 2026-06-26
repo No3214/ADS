@@ -29,3 +29,21 @@ def test_remarketing_data():
     assert len(dg.GOOGLE_REMARKETING) >= 6
     assert all(isinstance(r["uyelik_gun"], int) and r["uyelik_gun"] > 0 for r in dg.GOOGLE_REMARKETING)
     assert len(dg.RLSA_RULES) >= 4 and len(dg.REMARKETING_FLOW) >= 5
+
+
+def test_utm_matrix_ok(): assert main(["utm", "-f", "json"]) == 0
+def test_utm_rules_ok(): assert main(["utm", "rules"]) == 0
+def test_utm_build_ok(): assert main(["utm", "build", "--url", "https://x.com/a", "--channel", "google-pmax"]) == 0
+def test_utm_build_custom_ok(): assert main(["utm", "build", "--url", "https://x.com/a?q=1", "--source", "meta", "--medium", "paid_social", "--campaign", "retargeting"]) == 0
+def test_utm_build_missing_args(): assert main(["utm", "build", "--url", "https://x.com"]) != 0
+def test_utm_build_bad_channel(): assert main(["utm", "build", "--url", "https://x.com", "--channel", "yok-boyle"]) != 0
+def test_attribution_ok(): assert main(["attribution", "-f", "json"]) == 0
+
+
+def test_utm_data():
+    assert len(dg.UTM_MATRIX) >= 12
+    assert all(r["utm_source"] == r["utm_source"].lower() and " " not in r["utm_campaign"] for r in dg.UTM_MATRIX)
+
+
+def test_attribution_data():
+    assert len(dg.ATTRIBUTION) >= 6 and len(dg.ATTRIBUTION_NOTES) >= 4
