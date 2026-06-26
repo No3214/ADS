@@ -47,3 +47,21 @@ def test_utm_data():
 
 def test_attribution_data():
     assert len(dg.ATTRIBUTION) >= 6 and len(dg.ATTRIBUTION_NOTES) >= 4
+
+
+def test_allocate_ok(): assert main(["allocate", "-f", "json"]) == 0
+def test_allocate_funnel_ok(): assert main(["allocate", "funnel"]) == 0
+def test_allocate_rules_ok(): assert main(["allocate", "rules", "-f", "json"]) == 0
+def test_season_detail_ok(): assert main(["season", "detail", "-f", "json"]) == 0
+def test_season_default_ok(): assert main(["season"]) == 0
+
+
+def test_budget_sums_30k():
+    a1 = sum(r["ay1_try"] for r in dg.BUDGET_MATRIX)
+    a2 = sum(r["ay2_try"] for r in dg.BUDGET_MATRIX)
+    assert a1 == dg.BUDGET_TOTAL_TRY == a2 == 30000
+
+
+def test_season_detail_data():
+    assert len(dg.SEASON_DETAIL) == 3 and all("b2b" in s and s["aylar"] for s in dg.SEASON_DETAIL)
+    assert len(dg.BUDGET_BY_FUNNEL) >= 4 and len(dg.BUDGET_REALLOCATION_RULES) >= 5

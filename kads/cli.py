@@ -695,10 +695,18 @@ def cmd_aeo(args):
 
 # ---- season / funnel / offers -----------------------------------------------
 def cmd_season(args):
-    core.emit(dx.SEASONS, fmt=_fmt(args), title="Sezon kampanya planlari",
+    fmt = _fmt(args)
+    sub = args[0] if args and not args[0].startswith("-") else ""
+    if sub in ("detail", "detay"):
+        core.emit(dg.SEASON_DETAIL, fmt=fmt, title="Sezon strateji detayi",
+                  columns=["sezon", "aylar", "butce_vurgu", "kanal_mix", "kreatif_aci", "kelime_vurgu", "teklif", "kpi", "b2b"])
+        if fmt == "table":
+            print(core.dim("\n  Ozet: kads season  -  Butce: kads allocate  -  Detay: docs/19"))
+        return core.EX_OK
+    core.emit(dx.SEASONS, fmt=fmt, title="Sezon kampanya planlari",
               columns=["sezon", "tema", "kanal", "butce", "teklif", "kpi"])
-    if _fmt(args) == "table":
-        print(core.dim("\n  Detay: docs/15  -  Teklifler: kads offers  -  Takvim: kads calendar"))
+    if fmt == "table":
+        print(core.dim("\n  Detay: kads season detail / docs/19  -  Teklifler: kads offers  -  Takvim: kads calendar"))
     return core.EX_OK
 
 
@@ -862,6 +870,30 @@ def cmd_attribution(args):
     return core.EX_OK
 
 
+# ---- buyume: butce dagitim matrisi ------------------------------------------
+def cmd_allocate(args):
+    fmt = _fmt(args)
+    sub = args[0] if args and not args[0].startswith("-") else "channels"
+    if sub in ("funnel", "huni"):
+        core.emit(dg.BUDGET_BY_FUNNEL, fmt=fmt, title="Butce — huni asamasina gore (ay2+, 30.000 TL)",
+                  columns=["asama", "kanallar", "ay2_try", "pct", "amac"])
+        return core.EX_OK
+    if sub in ("rules", "kural"):
+        core.emit(dg.BUDGET_REALLOCATION_RULES, fmt=fmt, title="Butce yeniden dagitim kurallari",
+                  columns=["tetik", "esik", "aksiyon", "kaynak"])
+        return core.EX_OK
+    if fmt == "table":
+        core.banner("kads allocate - butce dagitim matrisi (30.000 TL/ay)")
+    core.emit(dg.BUDGET_MATRIX, fmt=fmt, title="Kanal x huni x ay (TRY)",
+              columns=["kanal", "huni", "ay1_try", "ay1_pct", "ay2_try", "ay2_pct", "gerekce"])
+    if fmt == "table":
+        a1 = sum(r["ay1_try"] for r in dg.BUDGET_MATRIX)
+        a2 = sum(r["ay2_try"] for r in dg.BUDGET_MATRIX)
+        print(core.dim("\n  Ay1 toplam: %s TL  -  Ay2+ toplam: %s TL  (hedef %s TL)" % (a1, a2, dg.BUDGET_TOTAL_TRY)))
+        print(core.dim("  Huni: kads allocate funnel  -  Kurallar: kads allocate rules  -  Detay: docs/18"))
+    return core.EX_OK
+
+
 # ---- selfcheck (kirilmaz / butunluk denetimi) -------------------------------
 def cmd_selfcheck(args):
     import json as _json, glob as _glob, tempfile as _tmp
@@ -935,6 +967,7 @@ def cmd_help(args: list[str]) -> int:
         ("remarketing [rlsa|flow]", "Google remarketing liste + RLSA + kanal akisi"),
         ("utm [build|rules]", "UTM standardi + tutarli link uretici"),
         ("attribution", "Attribution modeli + cift sayim dedup"),
+        ("allocate [funnel|rules]", "Butce dagitim matrisi (kanal x huni x ay)"),
         ("selfcheck", "Sistem bütünlük denetimi (kırılmaz)"),
         ("build google|meta|seo|all [--out DIR]", "Import-hazır dosyalar üret"),
         ("validate", "RSA uzunluk + bütçe + CSV doğrulama"),
@@ -976,6 +1009,7 @@ def main(argv: list[str] | None = None) -> int:
         "b2b": cmd_b2b, "selfcheck": cmd_selfcheck,
         "pmax": cmd_pmax, "demandgen": cmd_demandgen, "remarketing": cmd_remarketing,
         "utm": cmd_utm, "attribution": cmd_attribution,
+        "allocate": cmd_allocate,
         "validate": cmd_validate, "guard": cmd_guard, "monitor": cmd_monitor, "brief": cmd_brief,
     }
     fn = table.get(cmd)

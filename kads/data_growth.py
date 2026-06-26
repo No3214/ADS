@@ -175,3 +175,53 @@ ATTRIBUTION_NOTES = [
     "Lookback turizmde uzun: 30 gun tikla mantikli. Kisa pencere yeni talebi olduren gosterir.",
     "UTM tutarsizligi attribution'u bozar -> kads utm ile her linki standart etiketle.",
 ]
+
+
+# =============================================================================
+# 6) BUTCE DAGITIM MATRISI — 30.000 TL/ay; kanal x huni x ay (PLAN ile tutarli)
+#    ay1 = lansman (retargeting kapali), ay2 = oturmus (retargeting acik).
+#    Iki ayin da toplami = 30.000 TL (test dogrular).
+# =============================================================================
+BUDGET_MATRIX = [
+    {"kanal": "Meta Prospecting", "huni": "TOF/MOF", "ay1_try": 10500, "ay1_pct": "35%", "ay2_try": 9000, "ay2_pct": "30%", "gerekce": "yeni talep; ay2'de retargeting'e yer ac"},
+    {"kanal": "Meta Retargeting", "huni": "BOF/Retention", "ay1_try": 0, "ay1_pct": "0%", "ay2_try": 3000, "ay2_pct": "10%", "gerekce": "liste min boyuta gelince acilir (ay2+)"},
+    {"kanal": "Meta WhatsApp/Mesaj", "huni": "BOF", "ay1_try": 4500, "ay1_pct": "15%", "ay2_try": 3000, "ay2_pct": "10%", "gerekce": "nitelikli rezervasyon gorusmesi"},
+    {"kanal": "Google Non-brand Search", "huni": "MOF/BOF", "ay1_try": 9000, "ay1_pct": "30%", "ay2_try": 9000, "ay2_pct": "30%", "gerekce": "yuksek niyetli yeni talep"},
+    {"kanal": "Google Marka Search", "huni": "BOF", "ay1_try": 4500, "ay1_pct": "15%", "ay2_try": 4500, "ay2_pct": "15%", "gerekce": "marka + OTA savunmasi"},
+    {"kanal": "Google Test -> Demand Gen", "huni": "TOF/test", "ay1_try": 1500, "ay1_pct": "5%", "ay2_try": 1500, "ay2_pct": "5%", "gerekce": "ay1 terim testi; ay2 Demand Gen/remarketing"},
+]
+BUDGET_TOTAL_TRY = 30000  # ay1 ve ay2 ayri ayri bu toplama esit olmali
+
+BUDGET_BY_FUNNEL = [
+    {"asama": "TOF Farkindalik", "kanallar": "Meta Prospecting + Demand Gen", "ay2_try": 10500, "pct": "35%", "amac": "yeni kitleye eris"},
+    {"asama": "MOF Degerlendirme", "kanallar": "Google Non-brand Search", "ay2_try": 9000, "pct": "30%", "amac": "niyetli aramayi yakala"},
+    {"asama": "BOF Donusum", "kanallar": "Marka Search + WhatsApp", "ay2_try": 7500, "pct": "25%", "amac": "rezervasyonu kapat"},
+    {"asama": "Retention/Geri kazanim", "kanallar": "Meta + Google remarketing", "ay2_try": 3000, "pct": "10%", "amac": "terk edeni geri getir"},
+]
+
+BUDGET_REALLOCATION_RULES = [
+    {"tetik": "Kanal ROAS > hedef (2 hafta)", "esik": ">3x blended", "aksiyon": "+%20 butce (test/zayiftan al)", "kaynak": "OPT_RULES + rules.py"},
+    {"tetik": "Kanal CPA > hedef (2 hafta)", "esik": ">1.5x hedef CPA", "aksiyon": "-%30 veya duraklat", "kaynak": "rules.py"},
+    {"tetik": "Retargeting listesi dolu", "esik": "min boyut + ay2", "aksiyon": "retargeting'e %10 ayir", "kaynak": "campaigns/remarketing"},
+    {"tetik": "Yuksek sezon (Haz-Eyl)", "esik": "doluluk yuksek", "aksiyon": "marka koru; indirimi kis; deneyim one", "kaynak": "SEASON_DETAIL"},
+    {"tetik": "Dusuk sezon (Kas-Mar)", "esik": "talep dusuk", "aksiyon": "WhatsApp + retargeting + icerik/SEO'ya kaydir", "kaynak": "SEASON_DETAIL"},
+    {"tetik": "Gunluk tavan", "esik": "Google 493 / Meta 500 TL/gun", "aksiyon": "asma (guardrail)", "kaynak": "scripts/guardrails.py"},
+]
+
+# =============================================================================
+# 7) SEZON STRATEJI DETAYI — SEASONS'i derinlestirir (butce kaydirma + mix + aci)
+# =============================================================================
+SEASON_DETAIL = [
+    {"sezon": "Yuksek (Haz-Eyl)", "aylar": "Haziran-Eylul", "butce_vurgu": "tam; marka koru, indirimi kis",
+     "kanal_mix": "Marka Search + Meta prospecting + retargeting", "kreatif_aci": "manzara/kahvalti/aile, deneyim one",
+     "kelime_vurgu": "foca otel, foca konaklama, butik otel", "teklif": "min indirim; 2 gece deneyim", "kpi": "doluluk + blended ROAS",
+     "b2b": "dusuk (sanayi yazin yavas); etkinlik/dugun pik"},
+    {"sezon": "Dusuk (Kas-Mar)", "aylar": "Kasim-Mart", "butce_vurgu": "kis; WhatsApp + retargeting + icerik agirlik",
+     "kanal_mix": "dar non-brand + WhatsApp + retargeting + SEO/AEO", "kreatif_aci": "hafta ici sakin kacis, somine, huzur",
+     "kelime_vurgu": "hafta sonu kacamagi, sakin tatil, romantik", "teklif": "hafta ici / erken rezervasyon avantaji", "kpi": "lead + direkt rezervasyon",
+     "b2b": "YUKSEK: bakim-durus + yuklenici barinma + toplanti (Aliaga yogun)"},
+    {"sezon": "Gecis (Nis-May, Eki)", "aylar": "Nisan-Mayis, Ekim", "butce_vurgu": "orta; prospecting + icerik + email",
+     "kanal_mix": "Meta prospecting + Demand Gen + email + SEO", "kreatif_aci": "balayi/cift, evcil, koy kahvaltisi",
+     "kelime_vurgu": "balayi oteli, evcil dostu otel, koy kahvaltisi", "teklif": "2 gece + kahvalti paketi", "kpi": "yeni kitle + CVR",
+     "b2b": "orta: yil sonu gala/iftar planlama (Ekim-Kasim teklif zamani)"},
+]
