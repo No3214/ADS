@@ -40,6 +40,7 @@ from kads import presence as px
 from kads import rules as rx
 from kads import report as rp
 from kads import data_ext as dx
+from kads import data_growth as dg
 from kads import calendar as calx
 from kads import publish as pubx
 import shutil
@@ -742,6 +743,70 @@ def cmd_b2b(args):
     return core.EX_OK
 
 
+# ---- buyume: PMax / Demand Gen / Google remarketing -------------------------
+def cmd_pmax(args):
+    fmt = _fmt(args)
+    sub = args[0] if args and not args[0].startswith("-") else "groups"
+    if sub in ("specs", "spec", "varlik"):
+        core.emit(dg.PMAX_ASSET_SPECS, fmt=fmt, title="PMax varlik (asset) limitleri",
+                  columns=["varlik", "adet", "limit", "not"])
+        return core.EX_OK
+    if sub in ("setup", "kurulum"):
+        core.emit(dg.PMAX_SETUP, fmt=fmt, title="PMax kurulum adimlari",
+                  columns=["adim", "is", "detay"])
+        return core.EX_OK
+    if fmt == "table":
+        core.banner("kads pmax - Performance Max (tum Google envanteri)")
+    core.emit(dg.PMAX_ASSET_GROUPS, fmt=fmt, title="PMax asset group'lari",
+              columns=["grup", "tema", "final_url", "tema_kitle_sinyali", "oncelik"])
+    if fmt == "table":
+        print(core.dim("\n  " + dg.PMAX_NOTE))
+        print(core.dim("  Varliklar: kads pmax specs  -  Kurulum: kads pmax setup  -  Asset: campaigns/google-pmax/"))
+    return core.EX_OK
+
+
+def cmd_demandgen(args):
+    fmt = _fmt(args)
+    sub = args[0] if args and not args[0].startswith("-") else "formats"
+    if sub in ("audiences", "kitle"):
+        core.emit(dg.DEMAND_GEN_AUDIENCES, fmt=fmt, title="Demand Gen kitleleri",
+                  columns=["kitle", "kaynak", "huni", "not"])
+        return core.EX_OK
+    if sub in ("specs", "spec", "varlik"):
+        core.emit(dg.DEMAND_GEN_SPECS, fmt=fmt, title="Demand Gen varlik specs",
+                  columns=["varlik", "limit", "adet", "not"])
+        return core.EX_OK
+    if fmt == "table":
+        core.banner("kads demandgen - Demand Gen (YouTube + Discover + Gmail)")
+    core.emit(dg.DEMAND_GEN_FORMATS, fmt=fmt, title="Demand Gen formatlari",
+              columns=["format", "oran", "yerlesim", "kullanim"])
+    if fmt == "table":
+        print(core.dim("\n  " + dg.DEMAND_GEN_NOTE))
+        print(core.dim("  Kitleler: kads demandgen audiences  -  Varlik: kads demandgen specs  -  campaigns/google-demandgen/"))
+    return core.EX_OK
+
+
+def cmd_remarketing(args):
+    fmt = _fmt(args)
+    sub = args[0] if args and not args[0].startswith("-") else "lists"
+    if sub in ("rlsa",):
+        core.emit(dg.RLSA_RULES, fmt=fmt, title="RLSA kurallari (Search + liste)",
+                  columns=["senaryo", "aksiyon", "neden"])
+        return core.EX_OK
+    if sub in ("flow", "akis"):
+        core.emit(dg.REMARKETING_FLOW, fmt=fmt, title="Kanal arasi remarketing akisi",
+                  columns=["tetik", "1_kanal", "2_kanal", "mesaj"])
+        return core.EX_OK
+    if fmt == "table":
+        core.banner("kads remarketing - Google geri kazanim (Meta'yi tamamlar)")
+    core.emit(dg.GOOGLE_REMARKETING, fmt=fmt, title="Google remarketing listeleri",
+              columns=["liste", "uyelik_gun", "min_boyut", "kullanim", "oncelik"])
+    if fmt == "table":
+        print(core.dim("\n  " + dg.GOOGLE_REMARKETING_NOTE))
+        print(core.dim("  RLSA: kads remarketing rlsa  -  Akis: kads remarketing flow  -  campaigns/remarketing/"))
+    return core.EX_OK
+
+
 # ---- selfcheck (kirilmaz / butunluk denetimi) -------------------------------
 def cmd_selfcheck(args):
     import json as _json, glob as _glob, tempfile as _tmp
@@ -810,6 +875,9 @@ def cmd_help(args: list[str]) -> int:
         ("season / funnel / offers", "Sezon plani / donusum hunisi / teklifler"),
         ("web", "Frontend kontrol listesi (perf/a11y/PWA/meta)"),
         ("b2b [packages]", "Kurumsal motor (Aliağa sanayi) hedef + paket"),
+        ("pmax [specs|setup]", "Performance Max asset group + varlik + kurulum"),
+        ("demandgen [audiences|specs]", "Demand Gen format + kitle + varlik"),
+        ("remarketing [rlsa|flow]", "Google remarketing liste + RLSA + kanal akisi"),
         ("selfcheck", "Sistem bütünlük denetimi (kırılmaz)"),
         ("build google|meta|seo|all [--out DIR]", "Import-hazır dosyalar üret"),
         ("validate", "RSA uzunluk + bütçe + CSV doğrulama"),
@@ -828,10 +896,12 @@ def main(argv: list[str] | None = None) -> int:
     # Windows konsolu cp1254 (Turkce) olabilir; UTF-8'e zorla ki kutu-cizim ve
     # Turkce karakterler UnicodeEncodeError ile cokmesin (Linux/UTF-8'de no-op).
     for _s in (sys.stdout, sys.stderr):
-        try:
-            _s.reconfigure(encoding="utf-8", errors="replace")
-        except Exception:
-            pass
+        _enc = (getattr(_s, "encoding", "") or "").lower().replace("-", "")
+        if _enc not in ("utf8", "utf8mb4", "cp65001"):
+            try:
+                _s.reconfigure(encoding="utf-8", errors="replace")
+            except Exception:
+                pass
     argv = list(sys.argv[1:] if argv is None else argv)
     if not argv or argv[0] in ("help", "-h", "--help"):
         return cmd_help(argv[1:] if argv else [])
@@ -847,6 +917,7 @@ def main(argv: list[str] | None = None) -> int:
         "status": cmd_status, "apify": cmd_apify, "aeo": cmd_aeo,
         "season": cmd_season, "funnel": cmd_funnel, "offers": cmd_offers, "web": cmd_web,
         "b2b": cmd_b2b, "selfcheck": cmd_selfcheck,
+        "pmax": cmd_pmax, "demandgen": cmd_demandgen, "remarketing": cmd_remarketing,
         "validate": cmd_validate, "guard": cmd_guard, "monitor": cmd_monitor, "brief": cmd_brief,
     }
     fn = table.get(cmd)

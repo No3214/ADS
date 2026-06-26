@@ -1,0 +1,9 @@
+varlik,oran/limit,adet,not
+Görsel yatay,1.91:1 — 1200x628 (≥600x314),≥1,ana kare
+Görsel kare,1:1 — 1200x1200 (≥300x300),≥1,feed
+Görsel dikey,4:5 — 960x1200,≥1,mobil/Discover
+Başlık,≤40 karakter,1-5,kısa ve net
+Açıklama,≤90 karakter,1-5,fayda + CTA
+İşletme adı,≤25 karakter,1,Kozbeyli Konağı
+CTA,menüden,1,Rezervasyon yap / Daha fazla bilgi
+Video,yatay/kare/dikey,opsiyonel,creatives/ reels kullan

@@ -1,0 +1,8 @@
+liste,uyelik_gun,min_boyut,kaynak_olay,kullanim,oncelik
+Tüm site ziyaretçileri,540,Display 100 / Search 1000,page_view,Display + Demand Gen geniş geri kazanım,Orta
+Oda/fiyat görüntüleyenler,90,1000 (Search),view_item / room_view,RLSA + PMax sinyali + Display,Yüksek
+Rezervasyonu yarıda bırakanlar,30,100 (Display),begin_checkout (purchase yok),Agresif retargeting (en sıcak),Yüksek
+Geçmiş misafirler,540,CRM/Customer Match,purchase,Tekrar rez. + sezon teklifi + benzer kitle tohumu,Yüksek
+Etkinlik/düğün sayfası,180,100 (Display),page_view /organizasyonlar,Uzun karar — nazik hatırlatma,Orta
+B2B/kurumsal sayfası,180,100 (Display),page_view /organizasyonlar,Kurumsal süreç + LinkedIn outreach ile,Orta
+YouTube/video izleyenler,180,kanal bağlı,video_view,Demand Gen + Display geri kazanım,Düşük
