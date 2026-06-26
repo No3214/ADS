@@ -1,0 +1,17 @@
+# Tutarli satir sonlari (CRLF uyarilarini onler). Metin -> repoda LF.
+* text=auto
+# Windows script'leri CRLF kalsin (push.bat calismaya devam etsin)
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+# Unix script'leri LF
+*.sh text eol=lf
+# Ikili dosyalar (donusum yapma)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.xlsx binary
+*.xls binary
+ADS.bundle binary

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "kads"
-version = "1.13.0"
+version = "1.15.1"
 description = "Kozbeyli Konağı reklam operasyonları CLI — Google + Meta + Yerel SEO, kod seviyesinde guardrail."
 readme = "README.md"
 requires-python = ">=3.8"

@@ -32,5 +32,5 @@ Postiz'e kanalları (IG/FB/TikTok/LinkedIn/X) bağla (`publishing/`). Kreatif: `
 `kads competitors` (rakip) · yorum topla (`fixes/06` + `whatsapp/takip-mesajlari.md`).
 
 ## Yardım
-`kads help` (24 komut) · `kads status` (sistem özeti) · docs/00-14 · README.md (teknik).
+`kads help` (40 komut) · `kads status` (sistem özeti) · docs/00-14 · README.md (teknik).
 WhatsApp rezervasyon: `whatsapp/`. GitHub'a yükle: `push.bat`.
