@@ -15,3 +15,7 @@ out/
 
 # tasinabilir bundle (repoya girmesin)
 ADS.bundle
+
+# Office gecici/kilit dosyalari
+.~lock.*#
+~$*
