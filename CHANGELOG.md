@@ -237,3 +237,20 @@ Büyüme katmanı: yeni reklam formatları, remarketing akışları, ölçüm tu
 
 ### Test
 - 94 pytest. 40 kads komutu, 22 paket. selfcheck PASS.
+
+## [1.15.1] — 2026-06-26
+Kod kalitesi denetimi: çıktı tutarlılığı, hata yönetimi, test kapsamı.
+
+### Düzeltildi
+- **`--format json` pipe temizliği (12 komut):** mcp, presence, golive, aeo, b2b, monitor,
+  seo, publish, setup, report, brief (+ daha önce pmax/demandgen/remarketing/conversions) artık
+  json/csv modunda banner/insan-metni BASMIYOR; çıktı tek geçerli JSON. Aksiyon komutları
+  (publish/report/brief) json modunda temiz status objesi döner. Pipe/script ile kullanılabilir.
+- **Hata yönetimi:** `kads rules --metrics` ve `kads report --metrics` var olmayan dosyada artık
+  ham Python traceback yerine nazik mesaj + `EX_NOINPUT` (66) döner.
+
+### Test
+- **144 pytest** (94 → +50): daha önce testi olmayan 8 komut (config/budget/keywords/creative/
+  brief/monitor/doctor/guard) + json-temizliği regresyon kilidi (30 komut capsys ile gerçek JSON
+  parse) + edge case'ler (bilinmeyen komut, boş arg, hatalı format, eksik dosya).
+- Kod taraması: bare except yok, TODO/FIXME yok, mutable default yok. 40 komut, 22 paket. selfcheck PASS.

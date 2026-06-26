@@ -47,7 +47,7 @@ import shutil
 
 ROOT = core.ROOT
 OUT = ROOT / "out"
-VERSION = "1.15.0"
+VERSION = "1.15.1"
 
 
 # ---- arg ayiklama ----------------------------------------------------------
@@ -283,6 +283,9 @@ def cmd_seo(args: list[str]) -> int:
                   columns=["yüzey", "taktik", "beklenti"])
         return core.EX_OK
     # all: ozet
+    if fmt != "table":
+        core.emit(sx.brand_rows(), fmt=fmt, columns=["yüzey", "taktik", "beklenti"])
+        return core.EX_OK
     core.banner("kads seo — yerel SEO + Google Isletme")
     print(core.dim("  Markali 'Kozbeyli Konağı' #1 ulaşılabilir; jenerik organik #1 GARANTI degil.\n"))
     core.emit(sx.brand_rows(), fmt="table", title="Markali hakimiyet",
@@ -360,17 +363,19 @@ def cmd_monitor(args: list[str]) -> int:
     env = core.load_env()
     meta_ok = env.get("META_AD_ACCOUNT_ID", "").startswith("act_") and not core.is_placeholder(env.get("META_AD_ACCOUNT_ID", ""))
     g_ok = len("".join(c for c in env.get("GOOGLE_ADS_CUSTOMER_ID", "") if c.isdigit())) == 10
-    core.banner("kads monitor — salt okunur izleme")
-    print("Canlı veri için MCP bağlantısı gerekir (henüz bu oturumda yok).")
-    print("Yollar:")
-    print("  • Meta resmî connector: https://mcp.facebook.com/ads  (OAuth, 29 araç, okuma+yazma)")
-    print("  • Google okuma MCP: googleads/google-ads-mcp  (GAQL search, salt okuma)")
-    print("  • Claude skill: /kozbeyli-ads-monitor son 7 günü önceki 7 günle karşılaştır")
     rows = [
         {"kanal": "Meta hesabı", "durum": "bağlanmaya hazır" if meta_ok else "act_ ID eksik"},
         {"kanal": "Google hesabı", "durum": "bağlanmaya hazır" if g_ok else "10 hane ID eksik"},
     ]
-    core.emit(rows, fmt="table", columns=["kanal", "durum"])
+    fmt = _fmt(args)
+    if fmt == "table":
+        core.banner("kads monitor — salt okunur izleme")
+        print("Canlı veri için MCP bağlantısı gerekir (henüz bu oturumda yok).")
+        print("Yollar:")
+        print("  • Meta resmî connector: https://mcp.facebook.com/ads  (OAuth, 29 araç, okuma+yazma)")
+        print("  • Google okuma MCP: googleads/google-ads-mcp  (GAQL search, salt okuma)")
+        print("  • Claude skill: /kozbeyli-ads-monitor son 7 günü önceki 7 günle karşılaştır")
+    core.emit(rows, fmt=fmt, columns=["kanal", "durum"])
     return core.EX_OK if (meta_ok or g_ok) else core.EX_UNAVAILABLE
 
 
@@ -380,7 +385,10 @@ def cmd_brief(args: list[str]) -> int:
     out.mkdir(parents=True, exist_ok=True)
     p = out / "haftalik-brief-sablonu.md"
     p.write_text(_BRIEF_TEMPLATE, encoding="utf-8")
-    print(core.green(f"✓ {p}"))
+    if _fmt(args) == "json":
+        print(json.dumps({"out": str(p)}, ensure_ascii=False))
+    else:
+        print(core.green(f"✓ {p}"))
     return core.EX_OK
 
 
@@ -428,6 +436,9 @@ def cmd_presence(args: list[str]) -> int:
         return core.EX_OK
     # all: ozet
     c = px.counts()
+    if fmt != "table":
+        core.emit(px.property_rows(), fmt=fmt, columns=["mülk", "tür", "durum", "bulgu", "öncelik"])
+        return core.EX_OK
     core.banner("kads presence — dijital varlik denetimi (docs/09)")
     print(f"  Düzeltme: {core.red(str(c['Kritik'])+' Kritik')}  "
           f"{core.yellow(str(c['Yüksek'])+' Yüksek')}  {c['Orta']} Orta  {c['Düşük']} Düşük\n")
@@ -450,7 +461,8 @@ def cmd_mcp(args):
         {"connector": "google-ads-readonly", "tip": "stdio (pipx)", "yol": "googleads/google-ads-mcp",
          "durum": "yapilandirildi" if have else ".mcp.json yok"},
     ]
-    core.banner("kads mcp — baglanti durumu")
+    if _fmt(args) == "table":
+        core.banner("kads mcp — baglanti durumu")
     core.emit(rows, fmt=_fmt(args), columns=["connector", "tip", "yol", "durum"])
     if _fmt(args) == "table":
         print(core.dim("\n  Meta: Claude.ai web connector ekle (OAuth bug -> Claude Code degil)."))
@@ -480,7 +492,10 @@ def cmd_skills(args):
 def cmd_rules(args):
     fmt = _fmt(args); mfile = _opt(args, "--metrics")
     if mfile:
-        trig = rx.evaluate(rx.load_metrics_csv(Path(mfile)))
+        mp = Path(mfile)
+        if not mp.exists():
+            print(core.red(f"Metrik dosyasi bulunamadi: {mfile}")); return core.EX_NOINPUT
+        trig = rx.evaluate(rx.load_metrics_csv(mp))
         if not trig:
             print(core.green("Tetiklenen kural yok (metrikler esik icinde).")); return core.EX_OK
         core.emit(trig, fmt=fmt, title="Tetiklenen optimizasyon onerileri",
@@ -507,14 +522,19 @@ def cmd_audiences(args):
 def cmd_report(args):
     fmt = _fmt(args); mfile = _opt(args, "--metrics")
     if mfile:
-        m = rx.load_metrics_csv(Path(mfile)); k = rp.compute(m)
+        mp = Path(mfile)
+        if not mp.exists():
+            print(core.red(f"Metrik dosyasi bulunamadi: {mfile}")); return core.EX_NOINPUT
+        m = rx.load_metrics_csv(mp); k = rp.compute(m)
         core.emit([{"metrik": kk, "deger": vv} for kk, vv in k.items()], fmt=fmt,
                   title="Rapor — blended KPI", columns=["metrik", "deger"])
         trig = rx.evaluate({**m, **k})
-        if trig:
+        if trig and fmt == "table":
             print(); core.emit(trig, fmt="table", title="Otomatik oneriler", columns=["oncelik", "id", "aksiyon"])
         return core.EX_OK
     out = Path(_opt(args, "--out", str(OUT))); n = rp.write_template(out / "metrics.csv")
+    if fmt == "json":
+        print(json.dumps({"out": str(out / "metrics.csv"), "fields": n}, ensure_ascii=False)); return core.EX_OK
     print(core.green(f"OK Metrik sablonu: {out / 'metrics.csv'} ({n} alan)"))
     print(core.dim("  Doldur -> kads report --metrics metrics.csv  -  Pano: dashboard/rapor.html"))
     return core.EX_OK
@@ -547,7 +567,8 @@ def cmd_golive(args):
          "durum": ("ACIK" if writes else "kapali (guvenli)"), "tip": "otomatik"},
         {"faz": "3 Yazma", "kapi": "Kampanyalar PAUSED import + guard ile ENABLE", "durum": "MANUEL", "tip": "manuel"},
     ]
-    core.banner("kads golive — fazli yayina alma kapisi")
+    if fmt == "table":
+        core.banner("kads golive — fazli yayina alma kapisi")
     core.emit(rows, fmt=fmt, columns=["faz", "kapi", "durum", "tip"])
     if fmt == "table":
         auto_missing = [r for r in rows if r["tip"] == "otomatik" and r["durum"] == "EKSIK"]
@@ -592,8 +613,11 @@ def cmd_publish(args):
     except ValueError: days = 30
     out = Path(_opt(args, "--out", str(OUT)))
     n = pubx.write_csv(out / "postiz-takvim.csv", days=days)
+    csv_path = str(out / "postiz-takvim.csv")
+    if _fmt(args) == "json":
+        print(json.dumps({"out": csv_path, "posts": n}, ensure_ascii=False)); return core.EX_OK
     core.banner("kads publish - otomatik publisher (Postiz)")
-    print(core.green(f"OK Postiz-hazir CSV: {out / 'postiz-takvim.csv'} ({n} post)"))
+    print(core.green(f"OK Postiz-hazir CSV: {csv_path} ({n} post)"))
     print(core.dim("  Postiz (gitroomhq/postiz-app, self-host UCRETSIZ): IG/FB/TikTok/LinkedIn/X + 20 kanal."))
     print(core.dim("  Bagla: Cowork Postiz eklentisi veya self-host -> kanallari ekle -> CSV/n8n ile zamanla (publishing/)."))
     return core.EX_OK
@@ -601,22 +625,27 @@ def cmd_publish(args):
 
 # ---- setup -------------------------------------------------------------------
 def cmd_setup(args):
-    core.banner("kads setup - kurulum asistani")
+    fmt = _fmt(args)
+    if fmt == "table":
+        core.banner("kads setup - kurulum asistani")
     made = []
     if not (ROOT / ".env").exists() and (ROOT / ".env.example").exists():
         shutil.copy(ROOT / ".env.example", ROOT / ".env"); made.append(".env (ornekten)")
     if not (ROOT / ".mcp.json").exists() and (ROOT / ".mcp.json.example").exists():
         shutil.copy(ROOT / ".mcp.json.example", ROOT / ".mcp.json"); made.append(".mcp.json (ornekten)")
-    for m in made:
-        print(core.green(f"  + olusturuldu: {m}"))
-    if not made:
-        print(core.dim("  .env ve .mcp.json zaten var (uzerine yazilmadi)."))
     env = core.load_env()
     todo = []
     for k in ("GTM_CONTAINER_ID", "META_AD_ACCOUNT_ID", "GOOGLE_ADS_CUSTOMER_ID",
               "GOOGLE_PROJECT_ID", "GOOGLE_ADS_DEVELOPER_TOKEN"):
         if core.is_placeholder(env.get(k, "")):
             todo.append(k)
+    if fmt != "table":
+        core.emit([{"doldurulacak": k} for k in todo], fmt=fmt, columns=["doldurulacak"])
+        return core.EX_OK
+    for m in made:
+        print(core.green(f"  + olusturuldu: {m}"))
+    if not made:
+        print(core.dim("  .env ve .mcp.json zaten var (uzerine yazilmadi)."))
     print()
     core.emit([{"doldurulacak": k} for k in todo] or [{"doldurulacak": "(hepsi dolu)"}],
               fmt="table", title=".env doldurulacaklar", columns=["doldurulacak"])
@@ -683,8 +712,9 @@ def cmd_aeo(args):
         if fmt == "table":
             print(core.dim("\n  Dogrula: Google Rich Results Test + Schema Markup Validator. SAHTE puan/fiyat YOK."))
         return core.EX_OK
-    core.banner("kads aeo - AI motoru gorunurlugu (AEO/GEO)")
-    print(core.dim("  En kritik is: JSON-LD sema katmani (aeo/schema). Garanti yok; olasilik artar.\n"))
+    if fmt == "table":
+        core.banner("kads aeo - AI motoru gorunurlugu (AEO/GEO)")
+        print(core.dim("  En kritik is: JSON-LD sema katmani (aeo/schema). Garanti yok; olasilik artar.\n"))
     core.emit(dx.AEO_CLUSTERS, fmt=fmt, title="Soru kumeleri (niyet -> sayfa)",
               columns=["kume", "ornek", "hedef"])
     if fmt == "table":
@@ -742,8 +772,9 @@ def cmd_b2b(args):
     if sub in ("packages", "paket", "mice"):
         core.emit(dx.B2B_PACKAGES, fmt=fmt, title="B2B / MICE paketleri", columns=["paket", "icerik", "hedef"])
         return core.EX_OK
-    core.banner("kads b2b - kurumsal motor (Aliağa sanayi)")
-    print(core.dim(f"  {dx.B2B_LOCATION}\n"))
+    if fmt == "table":
+        core.banner("kads b2b - kurumsal motor (Aliağa sanayi)")
+        print(core.dim(f"  {dx.B2B_LOCATION}\n"))
     core.emit(dx.B2B_TARGETS, fmt=fmt, title="Hedef sektör / çapa firmalar",
               columns=["sektor", "cap_firma", "kullanim", "oncelik"])
     if fmt == "table":
