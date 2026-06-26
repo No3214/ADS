@@ -9,7 +9,7 @@
 
 ## Facebook (/kozbeylikonagi)
 - **About:** Web = https://www.kozbeylikonagi.com · Telefon = +90 532 234 2686 ·
-  Adres = Kozbeyli Köyü No:188, 35680 Foça/İzmir · Kategori = Otel.
+  Adres = Kozbeyli Köyü, Küme Evler No:188, 35680 Foça / İzmir · Kategori = Otel.
 - Konum etiketi: Foça (tutarlı). Gönderileri Instagram ile çapraz paylaş; yorumlara yanıt ver.
 
 ## Ortak

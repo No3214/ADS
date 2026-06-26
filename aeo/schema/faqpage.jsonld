@@ -21,6 +21,6 @@
     {"@type": "Question", "name": "Resepsiyon 24 saat açık mı?",
      "acceptedAnswer": {"@type": "Answer", "text": "Resepsiyon 7/24 değildir; geç giriş için lütfen önceden bilgi veriniz."}},
     {"@type": "Question", "name": "Kozbeyli Konağı nerede?",
-     "acceptedAnswer": {"@type": "Answer", "text": "İzmir Foça'ya bağlı tarihi Kozbeyli köyündedir: Kozbeyli Köyü Küme Evler No:188, 35680 Foça/İzmir."}}
+     "acceptedAnswer": {"@type": "Answer", "text": "İzmir Foça'ya bağlı tarihi Kozbeyli köyündedir: Kozbeyli Köyü, Küme Evler No:188, 35680 Foça / İzmir."}}
   ]
 }

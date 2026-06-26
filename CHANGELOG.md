@@ -254,3 +254,21 @@ Kod kalitesi denetimi: çıktı tutarlılığı, hata yönetimi, test kapsamı.
   brief/monitor/doctor/guard) + json-temizliği regresyon kilidi (30 komut capsys ile gerçek JSON
   parse) + edge case'ler (bilinmeyen komut, boş arg, hatalı format, eksik dosya).
 - Kod taraması: bare except yok, TODO/FIXME yok, mutable default yok. 40 komut, 22 paket. selfcheck PASS.
+
+## [1.15.2] — 2026-06-26
+Kapsamlı içerik QA: NAP/geo/şema tutarlılığı + CSV bütünlüğü.
+
+### Düzeltildi
+- **NAP tutarlılığı (5 dosya):** adres kanonikleştirildi — `Kozbeyli Köyü, Küme Evler No:188,
+  35680 Foça / İzmir` (hotel/restaurant/faqpage şema, b2b sell-sheet, profiles/sosyal-bio).
+  Yerel SEO için "her yerde birebir aynı" kuralı (fixes/04) artık gerçekten tutuyor.
+- **Geo birleştirildi:** hotel.jsonld 38.713943/26.896018 → 38.7145/26.8942 (diğer 10 yer +
+  shipped component ile aynı). hasMap query de güncellendi.
+- **Şema telefonu E.164:** `+90-532-234-26-86` → `+905322342686` (tek format, hotel+restaurant).
+- **CSV bütünlüğü:** campaigns/google-pmax/asset-group-spec.csv'de tırnaksız virgüller sütun
+  sayısını bozuyordu → düzgün CSV quoting ile yeniden yazıldı (46 CSV'nin tamamı tutarlı).
+
+### QA doğrulama
+- 144 pytest (Windows+sandbox), 40 komut × 2 format sorunsuz, selfcheck 7/7 GEÇTİ.
+- Sızıntı yok (.env takipsiz, token yok), sahte puan/ödül/fiyat yok, placeholder yok,
+  build all 18 CSV temiz, parazit telefon (0232) sadece audit'te "YANLIŞ" olarak işaretli.
