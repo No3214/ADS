@@ -1,0 +1,107 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kozbeyli Konağı — Raporlama (KPI / ROAS / Optimizasyon)</title>
+<style>
+:root{color-scheme:light;--bg:#f6f3ec;--panel:#fffdf8;--ink:#26241f;--muted:#7c766b;--line:#e7e0d2;
+--green:#3f6b4f;--terra:#c1583a;--amber:#c98a2b;--blue:#3a6b8c;
+--shadow:0 1px 2px rgba(40,36,28,.06),0 8px 24px rgba(40,36,28,.06)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);
+font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:26px 20px 60px}
+h1{font-size:22px;margin:0} .sub{color:var(--muted);font-size:13px;margin:2px 0 18px}
+h2{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:26px 0 10px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+textarea{width:100%;min-height:170px;border:1px solid var(--line);border-radius:10px;padding:11px;
+font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;background:#fffefb;color:var(--ink);resize:vertical}
+button{background:var(--green);color:#fff;border:0;border-radius:9px;padding:10px 18px;font-size:14px;
+font-weight:650;cursor:pointer;margin-top:10px}
+button:hover{filter:brightness(1.05)}
+.grid{display:grid;gap:13px;grid-template-columns:repeat(4,1fr);margin-top:4px}
+@media(max-width:760px){.grid{grid-template-columns:1fr 1fr}}
+.kpi .n{font-size:24px;font-weight:750} .kpi .l{color:var(--muted);font-size:12px;margin-top:2px}
+.kpi .b{font-size:11.5px;margin-top:6px}
+table{width:100%;border-collapse:collapse;font-size:13.5px} th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.tag{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:650}
+.r{background:#f6e2db;color:var(--terra)} .f{background:#dcebe1;color:var(--green)} .o{background:#dde8f0;color:var(--blue)}
+.good{color:var(--green)} .warn{color:var(--amber)} .bad{color:var(--terra)}
+.note{color:var(--muted);font-size:12px;margin-top:22px;border-top:1px dashed var(--line);padding-top:12px}
+code{background:#f0ece1;border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:12.5px}
+</style></head><body><div class="wrap">
+<h1>Kozbeyli Konağı — Raporlama</h1>
+<div class="sub">Blended KPI (ROAS · CPA · CTR · CPC) + otomatik optimizasyon önerileri. Tamamen çevrimdışı.</div>
+
+<h2>1) Metrikleri yapıştır</h2>
+<div class="card">
+<p style="margin:0 0 8px;color:var(--muted);font-size:12.5px">Format: <code>metrik,deger</code> (her satır). <code>kads report --template</code> ile şablon üret, doldur, yapıştır.</p>
+<textarea id="inp">metrik,deger
+google_spend_try,15000
+meta_spend_try,15000
+tracked_revenue_try,95000
+google_clicks,1400
+google_impressions,60000
+google_conversions,6
+meta_clicks,2200
+meta_impressions,180000
+meta_purchases,5
+meta_frequency,2.8
+nonbrand_ctr_pct,1.8
+cpc_try,11.5
+weekly_conversions,11
+conversions_30d,11
+spend_pace_pct,100
+whatsapp_leads,18</textarea>
+<button onclick="run()">Hesapla</button>
+</div>
+
+<h2>2) Blended KPI</h2>
+<div class="grid" id="kpis"></div>
+
+<h2>3) Otomatik öneriler (kurallar)</h2>
+<div class="card"><table id="sug"><thead><tr><th>Öncelik</th><th>ID</th><th>Metrik</th><th>Değer</th><th>Aksiyon</th></tr></thead><tbody></tbody></table></div>
+
+<div class="note">
+Hedef: blended ROAS ≥3× (90.000 TL) / 4× (120.000 TL). Sayılar planlama tahminidir, garanti değildir.
+Öneriler otomatik UYGULANMAZ — her değişiklik <code>kads guard</code> + açık onaydan geçer. · kads report/rules ile aynı mantık.
+</div>
+
+<script>
+var RULES=[
+ ["ROAS_SCALE","blended_roas",">=",3.0,"Bütçeyi kademeli +%20 artır (tavana kadar)","f"],
+ ["ROAS_CUT","blended_roas","<",2.0,"Bütçeyi kıs / düşük performans öğeyi duraklat","r"],
+ ["CPA_OVER","blended_cpa_try",">",2000,"Hedef CPA aşıldı: kitle/keyword daralt, teklif düşür","r"],
+ ["CTR_LOW_NB","nonbrand_ctr_pct","<",2.0,"Non-brand CTR düşük: başlık/uzantı testi, keyword daralt","o"],
+ ["FREQ_HIGH","meta_frequency",">",2.5,"Kreatif yorgunluğu: kreatifi yenile (A/B değiştir)","o"],
+ ["CPC_SPIKE","cpc_try",">",12.0,"CPC TR ort. üstünde: CPC limiti gözden geçir, negatif ekle","o"],
+ ["LEARN_LIMITED","weekly_conversions","<",50,"Öğrenme sınırlı: ad set birleştir, bütçe topla","o"],
+ ["BID_GRADUATE","conversions_30d",">=",15,"Maximize Conversions / tCPA geçişini değerlendir","f"],
+ ["PACING_LOW","spend_pace_pct","<",70,"Harcama düşük: bütçe/teklif artır veya hedef genişlet","o"],
+ ["PACING_HIGH","spend_pace_pct",">",120,"Aşırı harcama: günlük tavanı/teklifi düşür","r"]
+];
+function parse(t){var m={};t.split(/\n/).forEach(function(l){var p=l.split(",");if(p.length>=2){var k=p[0].trim();var v=parseFloat(String(p[1]).replace(",",".").trim());if(k&&k!=="metrik"&&!isNaN(v))m[k]=v;}});return m;}
+function num(m,k){return m[k]||0;}
+function compute(m){var g=num(m,"google_spend_try"),mt=num(m,"meta_spend_try"),rev=num(m,"tracked_revenue_try");
+var spend=g+mt,conv=num(m,"google_conversions")+num(m,"meta_purchases");
+var clicks=num(m,"google_clicks")+num(m,"meta_clicks"),impr=num(m,"google_impressions")+num(m,"meta_impressions");
+return{spend:spend,rev:rev,roas:spend?rev/spend:0,cpa:conv?spend/conv:0,ctr:impr?clicks/impr*100:0,cpc:clicks?spend/clicks:0,conv:conv};}
+function card(n,l,b,cls){return '<div class="card kpi"><div class="n">'+n+'</div><div class="l">'+l+'</div><div class="b '+(cls||'')+'">'+(b||'')+'</div></div>';}
+function run(){var m=parse(document.getElementById("inp").value);var k=compute(m);
+var roasCls=k.roas>=3?'good':(k.roas<2?'bad':'warn');var cpaCls=k.cpa>2000?'bad':'good';
+var h=card(k.roas.toFixed(2)+'×','Blended ROAS',k.roas>=3?'Hedefte':'<3× optimize',roasCls)
+ +card(Math.round(k.cpa).toLocaleString('tr')+' TL','Blended CPA',k.cpa>2000?'Hedef üstü':'iyi',cpaCls)
+ +card(k.ctr.toFixed(2)+'%','Blended CTR','',k.ctr<1.5?'warn':'good')
+ +card(k.cpc.toFixed(2)+' TL','Blended CPC','',k.cpc>12?'warn':'good')
+ +card(Math.round(k.spend).toLocaleString('tr')+' TL','Toplam harcama','')
+ +card(Math.round(k.rev).toLocaleString('tr')+' TL','İzlenen gelir','')
+ +card(k.conv.toFixed(0),'Dönüşüm','')
+ +card(num(m,'whatsapp_leads').toFixed(0),'WhatsApp lead','');
+document.getElementById("kpis").innerHTML=h;
+var all={};for(var x in m)all[x]=m[x];all.blended_roas=k.roas;all.blended_cpa_try=k.cpa;
+var pri={r:0,f:1,o:2},trig=[];
+RULES.forEach(function(R){var v=all[R[1]];if(v===undefined)return;var ok=R[2]===">="?v>=R[3]:R[2]===">"?v>R[3]:R[2]==="<"?v<R[3]:R[2]==="<="?v<=R[3]:v===R[3];if(ok)trig.push(R);});
+trig.sort(function(a,b){return pri[a[5]]-pri[b[5]];});
+var lbl={r:'Risk',f:'Fırsat',o:'Orta'};
+var tb=trig.map(function(R){return '<tr><td><span class="tag '+R[5]+'">'+lbl[R[5]]+'</span></td><td>'+R[0]+'</td><td>'+R[1]+'</td><td>'+(all[R[1]]).toFixed? (all[R[1]]).toFixed(2):all[R[1]]+'</td><td>'+R[4]+'</td></tr>';}).join('');
+document.querySelector("#sug tbody").innerHTML=tb||'<tr><td colspan="5">Tetiklenen kural yok (metrikler eşik içinde).</td></tr>';}
+run();
+</script></div></body></html>

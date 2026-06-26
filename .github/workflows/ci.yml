@@ -1,0 +1,22 @@
+name: kads CI
+on:
+  push: { branches: [ main, master ] }
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "${{ matrix.python-version }}" }
+      - name: Install
+        run: pip install -e ".[dev]"
+      - name: Doctor (config bütünlüğü)
+        run: python -m kads doctor || true
+      - name: Validate (RSA + bütçe + CSV)
+        run: python -m kads validate
+      - name: Tests
+        run: python -m pytest -q

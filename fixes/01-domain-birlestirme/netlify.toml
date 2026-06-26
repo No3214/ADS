@@ -1,0 +1,6 @@
+# KAYNAK domainin Netlify sitesine. force=true ile her yolu .com'a 301.
+[[redirects]]
+  from = "/*"
+  to = "https://www.kozbeylikonagi.com/:splat"
+  status = 301
+  force = true

@@ -1,0 +1,13 @@
+firma,sektor,konum,hedef_rol,potansiyel_kullanim,durum,oncelik,not
+STAR Rafineri (SOCAR),Rafineri,Aliağa,İK/Etkinlik/Satınalma,yönetici konaklama + etkinlik + ağırlama,,Yüksek,İzmir'in en büyük cirolu firması
+Petkim (SOCAR),Petrokimya,Aliağa,Admin/İK,konaklama + toplantı + gala,,Yüksek,+17 bağlı fabrika
+SOCAR Türkiye,Holding,Aliağa/İzmir,Kurumsal İletişim,etkinlik + ağırlama,,Yüksek,
+Tüpraş İzmir,Rafineri,Aliağa,Saha/İK,duruş yüklenici + konaklama,,Yüksek,
+İzmir Demir Çelik (İDÇ),Demir-çelik,Aliağa,Saha/Proje,yüklenici barınma + toplantı,,Yüksek,bakım-duruş yoğun
+Habaş,Demir-çelik,Aliağa,Saha/Satınalma,yüklenici + konaklama,,Orta,
+Ege Çelik,Demir-çelik,Aliağa,Admin,konaklama + yemek,,Orta,
+Kocaer Çelik,Demir-çelik,Aliağa,İK/Etkinlik,etkinlik + konaklama,,Orta,
+MKE / özel gemi söküm yatları,Gemi söküm,Aliağa,Operasyon/Ticaret,armatör/sörveyör ağırlama,,Orta,dünya çapında merkez
+Nemrut Limanı operatörleri,Liman/lojistik,Aliağa,Ticaret/İK,iş ağırlama + konaklama,,Orta,13 liman işletmesi
+Aliağa OSB firmaları (72),Karma sanayi,Aliağa,çeşitli,konaklama + toplantı + yemek,,Orta,prospecting ile genişlet
+Menemen OSB / serbest bölge firmaları,Karma sanayi,Menemen,Admin,toplantı + konaklama,,Düşük,

@@ -1,0 +1,5 @@
+# kads sıfır zorunlu çalışma bağımlılığıyla çalışır (stdlib).
+# Geliştirme/test için:
+pytest>=7
+# Opsiyonel (config'i PyYAML ile okumak isterseniz; kads mini-parser ile de çalışır):
+# pyyaml>=6

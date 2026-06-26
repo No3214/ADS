@@ -1,0 +1,5 @@
+# KAYNAK domainin kök .htaccess'ine. Tüm yolları .com'a 301 + HTTPS zorla.
+RewriteEngine On
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} !^www\.kozbeylikonagi\.com$ [NC]
+RewriteRule ^(.*)$ https://www.kozbeylikonagi.com/$1 [R=301,L]

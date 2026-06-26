@@ -1,0 +1,9 @@
+﻿Kitle,Tip,Kaynak,Pencere,Kullanim
+RTG - Site 30 gün,Website Custom Audience,Tüm site ziyaretçileri,30 gün,Retargeting kampanya — genel hatırlatma
+RTG - Site 60 gün,Website Custom Audience,Tüm site ziyaretçileri,60 gün,Daha geniş retargeting havuzu
+RTG - Oda/Rezervasyon görüntüleyen,Website Custom Audience (URL içerir),/odalar veya /rezervasyon görüntüleyen,30 gün,Yüksek niyet — güçlü teklif/aciliyet
+RTG - Checkout terk (begin_checkout),Website Custom Audience (olay),"begin_checkout var, Purchase yok",14-30 gün,Sepet/rezervasyon terk — en sıcak retargeting
+RTG - IG/FB etkileşim,Engagement Custom Audience,IG + FB profil/post etkileşimi,365 gün,Sosyal etkileşenleri geri kazan
+RTG - Video izleyen %50+,Video Custom Audience,Reels/video %50+ izleyen,90 gün,İlgi gösterenleri dönüşüme taşı
+LLA - Purchase %1,Lookalike,Purchase custom audience (yeterli veri sonrası),%1 TR,Prospecting genişletme — en kaliteli
+LLA - WhatsApp lead %1-3,Lookalike,Nitelikli WhatsApp lead,%1-3 TR,Lead benzeri yeni kitle

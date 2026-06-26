@@ -1,0 +1,73 @@
+# Google RSA — Türkçe Reklam Varlıkları (Kozbeyli Konağı)
+#
+# Kurallar:
+# - Başlık <= 30 karakter, açıklama <= 90 karakter (Google RSA sınırı).
+# - "En ucuz / en iyi fiyat" gibi doğrulanamayan iddia YOK (Google yanlış beyan politikası).
+# - "Doğrudan rezervasyon avantajı" gibi dürüst, doğrulanabilir mesaj.
+# - Türkçe karakterler korunur (ş, ğ, ı, İ, ç, ö, ü). Google Ads UTF-8 destekler.
+# - assets/check_lengths.py ile uzunlukları doğrulayın.
+
+headlines:   # 15 adet, her biri <= 30 karakter
+  - "Kozbeyli Konağı Foça"
+  - "Osmanlı Taş Konağı Otel"
+  - "600 Yıllık Köyde Huzur"
+  - "Foça'da Sessiz Lüks"
+  - "Deniz Manzaralı Taş Oda"
+  - "Organik Köy Kahvaltısı"
+  - "Doğrudan Rezervasyon"
+  - "Foça'ya 13 km Mesafede"
+  - "Evcil Hayvan Dostu Otel"
+  - "Çatı Terasında Ege Keyfi"
+  - "Dibek Kahvesi Köyünde"
+  - "Antakya ve Ege Mutfağı"
+  - "16 Özel Tasarım Oda"
+  - "Otelden Komisyonsuz"
+  - "Zeytinlikte Taş Konak"
+
+descriptions:   # 4 adet, her biri <= 90 karakter
+  - "Osmanlı taş mimarisinde 16 oda, deniz manzarası ve organik köy kahvaltısı."
+  - "Foça'nın 600 yıllık Kozbeyli köyünde huzurlu kaçış. Doğrudan otelden rezerve edin."
+  - "Çatı terasında Ege manzarası, Antakya sofrası, pişi ve dibek kahvesi sizi bekliyor."
+  - "Evcil dostlarınız ücretsiz kabul edilir. Sessizlik, miras ve zarafet bir arada."
+
+sitelinks:
+  - text: "Odalar"
+    desc1: "16 özel tasarım oda"
+    desc2: "Deniz manzaralı seçenekler"
+  - text: "Restoran ve Mutfak"
+    desc1: "Antakya ve Ege sofrası"
+    desc2: "Organik köy kahvaltısı"
+  - text: "Galeri ve Foça"
+    desc1: "Konak ve köy fotoğrafları"
+    desc2: "Çevre gezi önerileri"
+  - text: "Rezervasyon"
+    desc1: "Doğrudan ve komisyonsuz"
+    desc2: "Hızlı tarih seçimi"
+  - text: "İletişim ve Yol Tarifi"
+    desc1: "Telefon ve WhatsApp"
+    desc2: "Foça'ya 13 km"
+  - text: "Etkinlik ve Düğün"
+    desc1: "200 kişilik alan"
+    desc2: "Tarihi konak atmosferi"
+
+callouts:
+  - "Ücretsiz otopark"
+  - "Organik köy kahvaltısı"
+  - "Evcil hayvan dostu"
+  - "Deniz manzaralı odalar"
+  - "Doğrudan rezervasyon avantajı"
+  - "Çatı terası"
+
+structured_snippets:
+  - header: "Olanaklar"
+    values: ["Ücretsiz Wi-Fi", "Klima", "Restoran", "Tarihi konak", "Çatı terası"]
+  - header: "Çevre"
+    values: ["Foça", "Yeni Foça", "Kozbeyli Köyü"]
+
+other_assets:
+  - "Arama (call) uzantısı: tek tık telefon"
+  - "Konum uzantısı: Google Haritalar"
+
+tone_notes:
+  - "Zarif, davetkâr, ayrıcalık hissi veren; satışçı değil."
+  - "Marka kampanyasında açılış: ana sayfa değil, rezervasyon/oda sayfası."

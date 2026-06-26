@@ -1,0 +1,28 @@
+<!-- Consent Mode v2 — GTM'den ÖNCE <head> en üstte. KVKK için default DENIED. -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  // 1) Varsayılan: hepsi reddedildi (kullanıcı onayına kadar).
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied',
+    'analytics_storage': 'denied',
+    'wait_for_update': 500
+  });
+  gtag('set', 'ads_data_redaction', true);
+  gtag('set', 'url_passthrough', true);   // çerez yokken linker/gclid taşı
+</script>
+<!-- 2) Onay banner'ından "Kabul Et" tıklanınca çağır (4 sinyali de güncelle): -->
+<script>
+  function kozbeyliConsentGrant(){
+    gtag('consent', 'update', {
+      'ad_storage': 'granted',
+      'ad_user_data': 'granted',
+      'ad_personalization': 'granted',
+      'analytics_storage': 'granted'
+    });
+  }
+  // Reddederse: aynı anahtarlar 'denied' kalır (hiçbir şey çağırma).
+</script>
+<!-- NOT: ad_user_data + ad_personalization olmadan Enhanced Conversions SESSİZCE bozulur. -->

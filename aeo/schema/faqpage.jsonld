@@ -1,0 +1,26 @@
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "Check-in / check-out saatleri nedir?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Check-in 14:00 itibarıyla, check-out 12:00'ye kadardır."}},
+    {"@type": "Question", "name": "Kahvaltı dahil mi?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Evet, konaklama oda+kahvaltı konseptindedir; serpme organik köy kahvaltısı dahildir."}},
+    {"@type": "Question", "name": "Evcil hayvan kabul ediyor musunuz?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Evcil dostlar talebe göre kabul edilir; lütfen rezervasyon sırasında bize bildirin."}},
+    {"@type": "Question", "name": "Havuz var mı?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Resort tarzı yüzme havuzu yoktur. Konak; sessizlik, taş mimari ve doğa odaklı bir butik deneyim sunar."}},
+    {"@type": "Question", "name": "Otopark var mı?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Evet, ücretsiz otoparkımız bulunmaktadır."}},
+    {"@type": "Question", "name": "İzmir Havalimanı'na uzaklık nedir?",
+     "acceptedAnswer": {"@type": "Answer", "text": "İzmir Adnan Menderes Havalimanı'na yaklaşık 82 km mesafededir; Foça merkeze ise ~13 km."}},
+    {"@type": "Question", "name": "Restoran konaklama dışı misafirlere açık mı?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Evet, restoranımız konaklamayan misafirlere de rezervasyonla açıktır."}},
+    {"@type": "Question", "name": "Aileler için uygun mu?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Evet; aile odalarımız mevcuttur ve konağımız huzurlu, aile dostu bir ortam sunar."}},
+    {"@type": "Question", "name": "Resepsiyon 24 saat açık mı?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Resepsiyon 7/24 değildir; geç giriş için lütfen önceden bilgi veriniz."}},
+    {"@type": "Question", "name": "Kozbeyli Konağı nerede?",
+     "acceptedAnswer": {"@type": "Answer", "text": "İzmir Foça'ya bağlı tarihi Kozbeyli köyündedir: Kozbeyli Köyü Küme Evler No:188, 35680 Foça/İzmir."}}
+  ]
+}

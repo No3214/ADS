@@ -1,0 +1,7 @@
+/* Görünür focus + reduced-motion + sr-only. global.css'e ekle. */
+:focus-visible { outline: 3px solid #3a6b8c; outline-offset: 2px; border-radius: 4px; }
+.sr-only { position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0; }
+.focus\:not-sr-only:focus { position:static;width:auto;height:auto;clip:auto;white-space:normal; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; scroll-behavior:auto!important; }
+}

@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kads"
+version = "1.13.0"
+description = "Kozbeyli Konağı reklam operasyonları CLI — Google + Meta + Yerel SEO, kod seviyesinde guardrail."
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [{name = "Kozbeyli Konağı / Yunuscan"}]
+keywords = ["google-ads", "meta-ads", "local-seo", "hotel", "marketing", "cli", "guardrails"]
+dependencies = []                       # Sifir zorunlu bagimlilik (bilerek)
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[project.scripts]
+kads = "kads.cli:main"
+
+[tool.setuptools]
+packages = ["kads", "kads.platforms"]
+
+[tool.setuptools.package-data]
+kads = ["data.py"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

@@ -1,0 +1,39 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Hotel",
+  "name": "Kozbeyli Konağı",
+  "description": "Foça/İzmir'de, beş asırlık Kozbeyli köyünde 19. yüzyıl tescilli taş konakta 16 odalı butik otel ve Antakya–Ege mutfağı restoranı.",
+  "url": "https://www.kozbeylikonagi.com",
+  "telephone": "+90-532-234-26-86",
+  "email": "info@kozbeylikonagi.com",
+  "image": "https://www.kozbeylikonagi.com/images/hero.jpg",
+  "priceRange": "$$",
+  "currenciesAccepted": "TRY",
+  "numberOfRooms": 16,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Kozbeyli Köyü Küme Evler No:188",
+    "addressLocality": "Foça",
+    "addressRegion": "İzmir",
+    "postalCode": "35680",
+    "addressCountry": "TR"
+  },
+  "geo": { "@type": "GeoCoordinates", "latitude": 38.713943, "longitude": 26.896018 },
+  "hasMap": "https://www.google.com/maps/search/?api=1&query=38.713943,26.896018",
+  "checkinTime": "14:00",
+  "checkoutTime": "12:00",
+  "petsAllowed": "Talebe göre değerlendirilir",
+  "availableLanguage": ["tr", "en"],
+  "amenityFeature": [
+    {"@type": "LocationFeatureSpecification", "name": "Ücretsiz Wi-Fi", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Ücretsiz otopark", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Restoran", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Organik köy kahvaltısı", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Bahçe / Avlu", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Evcil hayvan dostu (talebe göre)", "value": true}
+  ],
+  "sameAs": [
+    "https://www.instagram.com/kozbeylikonagi/",
+    "https://www.facebook.com/kozbeylikonagi/"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "@context": "https://schema.org",
+  "@type": "HotelRoom",
+  "name": "Superior 2 Kişilik Oda",
+  "description": "Tarihi taş konakta, manzaralı superior oda. (m² ve detayları gerçek odaya göre güncelleyin.)",
+  "occupancy": {"@type": "QuantitativeValue", "maxValue": 2},
+  "bed": {"@type": "BedDetails", "numberOfBeds": 1},
+  "isPartOf": {"@type": "Hotel", "name": "Kozbeyli Konağı", "url": "https://www.kozbeylikonagi.com"},
+  "potentialAction": {
+    "@type": "ReserveAction",
+    "target": "https://kozbeyli-konagi.hmshotel.net/"
+  }
+}

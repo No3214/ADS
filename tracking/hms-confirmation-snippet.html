@@ -1,0 +1,76 @@
+<!--
+  Kozbeyli Konağı — HMS ONAY (teşekkür) sayfası snippet'i
+  ============================================================================
+  KULLANIM: Yalnızca HMS, onay sayfasına KENDİ HTML/etiketinizi eklemenize izin
+  veriyorsa bunu kullanın. HMS panelinde GA4/GTM/Pixel ID alanı varsa ÖNCE onu
+  tercih edin. Hiçbiri yoksa offline conversion import kullanın (docs/01).
+
+  PLACEHOLDER'LARI HMS'in onay sayfasındaki GERÇEK değişkenlerle değiştirin:
+    {{REZERVASYON_NO}}  -> benzersiz rezervasyon numarası (transaction_id)
+    {{TUTAR}}           -> toplam tutar (ör. 4492.00), nokta ondalık
+    {{ODA_ADI}}         -> oda tipi adı
+  HMS değişken sözdizimi farklı olabilir; HMS desteğinden doğru token'ları isteyin.
+
+  NOT: Bu sayfa AYRI alandadır (hmshotel.net). Aynı GA4 ID ve çapraz alan linker
+  burada da geçerli olmalı. Mümkünse buraya da GTM container'ı koyun; o zaman
+  aşağıdaki gtag/fbq yerine GTM'deki etiketler çalışır ve tek yerden yönetilir.
+-->
+
+<!-- 1) Consent default (CMP yoksa en azından reddedilmiş başlasın) -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    ad_storage: 'denied', ad_user_data: 'denied',
+    ad_personalization: 'denied', analytics_storage: 'denied',
+    wait_for_update: 500
+  });
+  gtag('set', 'linker', { domains: ['kozbeylikonagi.com.tr','hmshotel.net'] });
+</script>
+
+<!-- 2) GA4 + Google Ads (gtag) — GTM yoksa doğrudan -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V3R66C3MEF"></script>
+<script>
+  gtag('js', new Date());
+  gtag('config', 'G-V3R66C3MEF', { allow_linker: true });
+  gtag('config', 'AW-800024713');
+
+  var _txn = "{{REZERVASYON_NO}}";
+  var _val = parseFloat("{{TUTAR}}");
+  var _room = "{{ODA_ADI}}";
+
+  // GA4 purchase
+  gtag('event', 'purchase', {
+    transaction_id: _txn,
+    value: _val,
+    currency: 'TRY',
+    items: [{ item_id: 'ODA', item_name: _room, price: _val, quantity: 1 }]
+  });
+
+  // Google Ads dönüşümü (etiket/label panelden alınır: AW-800024713/XXXX)
+  gtag('event', 'conversion', {
+    send_to: 'AW-800024713/REPLACE_CONVERSION_LABEL',
+    value: _val,
+    currency: 'TRY',
+    transaction_id: _txn
+  });
+</script>
+
+<!-- 3) Meta Pixel — Purchase (event_id ile CAPI tekilleştirme) -->
+<script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1781546559309505');
+  fbq('track', 'PageView');
+  fbq('track', 'Purchase',
+    { value: parseFloat("{{TUTAR}}"), currency: 'TRY' },
+    { eventID: "{{REZERVASYON_NO}}" }   // CAPI ile aynı eventID kullanılırsa tekilleştirilir
+  );
+</script>
+<noscript>
+  <img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1781546559309505&ev=Purchase&noscript=1"/>
+</noscript>

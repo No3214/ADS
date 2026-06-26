@@ -1,0 +1,17 @@
+.env
+.env.*
+!.env.example
+credentials/
+secrets/
+*oauth*.json
+*credentials*.json
+google-ads.yaml
+logs/
+.claude/settings.local.json
+__pycache__/
+
+# kads calisma ciktisi (ephemeral)
+out/
+
+# tasinabilir bundle (repoya girmesin)
+ADS.bundle

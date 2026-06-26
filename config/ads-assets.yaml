@@ -1,0 +1,84 @@
+property_name: "Kozbeyli Konağı"
+site_domain: "kozbeylikonagi.com.tr"
+timezone: "Europe/Istanbul"
+ad_language: "tr"            # Reklamlar yalnizca Turkce. Site TR+EN.
+
+# --- Dogrulanmis mimari (v3) -------------------------------------------------
+architecture:
+  meta_mcp: "https://mcp.facebook.com/ads"     # RESMI Meta connector (29 Nis 2026). Okuma+yazma.
+  google_read_mcp: "github.com/googleads/google-ads-mcp"   # RESMI, yalnizca okuma.
+  google_write: "experimental_or_csv"          # Resmi MCP yazamaz; deneysel MCP veya Editor CSV.
+  notes: "Meta tarafi resmi connector ile yazabilir. Google tarafi: okuma resmi, yazma deneysel/CSV."
+
+# --- Rezervasyon motoru (HMS Otel) — DOGRULANDI -----------------------------
+booking_engine:
+  provider: "HMS Otel (hmsotel.com)"
+  engine_domain: "hmshotel.net"                # AYRI kayitli alan adi (kaynak: HMS dokumani).
+  url_pattern: "https://{otel-slug}.hmshotel.net/"
+  example_from_hms_docs: "https://hms-otel.hmshotel.net/?utm_source=instagram&utm_medium=page"
+  cross_domain_required: true                  # Farkli kayitli alan -> capraz alan ZORUNLU.
+  flow_type: "redirect"                        # Tam sayfa yonlendirme (iframe degil).
+  hotel_slug: null                             # DOGRULA: kozbeylikonagi'nin gercek hmshotel.net alt alani.
+  confirmation_page_datalayer: "unverified"    # Test rezervasyonu + HMS destegi ile dogrula.
+  fallback_if_no_purchase_tag: "offline_conversion_import + enhanced_conversions_for_leads"
+
+tracking:
+  ga4_measurement_id: "G-V3R66C3MEF"
+  google_ads_tag_id: "AW-800024713"
+  meta_pixel_id: "1781546559309505"
+  gtm_status: "unresolved"                     # Iki aday; canli olani tarayicida belirle (docs/02).
+  gtm_candidates:
+    - "GTM-KCG6B4MJ"
+    - "GTM-MSL2FLF5"
+  consent_mode_v2: "default_denied"            # EEA zorunlu; KVKK icin en guvenli varsayilan.
+  cross_domain_domains:
+    - "kozbeylikonagi.com.tr"
+    - "hmshotel.net"
+
+meta:
+  business_id: "604201716594111"
+  asset_id_unverified_type: "296722387180766"  # Varlik turu DOGRULANMADI.
+  ad_account_id: null                          # act_... — EKSIK. Ads Manager > hesap secici.
+
+google_ads:
+  url_context_id_unverified: "274214371"       # Ads musteri kimligi oldugu DOGRULANMADI.
+  customer_id: null                            # 10 hane — EKSIK.
+  login_customer_id: null                      # MCC kullaniliyorsa.
+  developer_token_access: "explorer_min"       # Uretim sorgusu icin en az Explorer erisimi.
+
+# --- Hesap allowlist (guardrails.py bunlari okur) ---------------------------
+allowlist:
+  google_customer_ids: []                      # .env GOOGLE_ADS_CUSTOMER_ID doldurur.
+  meta_ad_account_ids: []                      # .env META_AD_ACCOUNT_ID doldurur.
+
+media_budget:
+  total_monthly_try: 30000
+  google_monthly_try: 15000
+  meta_monthly_try: 15000
+  google_average_daily_try: 493               # 15000 / 30.4
+  meta_daily_try: 500
+
+# --- Yazma korkuluklari (guardrails.py ZORUNLU kilar) -----------------------
+write_guardrails:
+  enabled: false                              # Gercek yazma icin true yapin (once tracking dogrulansin).
+  create_paused_only: true
+  require_explicit_approval: true
+  require_second_approval_for_enable: true
+  allow_enable: false
+  allow_delete: false
+  allow_billing_changes: false
+  allow_user_management: false
+  allow_customer_list_upload: false
+  daily_budget_cap_google_try: 493
+  daily_budget_cap_meta_try: 500
+  monthly_budget_cap_google_try: 15000
+  monthly_budget_cap_meta_try: 15000
+
+# --- Eksik / dogrulanacaklar -------------------------------------------------
+missing:
+  - "Meta act_... reklam hesabi ID"
+  - "Google Ads 10 haneli musteri ID"
+  - "Dogru GTM container (iki adaydan biri)"
+  - "Google Developer Token + Cloud Project + OAuth/ADC"
+  - "hmshotel.net uzerindeki gercek otel alt alani (slug)"
+  - "Onay sayfasi dataLayer/transaction_id/value/currency davranisi (test rezervasyonu)"

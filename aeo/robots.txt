@@ -1,0 +1,29 @@
+# Kozbeyli Konağı robots.txt — AI arama/alıntı botlarını açıkça davet eder.
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api
+
+# AI arama/alıntı botları (görünürlük için açıkça izinli)
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: GPTBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Claude-User
+Allow: /
+User-agent: Claude-SearchBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: Bingbot
+Allow: /
+
+Sitemap: https://www.kozbeylikonagi.com/sitemap.xml
+# Not: OAI-SearchBot ve PerplexityBot mutlaka Allow kalsın (ChatGPT/Perplexity arama görünürlüğü).
+# Eğitime girmek istemezsen yalnız GPTBot'a Disallow: / verebilirsin; arama botlarını ENGELLEME.

@@ -1,0 +1,6 @@
+{
+  "_comment": "KAYNAK domainin (.com.tr veya kozbeylikonagiotel.com) Vercel projesine koy. Tüm yolları .com'a 301.",
+  "redirects": [
+    { "source": "/(.*)", "destination": "https://www.kozbeylikonagi.com/$1", "permanent": true }
+  ]
+}

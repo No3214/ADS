@@ -1,0 +1,35 @@
+{
+  "_comment": "Kozbeyli Konağı — Claude/MCP reklam bağlantıları (v3). Kopyalayın: cp .mcp.json.example .mcp.json. Token/secret BU DOSYAYA yazılmaz; .env ve OAuth/ADC üzerinden gelir.",
+
+  "mcpServers": {
+    "meta-ads": {
+      "_role": "META (Instagram/Facebook) — RESMİ Meta Ads connector. 29 Nisan 2026'da 'Meta Ads AI Connectors' adıyla yayınlandı. Okuma + yazma. OAuth ile bağlanır (developer token gerekmez). Tool izinleri Claude arayüzünden: raporlama=Always allow, oluşturma/bütçe/pause=Needs approval, silme/ödeme/kullanıcı=Blocked.",
+      "type": "http",
+      "url": "https://mcp.facebook.com/ads"
+    },
+
+    "google-ads-readonly": {
+      "_role": "GOOGLE (okuma) — RESMİ Google Ads MCP (googleads/google-ads-mcp). Yalnızca okuma: search (GAQL), list_accessible_customers, get_resource_metadata. Kampanya OLUŞTURAMAZ/DEĞİŞTİREMEZ. Raporlama ve analiz için budur.",
+      "type": "stdio",
+      "command": "pipx",
+      "args": ["run", "--spec", "git+https://github.com/googleads/google-ads-mcp.git", "google-ads-mcp"],
+      "env": {
+        "GOOGLE_PROJECT_ID": "${GOOGLE_PROJECT_ID}",
+        "GOOGLE_ADS_DEVELOPER_TOKEN": "${GOOGLE_ADS_DEVELOPER_TOKEN}",
+        "GOOGLE_ADS_MCP_OAUTH_CLIENT_ID": "${GOOGLE_ADS_MCP_OAUTH_CLIENT_ID}",
+        "GOOGLE_ADS_MCP_OAUTH_CLIENT_SECRET": "${GOOGLE_ADS_MCP_OAUTH_CLIENT_SECRET}"
+      }
+    },
+
+    "_google-ads-write_DISABLED_BY_DEFAULT": {
+      "_role": "GOOGLE (yazma) — DENEYSEL. Resmi Google MCP yazamadığı için yazma ihtiyacında iki seçenek var. (1) google-marketing-solutions/google_ads_mcp: Google yazdı ama 'production için DEĞİL' diyor; mutasyonlar ADS_MCP_ENABLE_MUTATIONS=true ile açılır. (2) Daha güvenli: Google Ads Editor CSV (assets/) + elle import. Bu blok VARSAYILAN OLARAK KAPALIDIR. Açmak için ismi 'google-ads-write' yapın ve guardrails.py + change skill ile birlikte kullanın.",
+      "type": "stdio",
+      "command": "pipx",
+      "args": ["run", "--spec", "git+https://github.com/google-marketing-solutions/google_ads_mcp.git", "run-mcp-server"],
+      "env": {
+        "GOOGLE_ADS_CREDENTIALS": "${GOOGLE_APPLICATION_CREDENTIALS}",
+        "ADS_MCP_ENABLE_MUTATIONS": "false"
+      }
+    }
+  }
+}

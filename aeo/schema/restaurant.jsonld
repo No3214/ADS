@@ -1,0 +1,15 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "Kozbeyli Konağı Restoran",
+  "description": "Antakya–Ege mutfağı ve serpme organik köy kahvaltısı. Konaklama dışı misafirlere de açıktır (rezervasyonla).",
+  "servesCuisine": ["Antakya Mutfağı", "Ege Mutfağı"],
+  "url": "https://www.kozbeylikonagi.com/gastronomi",
+  "telephone": "+90-532-234-26-86",
+  "acceptsReservations": "True",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Kozbeyli Köyü Küme Evler No:188",
+    "addressLocality": "Foça", "addressRegion": "İzmir", "addressCountry": "TR"
+  }
+}

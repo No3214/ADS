@@ -1,0 +1,109 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Hotel",
+  "name": "Kozbeyli Konağı",
+  "description": "600 yıllık Kozbeyli köyünde Osmanlı taş mimarisiyle restore edilmiş butik otel ve restoran. 16 oda, organik köy kahvaltısı, çatı terasında Ege manzarası, Antakya–Ege mutfağı. Evcil hayvan dostu. Foça'ya 13 km.",
+  "url": "https://www.kozbeylikonagi.com.tr/",
+  "telephone": "+905322342686",
+  "priceRange": "₺₺",
+  "currenciesAccepted": "TRY",
+  "petsAllowed": true,
+  "numberOfRooms": 16,
+  "checkinTime": "14:00",
+  "checkoutTime": "12:00",
+  "image": [
+    "https://www.kozbeylikonagi.com.tr/img/konak.jpg",
+    "https://www.kozbeylikonagi.com.tr/img/oda.jpg",
+    "https://www.kozbeylikonagi.com.tr/img/kahvalti.jpg"
+  ],
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Kozbeyli Köyü, Küme Evler No:188",
+    "addressLocality": "Foça",
+    "addressRegion": "İzmir",
+    "postalCode": "35680",
+    "addressCountry": "TR"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 38.7145,
+    "longitude": 26.8942
+  },
+  "hasMap": "https://www.google.com/maps/search/?api=1&query=38.7145,26.8942",
+  "availableLanguage": [
+    "tr",
+    "en"
+  ],
+  "amenityFeature": [
+    {
+      "@type": "LocationFeatureSpecification",
+      "name": "Ücretsiz Wi-Fi",
+      "value": true
+    },
+    {
+      "@type": "LocationFeatureSpecification",
+      "name": "Ücretsiz otopark",
+      "value": true
+    },
+    {
+      "@type": "LocationFeatureSpecification",
+      "name": "Organik kahvaltı",
+      "value": true
+    },
+    {
+      "@type": "LocationFeatureSpecification",
+      "name": "Restoran",
+      "value": true
+    },
+    {
+      "@type": "LocationFeatureSpecification",
+      "name": "Çatı terası",
+      "value": true
+    },
+    {
+      "@type": "LocationFeatureSpecification",
+      "name": "Klima",
+      "value": true
+    },
+    {
+      "@type": "LocationFeatureSpecification",
+      "name": "Evcil hayvan dostu",
+      "value": true
+    },
+    {
+      "@type": "LocationFeatureSpecification",
+      "name": "Deniz/doğa manzarası",
+      "value": true
+    },
+    {
+      "@type": "LocationFeatureSpecification",
+      "name": "Aile odaları",
+      "value": true
+    },
+    {
+      "@type": "LocationFeatureSpecification",
+      "name": "Etkinlik alanı (200 kişi)",
+      "value": true
+    }
+  ],
+  "sameAs": [
+    "https://www.instagram.com/kozbeylikonagi/",
+    "https://www.facebook.com/kozbeylikonagi/",
+    "https://www.kozbeylikonagi.com/"
+  ],
+  "potentialAction": {
+    "@type": "ReserveAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://www.kozbeylikonagi.com.tr/rezervasyon",
+      "actionPlatform": [
+        "http://schema.org/DesktopWebPlatform",
+        "http://schema.org/MobileWebPlatform"
+      ]
+    },
+    "result": {
+      "@type": "LodgingReservation",
+      "name": "Doğrudan Rezervasyon"
+    }
+  }
+}

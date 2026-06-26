@@ -1,0 +1,8 @@
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://www.kozbeylikonagi.com"},
+    {"@type": "ListItem", "position": 2, "name": "Odalar", "item": "https://www.kozbeylikonagi.com/odalar"}
+  ]
+}
