@@ -146,7 +146,14 @@ def kv(title: str, pairs: list[tuple[str, str]], fmt: str = "table") -> None:
 
 
 def banner(text: str) -> None:
-    line = "─" * (len(text) + 2)
-    print(cyan(f"┌{line}┐"))
-    print(cyan(f"│ ") + bold(text) + cyan(" │"))
-    print(cyan(f"└{line}┘"))
+    try:
+        line = "─" * (len(text) + 2)
+        print(cyan(f"┌{line}┐"))
+        print(cyan(f"│ ") + bold(text) + cyan(" │"))
+        print(cyan(f"└{line}┘"))
+    except UnicodeEncodeError:
+        # Konsol UTF-8 degilse ASCII'ye dus (cp1254 vb. cokmesin).
+        line = "-" * (len(text) + 2)
+        print(cyan(f"+{line}+"))
+        print(cyan("| ") + bold(text) + cyan(" |"))
+        print(cyan(f"+{line}+"))

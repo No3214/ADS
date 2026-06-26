@@ -192,3 +192,16 @@ operasyon sistemine dönüştürüldü.
   guardrails/yedek) → kırılmaz/kendini denetleyen. **docs/17** sağlamlık+otonomi modeli; **memory/learnings.md**.
 ### Test
 - 60 pytest. 33 kads komutu, 21 paket. selfcheck PASS.
+
+## [1.13.1] — 2026-06-26
+### Düzeltildi
+- **Windows cp1254 (Türkçe konsol) çökmesi:** `kads` komutları (selfcheck/status/doctor/b2b/plan
+  vb.) Türkçe Windows konsolunda `UnicodeEncodeError: cp1254` ile çöküyordu (kutu-çizim + Türkçe
+  karakterler kodlanamıyordu). CLI girişinde stdout/stderr UTF-8'e zorlandı
+  (`reconfigure(errors="replace")`); `core.banner()` ASCII kutu yedeğine düşüyor. Linux/UTF-8'de
+  davranış değişmedi. Kullanıcının gerçek Windows makinesinde (Desktop Commander) doğrulandı:
+  selfcheck/status/doctor/b2b/plan hepsi exit 0, 7 bütünlük kontrolü GEÇTİ.
+- **Repo temizliği:** Office kilit/geçici dosyaları (`.~lock.*#`, `~$*`) `.gitignore`'a eklendi;
+  yanlışlıkla giren `finance/.~lock...xlsx#` takipten çıkarıldı.
+- **Otomatik push:** Değişiklikler artık Desktop Commander üzerinden Windows'tan doğrudan
+  `git push` ile GitHub'a gönderiliyor; `push.bat` manuel yedek olarak kalır.

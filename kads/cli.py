@@ -46,7 +46,7 @@ import shutil
 
 ROOT = core.ROOT
 OUT = ROOT / "out"
-VERSION = "1.13.0"
+VERSION = "1.13.1"
 
 
 # ---- arg ayiklama ----------------------------------------------------------
@@ -825,6 +825,13 @@ def cmd_help(args: list[str]) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
+    # Windows konsolu cp1254 (Turkce) olabilir; UTF-8'e zorla ki kutu-cizim ve
+    # Turkce karakterler UnicodeEncodeError ile cokmesin (Linux/UTF-8'de no-op).
+    for _s in (sys.stdout, sys.stderr):
+        try:
+            _s.reconfigure(encoding="utf-8", errors="replace")
+        except Exception:
+            pass
     argv = list(sys.argv[1:] if argv is None else argv)
     if not argv or argv[0] in ("help", "-h", "--help"):
         return cmd_help(argv[1:] if argv else [])
