@@ -47,7 +47,7 @@ import shutil
 
 ROOT = core.ROOT
 OUT = ROOT / "out"
-VERSION = "1.13.1"
+VERSION = "1.14.0"
 
 
 # ---- arg ayiklama ----------------------------------------------------------
@@ -637,7 +637,7 @@ def cmd_status(args):
         ("Web veri (Apify)", "apify"), ("AEO/GEO sema", "aeo"),
         ("E-posta", "email"), ("Landing A/B", "landing"),
         ("Influencer/PR", "outreach"), ("İtibar/kriz", "reputation"), ("Finans modeli", "finance"), ("Frontend (web)", "web"), ("B2B kurumsal", "b2b"),
-        ("Dokumanlar", "docs"), ("Panolar", "dashboard"),
+        ("Attribution modeli", "attribution"), ("Dokumanlar", "docs"), ("Panolar", "dashboard"),
     ]
     rows = []
     for name, rel in packs:
@@ -649,7 +649,7 @@ def cmd_status(args):
                "GOOGLE_PROJECT_ID", "GOOGLE_ADS_DEVELOPER_TOKEN") if core.is_placeholder(env.get(k, ""))]
     if fmt == "table":
         core.banner(f"kads status v{VERSION} - {data.HOTEL['name']}")
-        print(core.dim(f"  Komut: 33 - Test: pytest - Repo: github.com/No3214/ADS\n"))
+        print(core.dim(f"  Komut: 39 - Test: pytest - Repo: github.com/No3214/ADS\n"))
     core.emit(rows, fmt=fmt, columns=["paket", "yol", "dosya", "durum"])
     if fmt == "table":
         print()
@@ -918,7 +918,7 @@ def cmd_selfcheck(args):
         add("Üretim", False, str(exc)[:40])
     # 4) Beklenen paketler mevcut
     packs = ["campaigns","fixes","profiles","competitors","publishing","creatives","tracking/implementation",
-             "content","whatsapp","golive","aeo","email","landing","outreach","reputation","finance","web","b2b","apify","docs"]
+             "content","whatsapp","golive","aeo","email","landing","outreach","reputation","finance","web","b2b","apify","docs","attribution"]
     miss = [p for p in packs if not (ROOT / p).exists()]
     add("Paket bütünlüğü", not miss, f"eksik: {miss}" if miss else f"{len(packs)} paket")
     # 5) guardrails + bundle yedek

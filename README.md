@@ -60,9 +60,15 @@ kads plan                 # 30.000 TL çapraz kanal planı
 | `kads setup / status` | Kurulum asistanı · sistem özeti |
 | `kads apify` | Web veri actor reçeteleri (yorum/fiyat/SERP) |
 | `kads aeo [schema]` | AI motoru görünürlüğü: soru kümeleri + JSON-LD |
-| `kads season / funnel / offers` | Sezon planı · dönüşüm hunisi · teklif/paketler |
+| `kads season [detail] / funnel / offers` | Sezon planı (+detay) · dönüşüm hunisi · teklif/paketler |
 | `kads web` | Frontend kontrol listesi (perf / a11y / PWA / meta) |
 | `kads b2b [packages]` | Kurumsal motor (Aliağa sanayi): hedef + MICE paket |
+| `kads pmax [specs|setup]` | Performance Max: asset group + varlık + kurulum |
+| `kads demandgen [audiences]` | Demand Gen: format + kitle + varlık |
+| `kads remarketing [rlsa|flow]` | Google remarketing + RLSA + kanal akışı |
+| `kads utm [build|rules]` | UTM standardı + tutarlı link üretici |
+| `kads attribution` | Attribution modeli + çift sayım dedup |
+| `kads allocate [funnel|rules]` | Bütçe dağıtım matrisi (kanal × huni × ay) |
 | `kads selfcheck` | Sistem bütünlük denetimi (kırılmaz) |
 | `kads golive` | Fazlı yayına alma kapısı (hazırlık denetimi) |
 | `kads guard --check change.json` | Değişiklik guardrail kontrolü (yazma için) |

@@ -193,15 +193,32 @@ operasyon sistemine dönüştürüldü.
 ### Test
 - 60 pytest. 33 kads komutu, 21 paket. selfcheck PASS.
 
-## [1.13.1] — 2026-06-26
+## [1.14.0] — 2026-06-26
+Büyüme katmanı: yeni reklam formatları, remarketing akışları, ölçüm tutarlılığı, bütçe matrisi.
+
+### Eklendi
+- **Performance Max** (`kads pmax` · `specs` · `setup`): 4 asset group (Konaklama/Gastronomi/
+  Düğün/B2B), varlık limitleri, kurulum + koruma kuralları (brand exclusions, URL expansion kapalı).
+  `campaigns/google-pmax/` (asset-group-spec.csv + kurulum.md).
+- **Demand Gen** (`kads demandgen` · `audiences` · `specs`): YouTube+Discover+Gmail format/kitle/varlık.
+  `campaigns/google-demandgen/`.
+- **Google remarketing + RLSA** (`kads remarketing` · `rlsa` · `flow`): 7 liste (üyelik süresi +
+  min boyut + kaynak olay), RLSA teklif kuralları, kanal arası geri kazanım akışı. `campaigns/remarketing/`.
+- **UTM standardı + link üretici** (`kads utm` · `build` · `rules`): 14 kanal matrisi, tutarlı
+  `utm_*` etiketleri, URL üretici (preset veya custom). `tracking/utm-standard.md` + `utm-matris.csv`.
+- **Attribution modeli** (`kads attribution`): GA4 DDA, Google Ads DDA, Meta 7-1, GA4 hakem dedup,
+  transaction_id + event_id tekillik, blended karar. `attribution/` (README + model.md).
+- **Bütçe dağıtım matrisi** (`kads allocate` · `funnel` · `rules`): kanal × huni × ay (ay1/ay2+
+  ayrı ayrı 30.000 TL), huni görünümü, yeniden dağıtım kuralları. `docs/18` + `campaigns/butce-matris.csv`.
+- **Sezon strateji detayı** (`kads season detail`): bütçe kaydırma + kanal mix + kreatif açı +
+  kelime vurgu + teklif + B2B notu (düşük sezon = Aliağa B2B fırsatı). `docs/19`.
+- `kads/data_growth.py` — büyüme katmanı tek kaynağı.
+
 ### Düzeltildi
-- **Windows cp1254 (Türkçe konsol) çökmesi:** `kads` komutları (selfcheck/status/doctor/b2b/plan
-  vb.) Türkçe Windows konsolunda `UnicodeEncodeError: cp1254` ile çöküyordu (kutu-çizim + Türkçe
-  karakterler kodlanamıyordu). CLI girişinde stdout/stderr UTF-8'e zorlandı
-  (`reconfigure(errors="replace")`); `core.banner()` ASCII kutu yedeğine düşüyor. Linux/UTF-8'de
-  davranış değişmedi. Kullanıcının gerçek Windows makinesinde (Desktop Commander) doğrulandı:
-  selfcheck/status/doctor/b2b/plan hepsi exit 0, 7 bütünlük kontrolü GEÇTİ.
-- **Repo temizliği:** Office kilit/geçici dosyaları (`.~lock.*#`, `~$*`) `.gitignore`'a eklendi;
-  yanlışlıkla giren `finance/.~lock...xlsx#` takipten çıkarıldı.
-- **Otomatik push:** Değişiklikler artık Desktop Commander üzerinden Windows'tan doğrudan
-  `git push` ile GitHub'a gönderiliyor; `push.bat` manuel yedek olarak kalır.
+- **main() dispatch geri yüklendi**: bir düzenlemede `fn = table.get(cmd)` + `if __name__`
+  bloğu silinmiş, main tüm komutlarda None döndürüyordu (pytest yakaladı). Geri eklendi.
+- **reconfigure UTF-8 kapısı**: stdout zaten UTF-8 ise reconfigure'a dokunma (yalnız cp1254 vb.
+  konsolda çalış) — Linux/pipe çıktısı kaybını önler.
+
+### Test
+- 89 pytest (tümü yeşil). 39 kads komutu, 21 paket. selfcheck PASS.
