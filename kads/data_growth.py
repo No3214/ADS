@@ -225,3 +225,50 @@ SEASON_DETAIL = [
      "kelime_vurgu": "balayi oteli, evcil dostu otel, koy kahvaltisi", "teklif": "2 gece + kahvalti paketi", "kpi": "yeni kitle + CVR",
      "b2b": "orta: yil sonu gala/iftar planlama (Ekim-Kasim teklif zamani)"},
 ]
+
+
+# =============================================================================
+# 8) DONUSUM OLCUM DONGUSU — online + offline (telefon/WhatsApp) + call + enhanced
+#    16 odali butik otelde rezervasyonun bir kismi telefon/WhatsApp'tan kapanir;
+#    bunlari geri yuklemezsen Google/Meta sadece online purchase'i gorur ve
+#    yanlis optimize eder (para yakar). Bu katman olcum dongusunu kapatir.
+# =============================================================================
+CONVERSION_ACTIONS = [
+    {"olay": "purchase", "kaynak": "HMS onay sayfasi (online)", "tip": "Birincil", "deger": "rezervasyon tutari", "not": "transaction_id ile tekil; cross-domain ZORUNLU (tracking/01)"},
+    {"olay": "booking_offline", "kaynak": "Telefon/WhatsApp ile kapanan rezervasyon", "tip": "Birincil (offline)", "deger": "rezervasyon tutari", "not": "OCI/CAPI ile geri yukle; GCLID/lead_id ile esle"},
+    {"olay": "generate_lead", "kaynak": "WhatsApp tikla / form", "tip": "Ikincil", "deger": "(proxy) lead degeri", "not": "lead->rezervasyon orani ile CPL hesapla (KPI)"},
+    {"olay": "call", "kaynak": "Reklam/uzanti/GBP arama", "tip": "Ikincil", "deger": "-", "not": "Google call conversion: X sn sonra say"},
+    {"olay": "begin_checkout", "kaynak": "Site (HMS'e gecis)", "tip": "Mikro", "deger": "-", "not": "retargeting + funnel tikanma sinyali"},
+    {"olay": "contact", "kaynak": "E-posta/GBP mesaj", "tip": "Mikro", "deger": "-", "not": "ust huni ilgi"},
+]
+
+# Google Offline Conversion Import (OCI) akisi — telefon/WhatsApp rezervasyonu geri yukle
+OFFLINE_IMPORT_GOOGLE = [
+    {"adim": "1", "is": "GCLID yakala", "detay": "Reklamdan gelen ziyaretci formunda gizli alan: gclid (URL'den). Yoksa wbraid/gbraid."},
+    {"adim": "2", "is": "Lead ile sakla", "detay": "WhatsApp/telefon lead'ini gclid + zaman + iletisim ile CRM/Sheets'e kaydet."},
+    {"adim": "3", "is": "Rezervasyon kapaninca", "detay": "Lead rezervasyona donunce: gclid + donusum adi (booking_offline) + zaman + tutar + TRY."},
+    {"adim": "4", "is": "Yukle", "detay": "Google Ads > Donusumler > Yuklemeler: CSV veya API. 90 gun pencere icinde."},
+    {"adim": "5", "is": "Dogrula", "detay": "Donusumler raporunda 'booking_offline' gorunmeli; Smart Bidding artik telefon/WhatsApp'i de ogrenir."},
+]
+# Meta offline / CAPI — GCLID yoksa hash'li eslesme
+OFFLINE_IMPORT_META = [
+    {"adim": "1", "is": "lead_id veya hash", "detay": "Meta lead form ise lead_id; degilse hash'li em (e-posta) / ph (telefon)."},
+    {"adim": "2", "is": "Offline event / CAPI", "detay": "Conversions API ile 'Purchase' (offline) event'i: value + currency + event_id."},
+    {"adim": "3", "is": "Dedup", "detay": "Online Pixel purchase ile ayni event_id -> cift sayma (tracking/05)."},
+    {"adim": "4", "is": "Eslesme kalitesi", "detay": "EMQ skoru >6 hedefle; ne kadar cok hash'li alan o kadar iyi."},
+]
+ENHANCED_MATCHING = [
+    {"platform": "Google", "ozellik": "Enhanced Conversions", "veri": "hash'li e-posta/telefon (purchase'ta)", "not": "cookie sonrasi eslesme; Consent Mode v2 sart (tracking/01-consent)"},
+    {"platform": "Meta", "ozellik": "Advanced Matching + CAPI", "veri": "hash'li em/ph/fn/ln", "not": "Pixel + CAPI ayni event_id; EMQ artar"},
+    {"platform": "Her ikisi", "ozellik": "Consent Mode v2", "veri": "rıza durumu", "not": "AB/TR rıza; rızasız modelleme (tracking/implementation/01)"},
+]
+CALL_TRACKING = [
+    {"kaynak": "Reklamdan arama (call asset)", "olcum": "Google call conversion", "esik": "≥ belirlenen sn", "not": "reklam uzantisi/sadece-arama reklami"},
+    {"kaynak": "Siteden arama (numara tikla)", "olcum": "GA4 event -> Google Ads import", "esik": "tel: tikla", "not": "mobilde onemli"},
+    {"kaynak": "GBP'den arama", "olcum": "GBP Insights (Ads degil)", "esik": "-", "not": "yerel; ayri raporla"},
+    {"kaynak": "WhatsApp tikla", "olcum": "generate_lead", "esik": "tikla", "not": "lead; offline booking'e baglanir"},
+]
+CONVERSION_NOTE = ("Kritik: telefon/WhatsApp rezervasyonlarini geri yuklemezsen (OCI/CAPI), "
+                   "algoritma sadece online purchase'i optimize eder; offline kapanan musteriye "
+                   "benzer kisileri HEDEFLEMEZ. 16 odali butik otelde offline pay yuksek -> "
+                   "olcum dongusunu kapatmak dogrudan ROAS'i artirir.")

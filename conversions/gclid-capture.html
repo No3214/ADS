@@ -1,0 +1,29 @@
+<!-- GCLID / fbclid yakalama — booking & iletisim formuna ekle.
+     Reklamdan gelen ziyaretcinin tiklama kimligini saklar; telefon/WhatsApp ile
+     kapanan rezervasyonu sonradan Google'a (OCI) geri yuklemek icin sart. -->
+<script>
+(function () {
+  function getParam(n){ return new URLSearchParams(location.search).get(n) || ""; }
+  var ids = {
+    gclid: getParam("gclid"),
+    wbraid: getParam("wbraid"),
+    gbraid: getParam("gbraid"),
+    fbclid: getParam("fbclid")
+  };
+  // 90 gun sakla (OCI penceresi)
+  try {
+    Object.keys(ids).forEach(function(k){
+      if (ids[k]) {
+        localStorage.setItem("kz_" + k, ids[k]);
+        localStorage.setItem("kz_" + k + "_ts", String(Date.now()));
+        document.cookie = "kz_" + k + "=" + ids[k] + ";max-age=" + (90*24*3600) + ";path=/;SameSite=Lax";
+      }
+    });
+  } catch (e) {}
+  // Formdaki gizli alanlara yaz (varsa). HTML: <input type="hidden" name="gclid" data-kz="gclid">
+  document.querySelectorAll("input[data-kz]").forEach(function(el){
+    var k = el.getAttribute("data-kz");
+    el.value = ids[k] || localStorage.getItem("kz_" + k) || "";
+  });
+})();
+</script>

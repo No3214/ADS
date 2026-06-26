@@ -65,3 +65,16 @@ def test_budget_sums_30k():
 def test_season_detail_data():
     assert len(dg.SEASON_DETAIL) == 3 and all("b2b" in s and s["aylar"] for s in dg.SEASON_DETAIL)
     assert len(dg.BUDGET_BY_FUNNEL) >= 4 and len(dg.BUDGET_REALLOCATION_RULES) >= 5
+
+
+def test_conversions_ok(): assert main(["conversions", "-f", "json"]) == 0
+def test_conversions_offline_ok(): assert main(["conversions", "offline", "-f", "json"]) == 0
+def test_conversions_enhanced_ok(): assert main(["conversions", "enhanced"]) == 0
+def test_conversions_calls_ok(): assert main(["conversions", "calls", "-f", "csv"]) == 0
+
+
+def test_conversions_data():
+    assert len(dg.CONVERSION_ACTIONS) >= 6
+    assert any(a["olay"] == "booking_offline" for a in dg.CONVERSION_ACTIONS)
+    assert len(dg.OFFLINE_IMPORT_GOOGLE) >= 5 and len(dg.OFFLINE_IMPORT_META) >= 4
+    assert len(dg.ENHANCED_MATCHING) >= 3 and len(dg.CALL_TRACKING) >= 4 and dg.CONVERSION_NOTE

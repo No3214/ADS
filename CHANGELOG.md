@@ -222,3 +222,18 @@ Büyüme katmanı: yeni reklam formatları, remarketing akışları, ölçüm tu
 
 ### Test
 - 89 pytest (tümü yeşil). 39 kads komutu, 21 paket. selfcheck PASS.
+
+## [1.15.0] — 2026-06-26
+Ölçüm döngüsü: online + offline (telefon/WhatsApp) dönüşüm import'u.
+
+### Eklendi
+- **Dönüşüm ölçüm döngüsü** (`kads conversions` · `offline` · `enhanced` · `calls`): online
+  purchase + offline `booking_offline` (telefon/WhatsApp) + lead + call. `conversions/` paketi:
+  GCLID yakalama snippet'i (gclid-capture.html), Google OCI yükleme şablonu + rehberi, Meta
+  offline/CAPI rehberi, Enhanced Conversions + Advanced Matching + Consent Mode v2.
+- Gerekçe: 16 odalı butik otelde rezervasyonun bir kısmı telefon/WhatsApp'tan kapanır;
+  geri yüklenmezse algoritma sadece online'ı optimize eder → offline kapanana benzer kitle
+  hedeflenmez. Döngüyü kapatmak doğrudan ROAS'ı artırır.
+
+### Test
+- 94 pytest. 40 kads komutu, 22 paket. selfcheck PASS.

@@ -47,7 +47,7 @@ import shutil
 
 ROOT = core.ROOT
 OUT = ROOT / "out"
-VERSION = "1.14.0"
+VERSION = "1.15.0"
 
 
 # ---- arg ayiklama ----------------------------------------------------------
@@ -637,7 +637,7 @@ def cmd_status(args):
         ("Web veri (Apify)", "apify"), ("AEO/GEO sema", "aeo"),
         ("E-posta", "email"), ("Landing A/B", "landing"),
         ("Influencer/PR", "outreach"), ("İtibar/kriz", "reputation"), ("Finans modeli", "finance"), ("Frontend (web)", "web"), ("B2B kurumsal", "b2b"),
-        ("Attribution modeli", "attribution"), ("Dokumanlar", "docs"), ("Panolar", "dashboard"),
+        ("Attribution modeli", "attribution"), ("Donusum olcum", "conversions"), ("Dokumanlar", "docs"), ("Panolar", "dashboard"),
     ]
     rows = []
     for name, rel in packs:
@@ -649,7 +649,7 @@ def cmd_status(args):
                "GOOGLE_PROJECT_ID", "GOOGLE_ADS_DEVELOPER_TOKEN") if core.is_placeholder(env.get(k, ""))]
     if fmt == "table":
         core.banner(f"kads status v{VERSION} - {data.HOTEL['name']}")
-        print(core.dim(f"  Komut: 39 - Test: pytest - Repo: github.com/No3214/ADS\n"))
+        print(core.dim(f"  Komut: 40 - Test: pytest - Repo: github.com/No3214/ADS\n"))
     core.emit(rows, fmt=fmt, columns=["paket", "yol", "dosya", "durum"])
     if fmt == "table":
         print()
@@ -894,6 +894,37 @@ def cmd_allocate(args):
     return core.EX_OK
 
 
+# ---- buyume: donusum olcum dongusu (online + offline/call) -------------------
+def cmd_conversions(args):
+    fmt = _fmt(args)
+    sub = args[0] if args and not args[0].startswith("-") else "actions"
+    if sub in ("offline", "oci"):
+        combined = ([{"platform": "Google OCI", **r} for r in dg.OFFLINE_IMPORT_GOOGLE] +
+                    [{"platform": "Meta CAPI", **r} for r in dg.OFFLINE_IMPORT_META])
+        if fmt == "table":
+            core.banner("kads conversions offline - telefon/WhatsApp rezervasyonu geri yukle")
+        core.emit(combined, fmt=fmt, title="Offline import (Google OCI + Meta CAPI)",
+                  columns=["platform", "adim", "is", "detay"])
+        return core.EX_OK
+    if sub in ("enhanced", "match"):
+        core.emit(dg.ENHANCED_MATCHING, fmt=fmt, title="Enhanced Conversions / Advanced Matching",
+                  columns=["platform", "ozellik", "veri", "not"])
+        return core.EX_OK
+    if sub in ("calls", "call"):
+        core.emit(dg.CALL_TRACKING, fmt=fmt, title="Arama (call) takibi",
+                  columns=["kaynak", "olcum", "esik", "not"])
+        return core.EX_OK
+    if fmt == "table":
+        core.banner("kads conversions - donusum olcum dongusu")
+    core.emit(dg.CONVERSION_ACTIONS, fmt=fmt, title="Donusum aksiyonlari (online + offline)",
+              columns=["olay", "kaynak", "tip", "deger", "not"])
+    if fmt == "table":
+        print(core.dim("\n  " + dg.CONVERSION_NOTE))
+        print(core.dim("  Offline: kads conversions offline  -  Enhanced: kads conversions enhanced  -  Aramalar: kads conversions calls"))
+        print(core.dim("  Kurulum: conversions/  -  Altyapi: tracking/"))
+    return core.EX_OK
+
+
 # ---- selfcheck (kirilmaz / butunluk denetimi) -------------------------------
 def cmd_selfcheck(args):
     import json as _json, glob as _glob, tempfile as _tmp
@@ -918,7 +949,7 @@ def cmd_selfcheck(args):
         add("Üretim", False, str(exc)[:40])
     # 4) Beklenen paketler mevcut
     packs = ["campaigns","fixes","profiles","competitors","publishing","creatives","tracking/implementation",
-             "content","whatsapp","golive","aeo","email","landing","outreach","reputation","finance","web","b2b","apify","docs","attribution"]
+             "content","whatsapp","golive","aeo","email","landing","outreach","reputation","finance","web","b2b","apify","docs","attribution","conversions"]
     miss = [p for p in packs if not (ROOT / p).exists()]
     add("Paket bütünlüğü", not miss, f"eksik: {miss}" if miss else f"{len(packs)} paket")
     # 5) guardrails + bundle yedek
@@ -968,6 +999,7 @@ def cmd_help(args: list[str]) -> int:
         ("utm [build|rules]", "UTM standardi + tutarli link uretici"),
         ("attribution", "Attribution modeli + cift sayim dedup"),
         ("allocate [funnel|rules]", "Butce dagitim matrisi (kanal x huni x ay)"),
+        ("conversions [offline|enhanced|calls]", "Donusum olcum dongusu (online + offline/call import)"),
         ("selfcheck", "Sistem bütünlük denetimi (kırılmaz)"),
         ("build google|meta|seo|all [--out DIR]", "Import-hazır dosyalar üret"),
         ("validate", "RSA uzunluk + bütçe + CSV doğrulama"),
@@ -1010,6 +1042,7 @@ def main(argv: list[str] | None = None) -> int:
         "pmax": cmd_pmax, "demandgen": cmd_demandgen, "remarketing": cmd_remarketing,
         "utm": cmd_utm, "attribution": cmd_attribution,
         "allocate": cmd_allocate,
+        "conversions": cmd_conversions,
         "validate": cmd_validate, "guard": cmd_guard, "monitor": cmd_monitor, "brief": cmd_brief,
     }
     fn = table.get(cmd)

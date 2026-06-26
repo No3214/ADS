@@ -69,6 +69,7 @@ kads plan                 # 30.000 TL çapraz kanal planı
 | `kads utm [build|rules]` | UTM standardı + tutarlı link üretici |
 | `kads attribution` | Attribution modeli + çift sayım dedup |
 | `kads allocate [funnel|rules]` | Bütçe dağıtım matrisi (kanal × huni × ay) |
+| `kads conversions [offline|enhanced|calls]` | Dönüşüm ölçüm döngüsü (online + offline/call import) |
 | `kads selfcheck` | Sistem bütünlük denetimi (kırılmaz) |
 | `kads golive` | Fazlı yayına alma kapısı (hazırlık denetimi) |
 | `kads guard --check change.json` | Değişiklik guardrail kontrolü (yazma için) |
