@@ -53,7 +53,9 @@ PMAX_SETUP = [
 ]
 PMAX_NOTE = ("PMax kara kutudur: marka aramasını yutabilir ve raporu şişirir. KORUMA: marka "
              "hariç tutma (brand exclusions) + URL genişletme kapalı + ayrı Marka Search kampanyası. "
-             "Düşük bütçede önce Search+Meta otur, PMax'i ay 2-3'te aç (docs/05).")
+             "Düşük bütçede önce Search+Meta otur, PMax'i ay 2-3'te aç (docs/05). "
+             "2026 YENİ: PMax artık kampanya-düzeyi negatif kelime listesi + asset-group arama "
+             "terimi raporu destekliyor (docs/20) — marka/alakasız trafiği negatifle kes.")
 
 # =============================================================================
 # 2) DEMAND GEN — görsel/keşif kampanyası (YouTube + Discover + Gmail)
@@ -272,3 +274,22 @@ CONVERSION_NOTE = ("Kritik: telefon/WhatsApp rezervasyonlarini geri yuklemezsen 
                    "algoritma sadece online purchase'i optimize eder; offline kapanan musteriye "
                    "benzer kisileri HEDEFLEMEZ. 16 odali butik otelde offline pay yuksek -> "
                    "olcum dongusunu kapatmak dogrudan ROAS'i artirir.")
+
+
+# =============================================================================
+# 9) YEREL TALEP ETKINLIKLERI (web-reach araştırması, Haz 2026) — kampanya zamanlama
+#    Foça/İzmir'de konaklama talebini yükselten etkinlikler. Tarihler kaynaktan
+#    teyit edilmeli (JS sayfalar); kampanya bunlara göre öne çekilir.
+# =============================================================================
+LOCAL_EVENTS = [
+    {"etkinlik": "What A Fest Foça (müzik festivali)", "tarih": "~20-24 Ağu + 13-17 Eyl 2026 (teyit: bubilet/biletimgo)",
+     "etki": "Yüksek — konaklama talebi zirvesi (Duman, Gazapizm, Mor ve Ötesi, Uzi)",
+     "aksiyon": "Festivalden 3-4 hafta önce 'Foça otel/konaklama' Search + Meta push; talep yüksek = indirimi kıs, erken rezervasyon"},
+    {"etkinlik": "Yüksek sezon (Haz-Eyl)", "tarih": "Haziran-Eylül 2026",
+     "etki": "Yüksek — genel tatil pik", "aksiyon": "Marka koru + prospecting + retargeting; min indirim (kads season detail)"},
+    {"etkinlik": "Kurban Bayramı / uzun hafta sonları", "tarih": "Yıllık (resmi tatil takvimi — teyit)",
+     "etki": "Orta-Yüksek — kısa kaçış talebi", "aksiyon": "Tatilden 2-3 hafta önce 'hafta sonu kaçamağı' WhatsApp + Meta"},
+    {"etkinlik": "Düşük sezon (Kas-Mar)", "tarih": "Kasım-Mart",
+     "etki": "Düşük turizm / YÜKSEK B2B", "aksiyon": "Aliağa B2B'ye kaydır (bakım-duruş/toplantı) + içerik/SEO + WhatsApp"},
+]
+# Web-reach ile her sezon başında güncellenmeli (zamanlanmış görev). Kaynaklar: docs/20.

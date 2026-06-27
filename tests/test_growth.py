@@ -78,3 +78,10 @@ def test_conversions_data():
     assert any(a["olay"] == "booking_offline" for a in dg.CONVERSION_ACTIONS)
     assert len(dg.OFFLINE_IMPORT_GOOGLE) >= 5 and len(dg.OFFLINE_IMPORT_META) >= 4
     assert len(dg.ENHANCED_MATCHING) >= 3 and len(dg.CALL_TRACKING) >= 4 and dg.CONVERSION_NOTE
+
+
+def test_events_ok(): assert main(["events", "-f", "json"]) == 0
+def test_events_data():
+    assert len(dg.LOCAL_EVENTS) >= 3
+    assert any("What A Fest" in e["etkinlik"] for e in dg.LOCAL_EVENTS)
+    assert all({"etkinlik", "tarih", "etki", "aksiyon"} <= set(e) for e in dg.LOCAL_EVENTS)

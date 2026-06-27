@@ -327,3 +327,18 @@ Test katmanı genişletildi: monkey/fuzz + HTML statik + Playwright e2e.
 
 ### Test
 - Varsayılan suite **405 pytest** (önceki 149 + 250 fuzz + 6 HTML), <2s. e2e ayrı/CI.
+
+## [1.15.7] — 2026-06-27
+Güncel web araştırması sisteme işlendi (web-reach, Haz 2026).
+
+### Eklendi
+- **`kads events`** — yerel talep etkinlikleri (kampanya zamanlama). Web araştırmasıyla:
+  **What A Fest Foça** (~20-24 Ağu + 13-17 Eyl 2026) konaklama talebi zirvesi → festivalden
+  3-4 hafta önce push, indirimi kıs. `data_growth.LOCAL_EVENTS`.
+- **`docs/20`** — güncel platform & pazar araştırması (kaynaklı): Google PMax kampanya-düzeyi
+  negatif kelime + asset-group raporu; **Display→Demand Gen göçü (Haz 2026)**; Meta Advantage+
+  varsayılan (Advantage+ Audience / Auto Image Stretch kontrol et); seyahatte Advantage+ ROAS.
+- **PMAX_NOTE** 2026 güncellemesiyle tazelendi (kampanya-düzeyi negatifler).
+
+### Test
+- `events` + LOCAL_EVENTS testleri. Tüm suite yeşil.

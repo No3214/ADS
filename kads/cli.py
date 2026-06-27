@@ -976,6 +976,15 @@ def cmd_conversions(args):
     return core.EX_OK
 
 
+# ---- buyume: yerel talep etkinlikleri (web-reach guncel) --------------------
+def cmd_events(args):
+    core.emit(dg.LOCAL_EVENTS, fmt=_fmt(args), title="Yerel talep etkinlikleri (kampanya zamanlama)",
+              columns=["etkinlik", "tarih", "etki", "aksiyon"])
+    if _fmt(args) == "table":
+        print(core.dim("\n  Web-reach ile her sezon guncelle (docs/20). Iliskili: kads season detail / allocate."))
+    return core.EX_OK
+
+
 # ---- selfcheck (kirilmaz / butunluk denetimi) -------------------------------
 def cmd_selfcheck(args):
     import json as _json, glob as _glob, tempfile as _tmp
@@ -1051,6 +1060,7 @@ def cmd_help(args: list[str]) -> int:
         ("attribution", "Attribution modeli + cift sayim dedup"),
         ("allocate [funnel|rules]", "Butce dagitim matrisi (kanal x huni x ay)"),
         ("conversions [offline|enhanced|calls]", "Donusum olcum dongusu (online + offline/call import)"),
+        ("events", "Yerel talep etkinlikleri (Foca festival vb.) + zamanlama"),
         ("selfcheck", "Sistem bütünlük denetimi (kırılmaz)"),
         ("build google|meta|seo|all [--out DIR]", "Import-hazır dosyalar üret"),
         ("validate", "RSA uzunluk + bütçe + CSV doğrulama"),
@@ -1094,6 +1104,7 @@ def main(argv: list[str] | None = None) -> int:
         "utm": cmd_utm, "attribution": cmd_attribution,
         "allocate": cmd_allocate,
         "conversions": cmd_conversions,
+        "events": cmd_events,
         "validate": cmd_validate, "guard": cmd_guard, "monitor": cmd_monitor, "brief": cmd_brief,
     }
     fn = table.get(cmd)
