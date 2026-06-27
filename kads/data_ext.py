@@ -24,7 +24,7 @@ GOOGLE_DISPLAY = {
         "Evcil dostlarınız ücretsiz. Sessiz, özel, mirasla iç içe bir kaçış.",
     ],
     "business_name": "Kozbeyli Konağı",
-    "final_url": "https://kozbeylikonagi.com/odalar",
+    "final_url": "https://www.kozbeylikonagi.com/odalar",
     "image_note": "Yatay 1.91:1 + kare 1:1 + logo yükle (cephe/oda/teras/kahvaltı).",
 }
 
@@ -269,3 +269,25 @@ B2B_PACKAGES = [
     {"paket": "Yüklenici kampı", "icerik": "uzun toplu konaklama + tam pansiyon + servis", "hedef": "bakım-duruş ekibi"},
 ]
 B2B_LOCATION = "Aliağa sanayi kalbine ~25–30 km (30–40 dk). Foça/Kozbeyli."
+
+# ---- ÖLÇÜM DURUMU (tarayıcıda canlı doğrulandı, Haz 2026) -------------------
+# Kaynak: www.kozbeylikonagi.com canlı beacon + Google Ads hesabı okuması.
+# `kads tracking` bunu raporlar. CANLI=çalışıyor, EKSİK=kurulmalı, KAPALI=ayar kapalı.
+TRACKING_STATE = [
+    {"bilesen": "GTM container (GTM-KCG6B4MJ)", "durum": "CANLI",
+     "detay": "Sitede yüklü + çalışıyor", "aksiyon": "Erişimi DOĞRULA (eski ajansta olabilir)"},
+    {"bilesen": "GA4 Config (G-V3R66C3MEF)", "durum": "EKSİK",
+     "detay": "GTM içinde GA4 Config etiketi yok", "aksiyon": "GTM'e GA4 Config (All Pages) ekle"},
+    {"bilesen": "Google Ads dönüşüm (AW-800024713)", "durum": "EKSİK",
+     "detay": "GTM'de Conversion Linker/Conversion yok → Ads 0 dönüşüm", "aksiyon": "Linker (All Pages) + Conversion (begin_checkout)"},
+    {"bilesen": "Meta Pixel (1781546559309505)", "durum": "CANLI",
+     "detay": "Tek pixel; PageView + InitiateCheckout ateşliyor", "aksiyon": "-"},
+    {"bilesen": "Meta Purchase (tamamlanan rezervasyon)", "durum": "EKSİK",
+     "detay": "Rezervasyon hmshotel.net'te biter, pixel orada yok", "aksiyon": "HMS onay sayfasına Purchase (value+currency)"},
+    {"bilesen": "Meta Advanced Matching", "durum": "KAPALI",
+     "detay": "Beacon'da kullanıcı-verisi yok", "aksiyon": "Events Manager → Automatic Advanced Matching AÇ (1 tık)"},
+    {"bilesen": "Site event'leri (begin_checkout / InitiateCheckout)", "durum": "ATIYOR",
+     "detay": "Tetikleyiciler sitede hazır", "aksiyon": "-"},
+    {"bilesen": "Conversions API (CAPI)", "durum": "YOK",
+     "detay": "Sadece tarayıcı-pixel", "aksiyon": "Opsiyonel: sunucu-taraflı CAPI + event dedup"},
+]

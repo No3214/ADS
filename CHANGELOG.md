@@ -1,5 +1,16 @@
 # Değişiklik Günlüğü
 
+## v1.24.0 — kads tracking komutu + ölçüm regresyon kilitleri + kalite (Haz 2026)
+- **kads tracking** komutu: ölçüm durumu (GTM/GA4/Ads/Pixel canlı mı + açık kalemler) — canlı doğrulanmış
+  veriden (data_ext.TRACKING_STATE). doctor'a "Ölçüm" satırı + help kaydı. json pipe-temiz.
+- **docs/24-gtm-etiket-kurulumu.md**: GA4 Config + Conversion Linker/Conversion (begin_checkout) + HMS Purchase
+  + container erişim/fallback + doğrulama. golive/GTM-KURULUM.html ile eşleşir.
+- **Regresyon testleri (tests/test_tracking.py, +12 → 419 test):** kozbeylikonagi.com.tr asla geri gelmez,
+  reklam URL'leri www, Yeni Foça bölge kelimeleri var, tracking komutu/JSON, config ölçüm alanları.
+- **www normalizasyonu:** data_ext final_url + display CSV www.kozbeylikonagi.com (reklam tıklamasında redirect hop yok).
+- **Kod kalitesi:** pyflakes temiz (seo.py ölü import, cli/core/meta placeholder'sız f-string'ler, test temizlikleri).
+
+
 ## v1.23.0 — Meta Pixel canlı denetimi (docs/23, Haz 2026)
 - **Tarayıcıda canlı beacon denetimi** (ana/odalar/rezervasyon). ÇALIŞAN: tek pixel 1781546559309505 (duplicate yok,
   güncel), PageView her sayfada, **InitiateCheckout /rezervasyon'da ATIYOR**. Pixel tabanı doğru.

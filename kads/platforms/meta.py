@@ -104,10 +104,10 @@ def build_sheet_md() -> str:
                 f"### {c['campaign']}",
                 f"- **Amaç (Objective):** {c['objective']}",
                 f"- **Bütçe:** {c['daily_try']} TL/gün ({c['monthly_try']} TL/ay) — CBO uygun",
-                f"- **Durum:** PAUSED (review'dan sonra ENABLE)",
+                "- **Durum:** PAUSED (review'dan sonra ENABLE)",
                 f"- **Kitle:** {c['audience']} (detay aşağıda)",
                 f"- **Optimizasyon olayı:** {c['optimize']}",
-                f"- **Yerleşim:** Advantage+ (otomatik)",
+                "- **Yerleşim:** Advantage+ (otomatik)",
                 f"- **Kreatifler:** {', '.join(c['concepts'])}",
                 "",
             ]

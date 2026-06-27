@@ -20,7 +20,6 @@ import csv
 import json
 from pathlib import Path
 
-from kads import data
 
 # ---- SEO-ozel dogrulanmis veri (web arastirmasi, Haziran 2026) -------------
 SEO = {

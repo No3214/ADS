@@ -1,6 +1,5 @@
 """kads veri + uretim testleri."""
 import json
-from pathlib import Path
 from kads import data, seo, presence
 from kads.platforms import google as gx
 from kads.platforms import meta as mx
@@ -51,7 +50,7 @@ def test_seo_schema_valid(tmp_path):
     assert d["telephone"] == "+905322342686"
     assert "geo" in d and "address" in d
     assert "aggregateRating" not in d, "sahte puan eklenmemeli"
-    res = dict(seo.build(tmp_path))
+    dict(seo.build(tmp_path))
     assert (tmp_path / "schema-lodgingbusiness.jsonld").exists()
 
 

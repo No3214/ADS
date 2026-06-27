@@ -109,6 +109,10 @@ def cmd_doctor(args: list[str]) -> int:
     writes = env.get("ADS_WRITES_ENABLED", "false").lower() == "true"
     add("ADS_WRITES_ENABLED", not writes, "kapalı (güvenli)" if not writes else "AÇIK — guardrail şart")
 
+    # 5) Ölçüm durumu (detay: kads tracking)
+    _eksik = sum(1 for r in dx.TRACKING_STATE if r["durum"] in ("EKSİK", "KAPALI", "YOK"))
+    add("Ölçüm (GTM/GA4/Ads/Pixel)", _eksik == 0, f"GTM+Pixel canlı; {_eksik} açık kalem → kads tracking")
+
     # 5) Guardrail import
     gp = ROOT / "scripts" / "guardrails.py"
     add("guardrails.py", gp.exists(), "var" if gp.exists() else "yok")
@@ -698,7 +702,7 @@ def cmd_status(args):
                "GOOGLE_PROJECT_ID", "GOOGLE_ADS_DEVELOPER_TOKEN") if core.is_placeholder(env.get(k, ""))]
     if fmt == "table":
         core.banner(f"kads status v{VERSION} - {data.HOTEL['name']}")
-        print(core.dim(f"  Komut: 40 - Test: pytest - Repo: github.com/No3214/ADS\n"))
+        print(core.dim("  Komutlar: kads help - Test: pytest - Repo: github.com/No3214/ADS\n"))
     core.emit(rows, fmt=fmt, columns=["paket", "yol", "dosya", "durum"])
     if fmt == "table":
         print()
@@ -741,6 +745,19 @@ def cmd_aeo(args):
         print(core.dim("\n  Sema listesi: kads aeo schema  -  Paket: aeo/ (robots/llms/hreflang/olcum/plan)"))
     return core.EX_OK
 
+
+
+def cmd_tracking(args):
+    """Ölçüm durumu raporu (GTM/GA4/Ads/Pixel) — canlı doğrulanmış veriden."""
+    fmt = _fmt(args)
+    if fmt == "table":
+        core.banner("kads tracking - ölçüm durumu (canlı doğrulandı Haz 2026)")
+    core.emit(dx.TRACKING_STATE, fmt=fmt, title="Ölçüm bileşenleri",
+              columns=["bilesen", "durum", "detay", "aksiyon"])
+    if fmt == "table":
+        eksik = sum(1 for r in dx.TRACKING_STATE if r["durum"] in ("EKSİK", "KAPALI", "YOK"))
+        print(core.dim(f"\n  {eksik} açık kalem. Detay: docs/23-24 + golive/GTM-KURULUM.html. EKSİK olanlar reklam öncesi şart."))
+    return core.EX_OK
 
 
 # ---- season / funnel / offers -----------------------------------------------
@@ -1061,6 +1078,7 @@ def cmd_help(args: list[str]) -> int:
         ("allocate [funnel|rules]", "Butce dagitim matrisi (kanal x huni x ay)"),
         ("conversions [offline|enhanced|calls]", "Donusum olcum dongusu (online + offline/call import)"),
         ("events", "Yerel talep etkinlikleri (Foca festival vb.) + zamanlama"),
+        ("tracking", "Olcum durumu: GTM/GA4/Ads/Pixel canli mi + acik kalemler"),
         ("selfcheck", "Sistem bütünlük denetimi (kırılmaz)"),
         ("build google|meta|seo|all [--out DIR]", "Import-hazır dosyalar üret"),
         ("validate", "RSA uzunluk + bütçe + CSV doğrulama"),
@@ -1104,7 +1122,7 @@ def main(argv: list[str] | None = None) -> int:
         "utm": cmd_utm, "attribution": cmd_attribution,
         "allocate": cmd_allocate,
         "conversions": cmd_conversions,
-        "events": cmd_events,
+        "events": cmd_events, "tracking": cmd_tracking,
         "validate": cmd_validate, "guard": cmd_guard, "monitor": cmd_monitor, "brief": cmd_brief,
     }
     fn = table.get(cmd)

@@ -35,7 +35,7 @@ JSON_READONLY = [
     ["conversions", "offline"], ["conversions", "enhanced"], ["allocate"],
     ["allocate", "funnel"], ["utm"], ["utm", "rules"], ["attribution"], ["pmax"],
     ["pmax", "specs"], ["demandgen"], ["remarketing"], ["remarketing", "flow"],
-    ["competitors"], ["audiences"], ["plan"], ["budget"], ["keywords"], ["kpi"],
+    ["competitors"], ["audiences"], ["plan"], ["budget"], ["keywords"], ["kpi"], ["tracking"],
 ]
 @pytest.mark.parametrize("cmd", JSON_READONLY, ids=lambda c: "_".join(c))
 def test_json_pipe_clean(capsys, cmd):
