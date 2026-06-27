@@ -1,5 +1,13 @@
 # Değişiklik Günlüğü
 
+## v1.28.0 — Canlı site sayfa-içi SEO + şema denetimi (docs/26) (Haz 2026)
+- **docs/26**: tarayıcıda canlı denetim. SONUÇ: site SEO'su GÜÇLÜ — title/meta/tek-H1/hreflang(tr/en/x-default) düzgün;
+  JSON-LD zengin: Hotel/LodgingBusiness/Restaurant + BreadcrumbList her sayfada, **ana sayfada FAQPage** (AEO ideal);
+  robots tüm AI botlarına açık + sitemap canlı. Darboğaz on-page değil → ölçüm (docs/24) + GSC/Bing (docs/25) + yorum.
+- Küçük fırsat: HotelRoom şeması + Meta ViewContent (oda sayfaları). 
+- ⚠️ DOĞRULANACAK: "Foça'ya 13 km" sitede teyit edilmedi (MEB: Eski Foça ~22 km / Yeni Foça ~10 km); güvenli dil "Yeni Foça'ya yakın".
+
+
 ## v1.27.0 — Search Console + Bing kurulum (Vercel DNS) + eski-altyapı referans temizliği (Haz 2026)
 - **docs/25-search-console-bing-kurulum.md**: GSC Domain mülkü = `kozbeylikonagi.com` (ekrandaki "wwwkozbeylikonagi.com"
   typo'su düzeltildi); DNS = Vercel (ns1/ns2.vercel-dns.com) → TXT VERCEL'e eklenir (mevcut SPF'e dokunma); sitemap submit
