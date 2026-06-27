@@ -353,3 +353,17 @@ Dijital varlık denetimi web-reach ile güncel gerçeğe çekildi (Haz 2026).
   Google listing + GBP'deki yanlış numarayı temizlemek.
 - `docs/09`'a tarihli "web-reach doğrulaması (27 Haz 2026)" bölümü + kaynak eklendi.
 - Bulgular sinyal düzeyinde: Rich Results Test + GBP + tarayıcıyla kesinleştirilmeli.
+
+## [1.15.9] — 2026-06-27
+Güncel rakip + itibar istihbaratı (web-reach, Haz 2026) sisteme işlendi.
+
+### Eklendi/Güncellendi
+- **COMPETITORS +3 doğrulanmış rakip:** La Petra (direkt taş-butik), Griffon Hotel Foça,
+  Dionysos 1789 (canlı aramayla). `kads competitors` artık 7 rakip.
+- **İtibar tablosu (competitors/rakipler.md):** TripAdvisor 3.0/5 (60 yorum) DÜŞÜK ama
+  Otelpuan 8.6/10 (81) ve Yandex 4.3/5 (43) İYİ. **İçgörü:** sorun spesifik olarak TripAdvisor
+  → yorum-toplama kampanyasını oraya yönelt (fixes/06); Otelpuan/Yandex gücünü vurgula.
+- Misafir övgüsü teması (atmosfer/kahvaltı/personel) → reklam mesajına taşınacak. Kaynaklı.
+
+### Test
+- Tüm suite yeşil (rakip/itibar veri + komut).
