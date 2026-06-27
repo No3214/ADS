@@ -142,3 +142,22 @@ trip.com, easemytrip, instagram.com/kozbeylikonagi, facebook.com/kozbeylikonagi,
 Otel/Maps paneli, kozbeyli-konagi.hmshotel.net.
 Erişilemeyen: IG/FB iç sayfalar (login); .com JSON-LD/hreflang (fetch'te görünmedi —
 tarayıcı denetimiyle teyit); .com.tr body (base64 görsel).
+
+---
+
+## Güncel web-reach doğrulaması (27 Haz 2026)
+
+Denetim bulguları canlı çekimle (web-reach `fetch.py`) tazelendi. **Sinyaller** — kesinleştirmek
+için Google Rich Results Test + GBP + tarayıcıyla teyit edilmeli:
+
+- **`kozbeylikonagi.com` (gerçek site):** HTTP 200. **JSON-LD VAR** — `@type`: PostalAddress,
+  GeoCoordinates, LocationFeatureSpecification (amenity). Yani "schema yok" bulgusu **artık
+  geçerli değil**; aksiyon "ekle"den **"denetle/tamamla"ya** döndü (Hotel/Restaurant/FAQPage/
+  HotelRoom tam mı?). Telefon **+90 532 234 2686 (doğru)**.
+- **`kozbeylikonagiotel.com` (parazit):** Jina reader "Domain could not be resolved" (DNS) →
+  **muhtemelen ölü/kaldırılmış.** Yanlış telefon (0232 218 2109) sayfadan gelmedi. Risk Kritik'ten
+  Orta'ya düştü; iş artık **Google'da kalan listing + GBP'deki yanlış numarayı** temizlemek.
+- **`kozbeylikonagi.com.tr` (kabuk):** HTTP 200, ~7.3K metin + 11 "kozbeyli" geçişi → eskisi gibi
+  tamamen image-only olmayabilir; yine de canonical `.com`, diğerleri 301 önerisi geçerli.
+
+Kaynak: web-reach fetch.py (jina_reader/direct), 27 Haz 2026. Her sezon yeniden doğrula.

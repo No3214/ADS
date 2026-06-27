@@ -342,3 +342,14 @@ Güncel web araştırması sisteme işlendi (web-reach, Haz 2026).
 
 ### Test
 - `events` + LOCAL_EVENTS testleri. Tüm suite yeşil.
+
+## [1.15.8] — 2026-06-27
+Dijital varlık denetimi web-reach ile güncel gerçeğe çekildi (Haz 2026).
+
+### Düzeltildi (denetim güncellemesi)
+- **`.com` schema:** canlı çekim JSON-LD VAR gösteriyor (PostalAddress+Geo+amenity). "Schema yok"
+  bulgusu güncellendi → aksiyon "ekle"den "Rich Results ile denetle/tamamla"ya döndü (presence.py + docs/09).
+- **Parazit `kozbeylikonagiotel.com`:** DNS'te çözülmüyor → muhtemelen ölü; Kritik→Orta. İş artık
+  Google listing + GBP'deki yanlış numarayı temizlemek.
+- `docs/09`'a tarihli "web-reach doğrulaması (27 Haz 2026)" bölümü + kaynak eklendi.
+- Bulgular sinyal düzeyinde: Rich Results Test + GBP + tarayıcıyla kesinleştirilmeli.
