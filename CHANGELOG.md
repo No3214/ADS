@@ -1,5 +1,12 @@
 # Değişiklik Günlüğü
 
+## v1.26.0 — Yayına-hazır içerik paketi (bitmiş kopya, ücretsiz kanal) (Haz 2026)
+- **content/hazir-icerik-paketi.md**: kopyala-yapıştır BİTMİŞ içerik (üretilen takvim generic'ti). 6 GBP postu +
+  6 Instagram caption + 5 Reels (hook/ekran yazısı) + sezon/What A Fest + hashtag bankası.
+- Doğrulanmış konumlandırma: Kozbeyli/Yeni Foça/dibek kahvesi, 600-yıl taş konak, köy kahvaltısı, evcil, 200 kişi etkinlik;
+  rakipten fark "huzur+köy+restoran+tarih" (denize sıfır değil); tek Türkçe CTA + gerçek iletişim (0532 234 2686 / .com).
+
+
 ## v1.25.0 — README index + haftalık görev güncel bulgularla (Haz 2026)
 - README komut tablosuna `kads events` + `kads tracking` eklendi; docs index 22-24'e kadar güncellendi.
 - Haftalık zamanlı görev (kozbeyli-haftalik-kontrol) güçlendirildi: kads tracking ölçüm durumu + "Search / Foça Otel"
