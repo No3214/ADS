@@ -379,3 +379,24 @@ Sahip-dostu tek-sayfa go-live eylem planı.
 
 ### Test
 - HTML statik test yeni sayfayı kapsıyor. Tüm suite yeşil.
+
+## [1.16.0] — 2026-06-27
+Canlı hesap verisiyle Google Ads yeniden kurulumu + KRİTİK URL düzeltmesi.
+
+### Düzeltildi (kritik)
+- **Ölü domain URL'leri:** TÜM reklam/uzantı final URL'leri `kozbeylikonagi.com.tr` (ölü kabuk)
+  yerine çalışan **`www.kozbeylikonagi.com`** + doğru yollara (/rezervasyon /odalar /gastronomi
+  /organizasyonlar /galeri /lokasyon) çekildi. Canlı hesaptaki **"Onaylanmadı — Çalışmayan hedef"**
+  reddinin kök sebebi buydu; düzeltildi.
+
+### Eklendi/Güncellendi (gerçek veri)
+- **Anahtar kelimeler:** canlı hesabın kazananları eklendi — otel foça (%9,99 TO), foça konaklama
+  (%10,12), eski foça otel(leri), foça kozbeyli, foça antik otel, kozbeyli konağı yorum. 39 kelime.
+- **Negatifler 57→90:** arama terimi madenciliğiyle boşa-harcama — plaj/beach/kamp/glamping,
+  başka şehirler, rakip isimleri (gaia/saklı cennet/club med/voodoo/kybele). Küçük bütçede en güçlü kaldıraç.
+- **docs/21** — canlı hesap analizi + yeniden kurulum planı (eskiyi kapat/yeni kalsın) + Maps/organik #1.
+- Import-hazır CSV'ler `campaigns/google-editor/` yeniden üretildi (PAUSED, çalışan URL'ler).
+
+### Not
+- Customer ID 648-937-2864 doğrulandı + .env'e girildi. Hesapta ~₺70.700 ömür-boyu harcama,
+  çoğu zayıf-TO eski yapılarda. Yeni temiz kampanya hazır.

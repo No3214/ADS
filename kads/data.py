@@ -17,7 +17,7 @@ from __future__ import annotations
 HOTEL = {
     "name": "Kozbeyli Konağı",
     "type": "Butik / tarihi taş konak oteli",
-    "site": "kozbeylikonagi.com.tr",
+    "site": "www.kozbeylikonagi.com",
     "address": "Kozbeyli Köyü, Küme Evler No:188, 35680 Foça / İzmir",
     "geo": {"village": "Kozbeyli", "town": "Foça", "city": "İzmir", "country": "TR"},
     "distance_foca_km": 13,
@@ -91,6 +91,7 @@ KEYWORDS = {
             "kozbeyli konağı", "kozbeyli konagi", "kozbeyli konağı otel",
             "kozbeyli konağı foça", "kozbeyli konağı rezervasyon",
             "kozbeyli konağı fiyat", "kozbeyli konağı izmir", "kozbeyli butik otel",
+            "kozbeyli konağı yorum", "kozbeyli otel", "foça kozbeyli konağı",
         ],
     },
     "NonBrand-Foca-Butik": {  # Yuksek niyetli yeni talep
@@ -99,6 +100,7 @@ KEYWORDS = {
             "foça butik otel", "foça taş ev otel", "foça konak otel",
             "eski foça butik otel", "foça köy oteli", "foça otantik otel",
             "kozbeyli köyü otel", "kozbeyli konaklama",
+            "eski foça otel", "foça kozbeyli", "foça antik otel", "eski foça konak otel",
         ],
     },
     "NonBrand-Foca-Genel": {  # Daha genis ama yine niyetli
@@ -107,6 +109,7 @@ KEYWORDS = {
             "foça otel", "foça otelleri", "foça konaklama",
             "foça deniz manzaralı otel", "foça balayı oteli",
             "foça evcil hayvan kabul eden otel", "foça hafta sonu kaçamağı otel",
+            "otel foça", "eski foça otelleri", "yeni foça otelleri", "foça merkez otel",
         ],
     },
     "NonBrand-Niche": {  # Konsept/deneyim niyeti
@@ -139,13 +142,22 @@ NEGATIVES = [
     "booking", "trivago", "etstur", "tatilsepeti", "jolly", "obilet",
     # alakasiz arama
     "düğün salonu fiyat", "iş başvurusu", "telefon numarası rehber",
+    # --- canli hesap arama terimi madenciligi (Haz 2026): bos-harcama ---
+    "plaj", "plajları", "beach", "koylar", "deniz", "glamping", "bungalow",
+    "orman kampı", "dome", "öğretmenevi", "sosyal tesis", "tesisleri",
+    "gezilecek", "kordon", "kemeraltı", "seyir tepesi", "bostanlı",
+    # alakasiz lokasyonlar (gercek terimlerden)
+    "urla", "manisa", "bergama", "dikili", "karaburun", "sasalı", "şakran",
+    "nazarköy", "çiçekli", "aliağa kiralık",
+    # rakip isimleri (markalarini biz odemeyelim)
+    "gaia", "saklı cennet", "club med", "voodoo", "kybele", "palandız",
 ]
 
 # ---- GOOGLE: RSA varliklari (reklam grubu bazinda) -------------------------
 # Basliklar <=30, aciklamalar <=90 karakter. Dogrulanamayan iddia ("en ucuz") YOK.
 RSA = {
     "Marka": {
-        "final_url": "https://kozbeylikonagi.com.tr/rezervasyon",
+        "final_url": "https://www.kozbeylikonagi.com/rezervasyon",
         "path1": "Foca", "path2": "Rezervasyon",
         "headlines": [
             "Kozbeyli Konağı Resmî",          # marka + resmi sinyali
@@ -172,7 +184,7 @@ RSA = {
         ],
     },
     "NonBrand": {
-        "final_url": "https://kozbeylikonagi.com.tr/odalar",
+        "final_url": "https://www.kozbeylikonagi.com/odalar",
         "path1": "Foca", "path2": "Butik-Otel",
         "headlines": [
             "Foça'da Taş Konak Oteli",
@@ -203,17 +215,17 @@ RSA = {
 # ---- GOOGLE: uzantilar (sitelink/callout/snippet) --------------------------
 SITELINKS = [
     {"text": "Odalar", "desc1": "16 özel tasarım oda", "desc2": "Deniz manzaralı seçenekler",
-     "url": "https://kozbeylikonagi.com.tr/odalar"},
+     "url": "https://www.kozbeylikonagi.com/odalar"},
     {"text": "Restoran ve Mutfak", "desc1": "Antakya ve Ege sofrası", "desc2": "Organik köy kahvaltısı",
-     "url": "https://kozbeylikonagi.com.tr/restoran"},
+     "url": "https://www.kozbeylikonagi.com/gastronomi"},
     {"text": "Galeri ve Foça", "desc1": "Konak ve köy fotoğrafları", "desc2": "Çevre gezi önerileri",
-     "url": "https://kozbeylikonagi.com.tr/galeri"},
+     "url": "https://www.kozbeylikonagi.com/galeri"},
     {"text": "Rezervasyon", "desc1": "Doğrudan ve komisyonsuz", "desc2": "Hızlı tarih seçimi",
-     "url": "https://kozbeylikonagi.com.tr/rezervasyon"},
+     "url": "https://www.kozbeylikonagi.com/rezervasyon"},
     {"text": "İletişim ve Yol Tarifi", "desc1": "Telefon ve WhatsApp", "desc2": "Foça'ya 13 km",
-     "url": "https://kozbeylikonagi.com.tr/iletisim"},
+     "url": "https://www.kozbeylikonagi.com/lokasyon"},
     {"text": "Etkinlik ve Düğün", "desc1": "Tarihi konak atmosferi", "desc2": "Özel organizasyon",
-     "url": "https://kozbeylikonagi.com.tr/etkinlik"},
+     "url": "https://www.kozbeylikonagi.com/organizasyonlar"},
 ]
 CALLOUTS = [
     "Ücretsiz otopark", "Organik köy kahvaltısı", "Evcil hayvan dostu",
