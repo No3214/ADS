@@ -1,5 +1,14 @@
 # Değişiklik Günlüğü
 
+## v1.22.0 — Canlı hesap+site teşhisi: GTM zaten canlı, eksik=GTM-içi GA4/Ads etiketi (Haz 2026)
+- **Tarayıcıda canlı okuma.** Google Ads (648-937-2864): 8 kampanya — 1 ETKİN "Search / Foça Otel" ₺300/gün, ₺8.642
+  harcama/1453 tık/%11.6 TO ama **0 dönüşüm (kör harcama)**; 6 duraklatılmış, 1 kaldırılmış. Hesap geneli 0 dönüşüm.
+- **Site ölçümü doğrulandı:** GTM-KCG6B4MJ CANLI + Meta Pixel CANLI + begin_checkout dataLayer event ATIYOR; Ezely yok.
+  **EKSİK = GTM-içi GA4 Config (G-V3R66C3MEF) + Google Ads Conversion (AW-800024713) → 0 dönüşümün kesin sebebi.**
+- **golive/GTM-KURULUM.html yeniden yazıldı**: "GTM kur" değil → "GTM canlı, içine 2 etiket + Ads conversion action".
+  config gtm_status: LIVE; meta_pixel_status: LIVE; measurement_gap eklendi. Site eskiden Ezely altyapısındaydı.
+
+
 ## v1.21.0 — GBP içerik zenginleştirme: Yeni Foça + Q&A + İngilizce katman (Haz 2026)
 - **profiles/google-isletme-profili.md**: açıklamaya "Yeni Foça'ya yakın" eklendi; Q&A 6→12 (dışarıdan kahvaltı,
   aile odası, düğün, rezervasyon nasıl, Yeni Foça); **İngilizce description + Q&A** (yabancı hacim İng/Alm — AEO/AI).

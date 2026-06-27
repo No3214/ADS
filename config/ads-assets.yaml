@@ -26,9 +26,11 @@ tracking:
   ga4_measurement_id: "G-V3R66C3MEF"
   google_ads_tag_id: "AW-800024713"
   meta_pixel_id: "1781546559309505"
-  gtm_status: "chosen-deploy-pending"          # Secildi: KCG6B4MJ. Site Next.js -> ConsentAndGtm.tsx ile deploy.
-  gtm_container_id: "GTM-KCG6B4MJ"             # Tek container; deploy sonrasi gtm_status: resolved yap.
-  gtm_archived: "GTM-MSL2FLF5"                 # Duplikat; GTM hesabinda arsivle/sil.
+  gtm_status: "LIVE"                           # KCG6B4MJ .com sitesinde CANLI (tarayicida dogrulandi Haz 2026).
+  gtm_container_id: "GTM-KCG6B4MJ"             # Sitede yuklu + calisiyor.
+  gtm_archived: "GTM-MSL2FLF5"                 # Duplikat; GTM hesabinda arsivle.
+  meta_pixel_status: "LIVE"                    # fbq + pixel 1781546559309505 sitede calisiyor.
+  measurement_gap: "GTM-ICI GA4 Config (G-V3R66C3MEF) + Google Ads Conv.Linker/Conversion (AW-800024713) YOK -> Ads 0 donusum. begin_checkout dataLayer event SITEDE ATIYOR (trigger hazir)."
   consent_mode_v2: "default_denied"            # EEA zorunlu; KVKK icin en guvenli varsayilan.
   cross_domain_domains:
     - "kozbeylikonagi.com"

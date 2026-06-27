@@ -1,77 +1,60 @@
 <!doctype html><html lang="tr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GTM Kurulum — Kozbeyli Konağı (site geliştiricine ver)</title>
+<title>Ölçüm Kurulumu — Kozbeyli Konağı (GTM canlı, 2 etiket eksik)</title>
 <style>
 :root{--ink:#1a1a1a;--muted:#666;--line:#e5e5e5;--accent:#8a6d3b;--bg:#faf8f5;--ok:#2e7d32;--warn:#b00020}
 *{box-sizing:border-box}body{font:16px/1.6 -apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);max-width:860px;margin:0 auto;padding:32px 22px;background:#fff}
-h1{font-size:25px;margin:0 0 4px;border-bottom:3px solid var(--accent);padding-bottom:10px}
-h2{font-size:18px;margin:26px 0 8px;color:var(--accent)}
-.sub{color:var(--muted);margin:0 0 18px}
+h1{font-size:24px;margin:0 0 4px;border-bottom:3px solid var(--accent);padding-bottom:10px}
+h2{font-size:18px;margin:24px 0 8px;color:var(--accent)}
+.sub{color:var(--muted);margin:0 0 16px}
 .box{background:var(--bg);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:12px 16px;margin:12px 0}
-.warn{border-left-color:var(--warn);background:#fdf2f3}
-.ok{border-left-color:var(--ok);background:#f1f8f2}
-code,pre{font-family:ui-monospace,Consolas,monospace}
-pre{background:#1e1e1e;color:#e8e8e8;padding:14px 16px;border-radius:8px;overflow:auto;font-size:13px;line-height:1.5}
-table{border-collapse:collapse;width:100%;margin:10px 0;font-size:14px}
-th,td{border:1px solid var(--line);padding:7px 10px;text-align:left}th{background:var(--bg)}
-ol li{margin:6px 0}.tag{display:inline-block;background:var(--accent);color:#fff;border-radius:4px;padding:1px 8px;font-size:12px;font-weight:600}
-@media print{body{padding:0}pre{border:1px solid #ccc}}
+.warn{border-left-color:var(--warn);background:#fdf2f3}.ok{border-left-color:var(--ok);background:#f1f8f2}
+code{background:#f3efe9;padding:1px 6px;border-radius:3px;font-size:14px}
+table{border-collapse:collapse;width:100%;margin:8px 0;font-size:14px}th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}th{background:var(--bg)}
+ol li{margin:7px 0}.tag{display:inline-block;border-radius:4px;padding:1px 8px;font-size:12px;font-weight:600}
+.t-ok{background:#e6f4ea;color:#1e7a34}.t-no{background:#fdecef;color:#b00020}
+@media print{body{padding:0}}
 </style></head><body>
 
-<h1>GTM Kurulumu — Kozbeyli Konağı</h1>
-<p class="sub">Bu sayfayı sitenizin (<b>www.kozbeylikonagi.com</b>) geliştiricisine verin. ~30 dk işdir. Bu adım bitmeden reklam yayına alınmamalı: dönüşüm (rezervasyon) ölçülemezse bütçe körlemesine harcanır.</p>
+<h1>Ölçüm Kurulumu — Kozbeyli Konağı</h1>
+<p class="sub">Tarayıcıda canlı `www.kozbeylikonagi.com` ölçüldü (Haz 2026). Site artık sizin altyapınızda (eski Ezely değil). Durum net — bu sayfayı GTM/ölçümü yönetecek kişiye verin.</p>
 
-<div class="box warn"><b>Mevcut durum:</b> Sitede Google Tag Manager <b>kurulu değil</b>. Site <b>Next.js</b> (istemci-render) — etiketler JavaScript ile eklenmeli. Tek container kullanılacak: <span class="tag">GTM-KCG6B4MJ</span>. İkinci aday <code>GTM-MSL2FLF5</code> duplikat → GTM hesabında <b>arşivle/sil</b> (çift sayımı önler).</div>
-
-<h2>Hangi ID'ler nereye</h2>
+<div class="box ok"><b>Zaten ÇALIŞAN (dokunmayın):</b>
 <table>
-<tr><th>Servis</th><th>ID</th><th>Nasıl</th></tr>
-<tr><td>GTM Container</td><td><code>GTM-KCG6B4MJ</code></td><td>Siteye eklenecek (aşağıda)</td></tr>
-<tr><td>GA4</td><td><code>G-V3R66C3MEF</code></td><td>GTM <i>içinde</i> GA4 Config tag</td></tr>
-<tr><td>Google Ads</td><td><code>AW-800024713</code></td><td>GTM içinde Conversion Linker + Conversion</td></tr>
-<tr><td>Meta Pixel</td><td><code>1781546559309505</code></td><td>GTM içinde Custom HTML (base code)</td></tr>
+<tr><th>Bileşen</th><th>Durum</th></tr>
+<tr><td>GTM container <code>GTM-KCG6B4MJ</code></td><td><span class="tag t-ok">CANLI</span> sitede yüklü ve çalışıyor</td></tr>
+<tr><td>Meta Pixel <code>1781546559309505</code></td><td><span class="tag t-ok">CANLI</span> fbq çalışıyor</td></tr>
+<tr><td><code>begin_checkout</code> dataLayer event'i</td><td><span class="tag t-ok">ATIYOR</span> rezervasyon akışında tetikleniyor</td></tr>
+<tr><td>JSON-LD şema</td><td><span class="tag t-ok">VAR</span></td></tr>
 </table>
+</div>
 
-<h2>Yol A — Next.js component (önerilen, repoda hazır)</h2>
-<p>Depoda <code>tracking/ConsentAndGtm.tsx</code> + <code>tracking/implementation/01-consent-mode-v2.html</code> hazır. Component'i <code>app/layout.tsx</code> (veya <code>_app.tsx</code>) içine ekleyin, GTM ID = <code>GTM-KCG6B4MJ</code>. Consent Mode v2 (KVKK) dahil gelir.</p>
+<div class="box warn"><b>EKSİK olan ve Google Ads'in 0 dönüşüm göstermesinin KESİN sebebi:</b> GTM container'ın <b>içinde</b> GA4 ve Google Ads etiketleri kurulu değil. <code>google_tag_manager</code>'da <code>G-</code> ve <code>AW-</code> yok. Yani site sinyal gönderiyor ama GTM onu GA4/Ads'e iletmiyor. <b>GTM'i yeniden kurmaya GEREK YOK</b> — sadece içine 2-3 etiket eklenecek.</div>
 
-<h2>Yol B — Ham snippet (component kullanılmıyorsa)</h2>
-<p><b>1.</b> Her sayfanın <code>&lt;head&gt;</code> en üstüne (Next.js'te <code>next/script</code> strategy="afterInteractive"):</p>
-<pre>&lt;!-- Google Tag Manager --&gt;
-&lt;script&gt;(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;
-j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-KCG6B4MJ');&lt;/script&gt;
-&lt;!-- End Google Tag Manager --&gt;</pre>
-<p><b>2.</b> <code>&lt;body&gt;</code> açılışına (noscript fallback):</p>
-<pre>&lt;!-- Google Tag Manager (noscript) --&gt;
-&lt;noscript&gt;&lt;iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KCG6B4MJ"
-height="0" width="0" style="display:none;visibility:hidden"&gt;&lt;/iframe&gt;&lt;/noscript&gt;
-&lt;!-- End Google Tag Manager (noscript) --&gt;</pre>
-
-<div class="box warn"><b>ÇİFT SAYIM UYARISI:</b> Sitede halihazırda doğrudan gömülü <code>gtag.js</code> (GA4/Ads) veya <code>fbq</code> (Meta Pixel) varsa, bunları <b>kaldırın</b>. Hepsi artık <b>yalnızca GTM içinden</b> yönetilecek. İki yerden yüklenirse veriler iki katına çıkar ve bozulur.</div>
-
-<h2>GTM panelinde (tagmanager.google.com, GTM-KCG6B4MJ)</h2>
+<h2>GTM panelinde yapılacak (tagmanager.google.com → GTM-KCG6B4MJ)</h2>
 <ol>
-<li><b>GA4 Configuration</b> tag → Measurement ID <code>G-V3R66C3MEF</code>, trigger: All Pages.</li>
-<li><b>Conversion Linker</b> tag → trigger: All Pages (Ads için şart).</li>
-<li><b>Google Ads Conversion</b> → ID <code>AW-800024713</code>, "rezervasyon tamamlandı" tetikleyici (HMS onay sayfası / purchase event).</li>
-<li><b>Meta Pixel base</b> (Custom HTML) → <code>1781546559309505</code>, All Pages.</li>
-<li><b>Cross-domain:</b> GA4 Config → Configure tag settings → "domains to link": <code>kozbeylikonagi.com</code> + <code>hmshotel.net</code>. GA4 admin'de <code>hmshotel.net</code>'i referral exclusion'a ekleyin (rezervasyon ayrı domende).</li>
-<li><b>begin_checkout / purchase</b> dataLayer event'leri: <code>tracking/implementation/04-datalayer-events.md</code>'deki şemaya göre. HMS onay snippet: <code>tracking/hms-confirmation-snippet.html</code>.</li>
-<li><b>Submit/Publish</b> (GTM'de yayınlamadan canlıya geçmez).</li>
+<li><b>GA4 Configuration / Google Tag</b> → Measurement ID <code>G-V3R66C3MEF</code> · Trigger: <b>All Pages</b>.</li>
+<li><b>Google Ads Conversion Linker</b> → Trigger: <b>All Pages</b> (Ads dönüşümü için şart).</li>
+<li><b>Google Ads Conversion Tracking</b> → Conversion ID <code>AW-800024713</code> + (Google Ads'te oluşturacağınız) Conversion Label · Trigger: <b>Custom Event = <code>begin_checkout</code></b> (rezervasyon başlangıcı). İdeal: HMS onay/teşekkür sayfasında bir <code>purchase</code> event'i ile gerçek tamamlanan rezervasyonu da ölç.</li>
+<li><b>GA4 Event</b> (opsiyonel ama önerilir) → <code>begin_checkout</code>'u GA4'e de event olarak gönder (huni analizi).</li>
+<li><b>Submit → Publish</b> (yayınlamadan canlı olmaz).</li>
 </ol>
+
+<h2>Google Ads tarafında (ads.google.com → Araçlar → Dönüşümler)</h2>
+<ol>
+<li>Yeni <b>Conversion action</b> oluştur: tür "Website" veya "Import" — kaynak rezervasyon. Conversion Label'ı al, yukarıdaki GTM etiketine yapıştır.</li>
+<li>Dönüşüm değeri: rezervasyon başına ortalama tutar (veya HMS'ten gerçek değer) — opsiyonel ama ROAS için faydalı.</li>
+<li>WhatsApp/telefon/harita tıklamalarını da dönüşüm olarak ekleyebilirsin (mikro-dönüşüm).</li>
+</ol>
+
+<div class="box warn"><b>Sıra önemli — para yakmamak için:</b> Hesapta <b>"Search / Foça Otel" kampanyası ŞU AN AÇIK, ₺300/gün</b> harcıyor ama dönüşüm ölçülmediği için 1.453 tıklamadan rezervasyon geldi mi belli değil. Bu etiketler yayına girip <b>test rezervasyonla doğrulanana</b> kadar yeni kampanya açma; bu kör kampanyayı da duraklatmayı değerlendir.</div>
 
 <h2>Doğrulama (yayın öncesi şart)</h2>
 <ol>
-<li><b>Tag Assistant</b> (tagassistant.google.com) → siteyi bağla → <code>GTM-KCG6B4MJ</code> ateşliyor mu? Tek container mı?</li>
-<li>GTM <b>Preview</b> ile siteyi gez → GA4 Config + Conversion Linker All Pages'te ateşliyor mu?</li>
-<li><b>Test rezervasyon</b> yap → GA4 <b>DebugView</b>'da <code>begin_checkout</code> ve <code>purchase</code> görünüyor mu? Ads'te dönüşüm "kaydediliyor" mu?</li>
-<li>Hepsi yeşilse: <code>config/ads-assets.yaml</code> → <code>gtm_status: resolved</code> yapın; reklamlar enable edilebilir.</li>
+<li>GTM <b>Preview</b> + Tag Assistant → GA4 Config + Conversion Linker All Pages'te ateşliyor mu?</li>
+<li><b>Test rezervasyon</b> yap → GA4 <b>DebugView</b>'da <code>begin_checkout</code>/<code>purchase</code> görünüyor mu? Google Ads → Dönüşümler'de "kaydediliyor" durumuna geçti mi?</li>
+<li>Yeşilse: yeni temiz kampanya paketi (campaigns/google-editor) Editor'dan import → enable; eski kampanyalar kapalı kalsın.</li>
 </ol>
 
-<div class="box ok"><b>Bitince:</b> ölçüm kapalı→açık olur. Ancak o zaman Google/Meta akıllı teklif öğrenebilir ve kısıtlı bütçe doğru yere gider. Sıra: (1) bu GTM kurulumu → (2) test rezervasyonla doğrulama → (3) yeni kampanyaları enable → (4) eski 7 kampanyayı durdur.</div>
-
-<p class="sub" style="margin-top:24px">Kozbeyli Konağı reklam/dijital sistemi · github.com/No3214/ADS · v1.18.0</p>
+<p class="sub" style="margin-top:20px">Kozbeyli Konağı dijital sistemi · github.com/No3214/ADS · v1.22.0 · kaynak: tarayıcı canlı ölçüm Haz 2026 (GTM-KCG6B4MJ, Pixel, begin_checkout doğrulandı)</p>
 </body></html>
