@@ -30,12 +30,12 @@ PROPERTIES = [
 
 # Onceliklendirilmis duzeltme listesi (docs/09 ile birebir)
 FIXES = [
-    (1, "Tek marka domaini + tek telefon", ".com", "Yüksek",
-     ".com tek kanonik (Haz 2026: .com.tr TERK EDİLDİ, menü .com'a taşındı); tek numara +90 532 234 2686"),
+    (1, "Tek kanonik domain + tek telefon", ".com", "Yüksek",
+     "Tek odak www.kozbeylikonagi.com; tek numara +90 532 234 2686 (her kanalda birebir)"),
     (2, "Parazit otel.com (Haz 2026: DNS çözülmüyor = muht. ölü)", "otel.com", "Orta",
      "Site ölü görünüyor; Google'da kalan listing + GBP numarasını teyit/temizle"),
-    (3, ".com.tr TERK EDİLDİ (menü .com'a taşındı)", "-", "Kapandı",
-     "Çözüldü: artık kullanılmıyor; tüm reklam/SEO .com'a işaret ediyor"),
+    (3, ".com.tr KAPSAM DIŞI (sahip ayrı yönetiyor)", ".com.tr", "Düşük",
+     "Sistemin tek odağı .com; .com.tr gündem değil (Yunuscan: sil kafandan). Reklam/SEO zaten .com."),
     (4, "Google Business sahiplik + NAP standardı", "Google/OTA", "Kritik",
      "GBP sahiplen; NAP tek standart (Foça vs Yenifoça)"),
     (5, "JSON-LD VAR ama tamlık şüpheli (Haz 2026)", ".com", "Yüksek",

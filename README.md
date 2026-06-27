@@ -99,9 +99,9 @@ raporlama=Always allow, oluşturma/bütçe/pause=Needs approval, silme/ödeme=Bl
 Yeni kampanyalar PAUSED. Yazma varsayılan KAPALI. Token/secret asla sohbete/GitHub'a/URL'ye.
 
 ## 🔎 Dijital varlık denetimi (en kritik bulgular — `docs/09`)
-- **Tek aktif marka domaini: `.com`** (Haz 2026: `.com.tr` TERK EDİLDİ — menü `.com`'a taşındı; `kozbeylikonagiotel.com` ölü/parazit)
+- **Tek odak: `www.kozbeylikonagi.com`** (gerçek Next.js sitesi). `.com.tr` kapsam dışı — sahip ayrı yönetiyor; sistem gündemine alma.
   ve **YANLIŞ telefon** (0232 218 2109) gösteriyor. Öneri: **`.com` canonical, diğerleri 301**.
-- `.com` tek gerçek güçlü site (JSON-LD VAR); `.com.tr` artık kullanılmıyor.
+- `.com` = gerçek Next.js sitesi (JSON-LD VAR). Tüm reklam/SEO/tracking `.com`.
 - Marka SERP'i **OTA-dominant**; Google İşletme sahiplik + NAP standardı şart.
 - HMS rezervasyonu ayrı domain → **cross-domain ölçüm** kurulmalı.
 Tam liste + öncelik: `kads presence fixes`.

@@ -55,3 +55,17 @@ profillerde/OTA'da vurgula. Misafir övgüsü tutarlı: **atmosfer, kahvaltı, s
 
 Kaynaklar: kucukoteller.com.tr/foca-otelleri · tripadvisor (d4298328) · otelpuan.com/Kozbeyli-Konagi ·
 yandex.com.tr maps · web-reach + web_search, 27 Haz 2026.
+
+---
+
+## Rakip/puan verisi — rapor edildi Haz 2026 (GBP/Maps'te DOĞRULA)
+
+> Kaynak: harita + diğer-AI çıktısı (Maps keyless çekilemediği için bu sayılar **doğrulanmadı**; GBP/Google Maps'te teyit et). Stratejik okuma sayılardan bağımsız geçerli.
+
+**3 küme:**
+- **Kozbeyli (BİZ — rakipsiz):** Kozbeyli Konağı ~4.2 / ~791 yorum. Komşu: Rida Sultan ~4.3/6, Dalyan ~5.0/11. "Kozbeyli" aramalarında fiili tekel → savunma yeter.
+- **Eski Foça (asıl talep+rekabet):** Foça Otel 1887 ~4.8/990, Foça Antik ~4.4/540, Foça Kybele ~4.7/331. Denize sıfır değiliz; **farklı ürünüz**.
+- **Yeni Foça (en yakın sahil ~10 dk):** Stone House Foça ~4.5/403, Dionysos1789 ~4.6/85 (benzer "tarihi taş konak").
+
+**Konumlandırma:** "Eski Foça denize sıfır" yarışına girme; **"Foça'ya yakın tarihi taş konak + köy + restoranlı huzur + etkinlik alanı"** — orada rakipsiz.
+**Tek somut zayıf nokta = Google puanı ~4.2** (rakipler 4.7-4.8). Kısıtlı bütçede en yüksek getirili ÜCRETSİZ kaldıraç: son-yorum hızı + tüm yorumlara yanıt → 4.5+ algısı (ortalama yavaş kalksa da son yorumlar ağır basar). Bkz. MAPS-VE-AI-30GUN.html.

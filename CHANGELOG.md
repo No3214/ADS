@@ -1,5 +1,13 @@
 # Değişiklik Günlüğü
 
+## v1.20.0 — Tek odak www.kozbeylikonagi.com; .com.tr kapsam dışı + rakip verisi (Haz 2026)
+- **KARAR (Yunuscan):** `.com.tr` ile işimiz yok — sistem gündeminden çıkarıldı. **Tek odak `www.kozbeylikonagi.com`**.
+  presence/dashboard/README/golive bu doğrultuda sadeleştirildi (.com.tr artık Kritik değil, "kapsam dışı").
+- **competitors/**: 3-küme rakip+puan verisi (rapor edildi, GBP/Maps'te doğrula) — Kozbeyli rakipsiz; Eski Foça asıl
+  rekabet; konumlandırma "Foça'ya yakın tarihi taş konak + köy + restoran + etkinlik"; Google ~4.2→4.5+ ücretsiz kaldıraç.
+- Tüm reklam/SEO/tracking zaten `.com` (doğru).
+
+
 ## v1.19.0 — Maps #1 + AI çıkış sahip-sayfası + AEO tazeleme (Haz 2026)
 - **golive/MAPS-VE-AI-30GUN.html**: tek-sayfa 30 günlük aksiyon (GBP birincil kategori=#1, yorum→4.2+
   TripAdvisor 3/5 acil, şema tamlık, FAQ doğrudan-cevap, Bing Webmaster+sitemap+IndexNow, alıntı denetimi).
