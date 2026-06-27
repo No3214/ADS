@@ -47,7 +47,7 @@ import shutil
 
 ROOT = core.ROOT
 OUT = ROOT / "out"
-VERSION = "1.15.4"
+from kads import __version__ as VERSION
 
 
 # ---- arg ayiklama ----------------------------------------------------------

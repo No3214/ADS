@@ -299,3 +299,13 @@ Reklam metni uzunluk doğrulaması genişletildi.
 
 ### Test
 - `test_no_adtext_length_violations` regresyon kilidi eklendi. 148 pytest yeşil.
+
+## [1.15.5] — 2026-06-26
+Sürüm tek kaynağa indirildi + CI gerçek Python sürümlerine çekildi.
+
+### İyileştirildi (altyapı)
+- **Tek kaynak sürüm:** `kads/__init__.py` `__version__` artık tek doğruluk kaynağı; `cli.py`
+  onu import eder, `pyproject.toml` `dynamic=["version"]` + `attr=kads.__version__` ile okur.
+  cli.py ↔ pyproject sürüm DRIFT'i artık imkansız (tekrarlayan tutarsızlık kökten çözüldü).
+- **CI matrisi:** EOL Python 3.8 yerine gerçek hedefler **3.10 / 3.11 / 3.12**; `requires-python ">=3.10"`.
+- `test_version_single_source` regresyon kilidi.

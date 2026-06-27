@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "kads"
-version = "1.15.1"
+dynamic = ["version"]
 description = "Kozbeyli Konağı reklam operasyonları CLI — Google + Meta + Yerel SEO, kod seviyesinde guardrail."
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 license = {text = "MIT"}
 authors = [{name = "Kozbeyli Konağı / Yunuscan"}]
 keywords = ["google-ads", "meta-ads", "local-seo", "hotel", "marketing", "cli", "guardrails"]
@@ -21,6 +21,9 @@ kads = "kads.cli:main"
 
 [tool.setuptools]
 packages = ["kads", "kads.platforms"]
+
+[tool.setuptools.dynamic]
+version = {attr = "kads.__version__"}
 
 [tool.setuptools.package-data]
 kads = ["data.py"]

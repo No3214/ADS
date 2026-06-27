@@ -65,3 +65,12 @@ def test_no_adtext_length_violations():
     # RSA + A/B + Display + Meta basliklari hepsi limit icinde (regresyon kilidi)
     from kads import cli
     assert cli._length_problems() == []
+
+
+def test_version_single_source():
+    # Tek kaynak: kads.__version__ == cli.VERSION, gecerli semver (drift olmaz)
+    import re
+    from kads import __version__
+    from kads import cli
+    assert cli.VERSION == __version__
+    assert re.fullmatch(r"\d+\.\d+\.\d+", __version__)
