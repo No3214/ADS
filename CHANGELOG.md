@@ -272,3 +272,17 @@ Kapsamlı içerik QA: NAP/geo/şema tutarlılığı + CSV bütünlüğü.
 - 144 pytest (Windows+sandbox), 40 komut × 2 format sorunsuz, selfcheck 7/7 GEÇTİ.
 - Sızıntı yok (.env takipsiz, token yok), sahte puan/ödül/fiyat yok, placeholder yok,
   build all 18 CSV temiz, parazit telefon (0232) sadece audit'te "YANLIŞ" olarak işaretli.
+
+## [1.15.3] — 2026-06-26
+Güvenlik sıkılaştırma: guardrails PAUSED-bypass kapatıldı.
+
+### Düzeltildi (güvenlik)
+- **scripts/guardrails.py — PAUSED bypass:** `create_campaign/adset/ad_group/ad` işleminde
+  `status` alanı BOŞ/eksik gelirse PAUSED kontrolü atlanıyordu (status falsy → kontrol pas
+  geçiliyordu). Artık status açıkça "PAUSED" değilse (boş dahil) **DENY**; ayrıca aksiyon
+  adından da yakalanıyor (entity atlanırsa bile kampanya create PAUSED zorunlu). keyword/budget
+  create etkilenmez (yanlış pozitif yok).
+
+### Test
+- guardrails için 3 yeni güvenlik testi (status'suz create → DENY, entity'siz create → DENY,
+  keyword create → ALLOW). Tüm paket yeşil.

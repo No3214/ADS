@@ -47,7 +47,7 @@ import shutil
 
 ROOT = core.ROOT
 OUT = ROOT / "out"
-VERSION = "1.15.2"
+VERSION = "1.15.3"
 
 
 # ---- arg ayiklama ----------------------------------------------------------

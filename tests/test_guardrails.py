@@ -74,3 +74,27 @@ def test_valid_create_allows():
                        "account_id": "1234567890", "status": "PAUSED", "daily_budget_try": 148},
                       cfg(), "ONAYLA | google | 1234567890 | create_campaign | 148")
     assert d == "ALLOW"
+
+
+def test_create_without_status_denied():
+    # GUVENLIK: status alani BOS -> PAUSED garantisi yok -> DENY (bypass kapali)
+    d, _ = g.evaluate({"platform": "google", "action": "create_campaign", "entity": "campaign",
+                       "account_id": "1234567890", "daily_budget_try": 100},
+                      cfg(), "ONAYLA | google | 1234567890 | create_campaign | 100")
+    assert d == "DENY"
+
+
+def test_create_campaign_no_entity_no_status_denied():
+    # entity atlanmis + status atlanmis -> hala PAUSED iste (aksiyon adindan yakala)
+    d, _ = g.evaluate({"platform": "meta", "action": "create_campaign",
+                       "account_id": "act_123", "daily_budget_try": 100},
+                      cfg(), "ONAYLA | meta | act_123 | create_campaign | 100")
+    assert d == "DENY"
+
+
+def test_create_keyword_no_status_allows():
+    # keyword create status istemez -> onay verilince ALLOW (yanlis pozitif yok)
+    d, _ = g.evaluate({"platform": "google", "action": "create_keyword", "entity": "keyword",
+                       "account_id": "1234567890", "daily_budget_try": 0},
+                      cfg(), "ONAYLA | google | 1234567890 | create_keyword | 0")
+    assert d == "ALLOW"

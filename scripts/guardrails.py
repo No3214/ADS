@@ -175,10 +175,14 @@ def evaluate(change: dict, cfg: dict, approval: str | None) -> tuple[str, list[s
             reasons.append(f"Meta hesabı allowlist dışında: '{account}'. İzinli: {sorted(allow)}")
             return "DENY", reasons
 
-    # 5) Yeni kampanya/varlık PAUSED olmalı
-    creates_entity = action.startswith("create") and (change.get("entity") in {"campaign", "adset", "ad_group", "ad", None})
-    if creates_entity and status and status != "PAUSED":
-        reasons.append(f"Yeni varlık PAUSED oluşturulmalı; gelen status='{status}'.")
+    # 5) Yeni kampanya/adset/adgroup/ad PAUSED olmalı.
+    # GUVENLIK: status alani BOS/eksik gelirse de reddet (bypass yok). Aksiyon
+    # adindan da yakala ki entity atlanirsa bile kampanya create PAUSED zorunlu olsun.
+    _status_creates = {"create_campaign", "create_adset", "create_ad_group", "create_ad"}
+    creates_entity = action in _status_creates or (
+        action.startswith("create") and change.get("entity") in {"campaign", "adset", "ad_group", "ad"})
+    if creates_entity and status != "PAUSED":
+        reasons.append(f"Yeni varlik PAUSED olusturulmali; gelen status='{status or '(yok)'}'.")
         return "DENY", reasons
 
     # 6) Bütçe tavanları
