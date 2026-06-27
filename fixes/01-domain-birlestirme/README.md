@@ -1,3 +1,5 @@
+> **GÜNCEL (Haz 2026):** `.com.tr` TERK EDİLDİ (menü `.com`'a taşındı). Bu 301 yönlendirme artık ZORUNLU DEĞİL; yalnızca `.com.tr`/`kozbeylikonagiotel.com` hâlâ erişilebiliyorsa marka koruması için uygulayın.
+
 # Domain birleştirme (301) — en yüksek getirili düzeltme
 
 Hedef: tek kanonik domain **`https://www.kozbeylikonagi.com`**. Yönlendirmeler **kaynak

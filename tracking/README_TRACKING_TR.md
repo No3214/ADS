@@ -6,7 +6,7 @@ Bu klasör, "önce ölçüm, sonra trafik" ilkesinin kod tarafıdır. Reklam aç
 ## Doğrulanmış kritik gerçek
 
 Rezervasyon motoru **ayrı bir kayıtlı alan adındadır**: `{slug}.hmshotel.net`
-(siteniz `kozbeylikonagi.com.tr` değil). HMS'in kendi dokümanındaki örnek:
+(siteniz `kozbeylikonagi.com` değil). HMS'in kendi dokümanındaki örnek:
 `https://hms-otel.hmshotel.net/`. Bu yüzden **çapraz alan (cross-domain) ölçümü
 zorunludur**. Aynı GA4 ID her iki alanda bulunmalı ve linker'a `hmshotel.net`
 eklenmelidir. Detay ve doğrulama: `../docs/01-hms-otel-tracking.md`.
@@ -43,7 +43,7 @@ eklenmelidir. Detay ve doğrulama: `../docs/01-hms-otel-tracking.md`.
    Google Ads Conversion (`AW-800024713`, "Satın alma" kategorisi), Meta Pixel
    (`1781546559309505`). Tetikleyiciler: `purchase`, `begin_checkout`, `generate_lead`.
 4. **Çapraz alanı açın.** GA4 > Yönetici > Veri Akışları > Web > Etiket ayarları >
-   Alanlarınızı yapılandırın: `kozbeylikonagi.com.tr` **ve** `hmshotel.net`. Ardından
+   Alanlarınızı yapılandırın: `kozbeylikonagi.com` **ve** `hmshotel.net`. Ardından
    `hmshotel.net`'i "istenmeyen yönlendirmeler" listesine ekleyin.
 5. **HMS onay sayfası.** HMS panelinde GA4/GTM/Pixel ID alanı varsa aynı ID'leri
    girin. Yoksa `hms-confirmation-snippet.html` içeriğini onay sayfasına eklemeyi

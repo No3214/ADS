@@ -24,7 +24,7 @@ GOOGLE_DISPLAY = {
         "Evcil dostlarınız ücretsiz. Sessiz, özel, mirasla iç içe bir kaçış.",
     ],
     "business_name": "Kozbeyli Konağı",
-    "final_url": "https://kozbeylikonagi.com.tr/odalar",
+    "final_url": "https://kozbeylikonagi.com/odalar",
     "image_note": "Yatay 1.91:1 + kare 1:1 + logo yükle (cephe/oda/teras/kahvaltı).",
 }
 

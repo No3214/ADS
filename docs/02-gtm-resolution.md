@@ -6,13 +6,13 @@ veri riski vardır.
 
 ## Neden curl ile bulunamadı
 
-`kozbeylikonagi.com.tr` istemci tarafında render edilen bir Next.js uygulamasıdır.
+`kozbeylikonagi.com` istemci tarafında render edilen bir Next.js uygulamasıdır.
 Etiketler sayfa yüklendikten SONRA JavaScript ile enjekte edilir; sunucudan gelen ham
 HTML'de (`curl`/view-source) görünmezler. Bu yüzden container'ı **gerçek tarayıcıda**
 belirlemek gerekir.
 
 ## Yöntem A — Tag Assistant (en kesin)
-1. `tagassistant.google.com` > "Add domain" > `https://www.kozbeylikonagi.com.tr`.
+1. `tagassistant.google.com` > "Add domain" > `https://www.kozbeylikonagi.com`.
 2. Bağlandığında yüklenen container ID(leri) listelenir.
 3. Hangi `GTM-XXXX`'in ateşlediğini not edin. İki tane görünüyorsa biri kaldırılmalı.
 

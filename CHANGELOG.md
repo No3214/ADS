@@ -1,5 +1,17 @@
 # Değişiklik Günlüğü
 
+## v1.17.0 — .com.tr terk + bölge kelimeleri + bütçe playbook (Haz 2026)
+- **.com.tr TAMAMEN kaldırıldı**: menü .com'a taşındı; tüm reklam/SEO/tracking/config/CSV
+  artık yalnızca `www.kozbeylikonagi.com`. Kaynak `data_ext.py` final_url düzeltildi (CSV'ler
+  bu yüzden hâlâ .com.tr üretiyordu). presence.py/dashboard "TERK EDİLDİ/Kapandı" olarak güncellendi.
+- **Meta Ad Account ID girildi**: `.env` → act_2115950531494.
+- **Bölge kelimeleri (+7)**: yeni foça otel/konaklama/butik/köy/taş otel + kozbeyli foça (Kozbeyli
+  idari olarak Yeni Foça'ya yakın). Toplam 46 kelime, 90 negatif.
+- **docs/22**: bütçe-dostu Google+Meta+AEO/GEO+Maps playbook (canlı 2026 kaynaklarla; PMax'e girme,
+  Marka Search + Click-to-WhatsApp + Hotel Ads, Bing Webmaster=AEO ön şartı, yorum kampanyası).
+- Test: presence kritik sayısı .com.tr terkiyle düştü; test güncellendi. Tüm pytest yeşil.
+
+
 ## [1.0.0] — 2026-06-26
 İlk "god-tier" sürüm. Başlangıç paketi (guardrails + tracking + plan + assets) bir
 operasyon sistemine dönüştürüldü.
@@ -384,7 +396,7 @@ Sahip-dostu tek-sayfa go-live eylem planı.
 Canlı hesap verisiyle Google Ads yeniden kurulumu + KRİTİK URL düzeltmesi.
 
 ### Düzeltildi (kritik)
-- **Ölü domain URL'leri:** TÜM reklam/uzantı final URL'leri `kozbeylikonagi.com.tr` (ölü kabuk)
+- **Ölü domain URL'leri:** TÜM reklam/uzantı final URL'leri `kozbeylikonagi.com` (ölü kabuk)
   yerine çalışan **`www.kozbeylikonagi.com`** + doğru yollara (/rezervasyon /odalar /gastronomi
   /organizasyonlar /galeri /lokasyon) çekildi. Canlı hesaptaki **"Onaylanmadı — Çalışmayan hedef"**
   reddinin kök sebebi buydu; düzeltildi.

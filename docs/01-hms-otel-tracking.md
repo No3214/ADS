@@ -10,7 +10,7 @@ https://hms-otel.hmshotel.net/?utm_source=instagram&utm_medium=page
 ```
 
 Yani rezervasyon motoru **`hmshotel.net`** üzerinde çalışır, biçim:
-`https://{otel-slug}.hmshotel.net/`. Bu, sitenizden (`kozbeylikonagi.com.tr`) **AYRI bir
+`https://{otel-slug}.hmshotel.net/`. Bu, sitenizden (`kozbeylikonagi.com`) **AYRI bir
 kayıtlı alan adıdır**.
 
 ### Bunun üç sonucu

@@ -1,5 +1,5 @@
 property_name: "Kozbeyli Konağı"
-site_domain: "kozbeylikonagi.com.tr"
+site_domain: "kozbeylikonagi.com"
 timezone: "Europe/Istanbul"
 ad_language: "tr"            # Reklamlar yalnizca Turkce. Site TR+EN.
 
@@ -32,7 +32,7 @@ tracking:
     - "GTM-MSL2FLF5"
   consent_mode_v2: "default_denied"            # EEA zorunlu; KVKK icin en guvenli varsayilan.
   cross_domain_domains:
-    - "kozbeylikonagi.com.tr"
+    - "kozbeylikonagi.com"
     - "hmshotel.net"
 
 meta:

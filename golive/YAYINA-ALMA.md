@@ -4,7 +4,7 @@ Tek sayfa: ne, hangi sırayla, hangi dosya. Kural: **ölçüm doğrulanmadan ENA
 Durum denetimi: `kads golive`. Eksik kimlikler: `kads doctor`.
 
 ## 0) Karar: kanonik domain
-- `.com` kanonik yap; `.com.tr` + `kozbeylikonagiotel.com` → 301 (`fixes/01`). Yanlış telefonu kaldır.
+- `.com` tek kanonik. `.com.tr` TERK EDİLDİ (menü `.com`'a taşındı); `kozbeylikonagiotel.com` ölü. Tüm reklam/SEO `.com`. Yanlış telefonu kaldır.
 
 ## 1) Hesap + bağlantı (Faz 1 — okuma)
 - [ ] `.env` doldur: GA4, Ads, Pixel (bilinen) + Meta `act_...` + Google 10 hane + Dev Token + OAuth.

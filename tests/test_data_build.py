@@ -59,4 +59,4 @@ def test_presence_data():
     assert len(presence.PROPERTIES) >= 8
     assert len(presence.FIXES) == 14
     c = presence.counts()
-    assert c["Kritik"] >= 3
+    assert c["Kritik"] >= 1  # .com.tr terk edildi (Haz 2026): kritikler azaldı, GBP/NAP kaldı

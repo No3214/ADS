@@ -5,7 +5,7 @@ yapıldı — varsayım değil, **gerçek performans verisi**.
 
 ## Kök sorun (kritik): reklamlar reddediliyordu
 Hesaptaki reklamlar **"Onaylanmadı — Çalışmayan hedef"** ile reddedilmişti. Sebep: final URL'ler
-**ölü `kozbeylikonagi.com.tr`** kabuğuna gidiyordu. Bizim sistemde de aynı hata vardı.
+**ölü `kozbeylikonagi.com`** kabuğuna gidiyordu. Bizim sistemde de aynı hata vardı.
 **Düzeltildi:** tüm reklam/uzantı URL'leri çalışan `www.kozbeylikonagi.com` + doğru yollara çekildi
 (/rezervasyon /odalar /gastronomi /organizasyonlar /galeri /lokasyon). Bu tek başına reddi çözer.
 

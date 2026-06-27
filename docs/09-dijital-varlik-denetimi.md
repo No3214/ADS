@@ -1,3 +1,5 @@
+> **GÜNCEL (Haz 2026):** `.com.tr` TERK EDİLDİ — menü `.com`'a taşındı, artık kullanılmıyor. Tek aktif domain `.com`. Aşağısı orijinal denetim kaydıdır (tarihsel).
+
 # 09 — Dijital Varlık & SEO Denetimi (kanıt temelli)
 
 Tarih: 26 Haziran 2026. Yöntem: her iki resmi domain + EN sürümü + alt sayfalar
@@ -35,7 +37,7 @@ panosunu besler.
 
 ## Mülk bazında denetim
 
-### 1) www.kozbeylikonagi.com.tr — "resmi" domain (ama kabuk)
+### 1) www.kozbeylikonagi.com — "resmi" domain (ama kabuk)
 - **Durum:** HTTP 200, HTTPS, TR. Title/description çok iyi; OG var. Ama body'nin tamamı
   base64 gömülü görsel; H1/H2, metin, link yok. `/odalar`, `/iletisim` ana sayfaya düşüyor
   (canonical hep ana sayfa).
@@ -102,7 +104,7 @@ panosunu besler.
 | Domain | Render | İçerik | Telefon | Karar |
 |---|---|---|---|---|
 | **kozbeylikonagi.com** | Server-render, gerçek metin | Tam (TR+EN) | +90 532 234 2686 | **ANA / CANONICAL** |
-| **kozbeylikonagi.com.tr** | Image-only kabuk | Yok | görselde | **301 → .com** (marka için tut) |
+| **kozbeylikonagi.com** | Image-only kabuk | Yok | görselde | **301 → .com** (marka için tut) |
 | **kozbeylikonagiotel.com** | Eski/parazit, http:// | Belirsiz | **0232 218 2109 (yanlış)** | **Kaldır/301; sahiplik teyidi** |
 | kozbeyli-konagi.hmshotel.net | Booking motoru | Booking | 905322342686 | Koru; GA4 linker |
 
@@ -135,7 +137,7 @@ panosunu besler.
 | 14 | Marka adı varyasyonu | Tüm kanallar | Düşük | "Kozbeyli Konağı" sabit |
 
 ## Kaynaklar
-web_fetch: kozbeylikonagi.com.tr (+ /odalar, /iletisim), kozbeylikonagi.com (+ /odalar,
+web_fetch: kozbeylikonagi.com (+ /odalar, /iletisim), kozbeylikonagi.com (+ /odalar,
 /iletisim, /hikayemiz, /en). WebSearch/görülen: kozbeylikonagiotel.com, TripAdvisor,
 trivago, Booking (Yenifoça), obilet, Hotels.com, Agoda, otelz, Otelpuan, kesfetsek, wheree,
 trip.com, easemytrip, instagram.com/kozbeylikonagi, facebook.com/kozbeylikonagi, Google
@@ -157,7 +159,7 @@ için Google Rich Results Test + GBP + tarayıcıyla teyit edilmeli:
 - **`kozbeylikonagiotel.com` (parazit):** Jina reader "Domain could not be resolved" (DNS) →
   **muhtemelen ölü/kaldırılmış.** Yanlış telefon (0232 218 2109) sayfadan gelmedi. Risk Kritik'ten
   Orta'ya düştü; iş artık **Google'da kalan listing + GBP'deki yanlış numarayı** temizlemek.
-- **`kozbeylikonagi.com.tr` (kabuk):** HTTP 200, ~7.3K metin + 11 "kozbeyli" geçişi → eskisi gibi
+- **`kozbeylikonagi.com` (kabuk):** HTTP 200, ~7.3K metin + 11 "kozbeyli" geçişi → eskisi gibi
   tamamen image-only olmayabilir; yine de canonical `.com`, diğerleri 301 önerisi geçerli.
 
 Kaynak: web-reach fetch.py (jina_reader/direct), 27 Haz 2026. Her sezon yeniden doğrula.

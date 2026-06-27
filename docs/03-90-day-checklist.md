@@ -8,7 +8,7 @@ Kural: Tag'ler test rezervasyonuyla doğrulanmadan hiçbir kampanya `ENABLED` ya
 - [ ] `ConsentAndGtm.tsx`'i `app/layout.tsx`'e ekle; Consent Mode v2 default denied.
 - [ ] GTM içinde GA4 (`G-V3R66C3MEF`), Google Ads (`AW-800024713`, Satın alma), Meta
       Pixel (`1781546559309505`) etiketlerini kur.
-- [ ] Çapraz alan: GA4'e `kozbeylikonagi.com.tr` + `hmshotel.net`; `hmshotel.net`
+- [ ] Çapraz alan: GA4'e `kozbeylikonagi.com` + `hmshotel.net`; `hmshotel.net`
       istenmeyen yönlendirmelere.
 - [ ] HMS desteğine 6 soruyu sor (docs/01); gerçek otel slug'ını ve onay sayfası
       davranışını öğren.

@@ -26,7 +26,7 @@ from kads import data
 SEO = {
     "name": "Kozbeyli Konağı",
     "legal_note": "Aile işletmesi taş otel & restoran (hizmette: 2013'ten beri)",
-    "url": "https://www.kozbeylikonagi.com.tr/",
+    "url": "https://www.kozbeylikonagi.com/",
     "alt_url": "https://www.kozbeylikonagi.com/",
     "phone": "+905322342686",            # +90 532 234 2686
     "street": "Kozbeyli Köyü, Küme Evler No:188",
@@ -117,7 +117,7 @@ GBP_CHECKLIST = [
     ("NAP", "Ad-Adres-Telefon site + tüm dizinlerle BİREBİR aynı", "Kritik"),
     ("Adres/pin", "Harita pini gerçek konuma tam oturuyor (No:188)", "Kritik"),
     ("Telefon", "+90 532 234 2686 (yerel + tutarlı)", "Yüksek"),
-    ("Web sitesi", "kozbeylikonagi.com.tr (UTM ile izlenebilir)", "Yüksek"),
+    ("Web sitesi", "kozbeylikonagi.com (UTM ile izlenebilir)", "Yüksek"),
     ("Rezervasyon linki", "Doğrudan hmshotel.net rezervasyon bağlantısı eklendi", "Yüksek"),
     ("Çalışma saatleri", "7/24 resepsiyon / sezon saatleri güncel", "Orta"),
     ("Öznitelikler", "Evcil dostu, ücretsiz Wi-Fi, ücretsiz otopark, kahvaltı, erişilebilirlik", "Yüksek"),

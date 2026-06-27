@@ -3,7 +3,7 @@
   "@type": "Hotel",
   "name": "Kozbeyli Konağı",
   "description": "600 yıllık Kozbeyli köyünde Osmanlı taş mimarisiyle restore edilmiş butik otel ve restoran. 16 oda, organik köy kahvaltısı, çatı terasında Ege manzarası, Antakya–Ege mutfağı. Evcil hayvan dostu. Foça'ya 13 km.",
-  "url": "https://www.kozbeylikonagi.com.tr/",
+  "url": "https://www.kozbeylikonagi.com/",
   "telephone": "+905322342686",
   "priceRange": "₺₺",
   "currenciesAccepted": "TRY",
@@ -12,9 +12,9 @@
   "checkinTime": "14:00",
   "checkoutTime": "12:00",
   "image": [
-    "https://www.kozbeylikonagi.com.tr/img/konak.jpg",
-    "https://www.kozbeylikonagi.com.tr/img/oda.jpg",
-    "https://www.kozbeylikonagi.com.tr/img/kahvalti.jpg"
+    "https://www.kozbeylikonagi.com/img/konak.jpg",
+    "https://www.kozbeylikonagi.com/img/oda.jpg",
+    "https://www.kozbeylikonagi.com/img/kahvalti.jpg"
   ],
   "address": {
     "@type": "PostalAddress",
@@ -95,7 +95,7 @@
     "@type": "ReserveAction",
     "target": {
       "@type": "EntryPoint",
-      "urlTemplate": "https://www.kozbeylikonagi.com.tr/rezervasyon",
+      "urlTemplate": "https://www.kozbeylikonagi.com/rezervasyon",
       "actionPlatform": [
         "http://schema.org/DesktopWebPlatform",
         "http://schema.org/MobileWebPlatform"

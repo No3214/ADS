@@ -101,6 +101,7 @@ KEYWORDS = {
             "eski foça butik otel", "foça köy oteli", "foça otantik otel",
             "kozbeyli köyü otel", "kozbeyli konaklama",
             "eski foça otel", "foça kozbeyli", "foça antik otel", "eski foça konak otel",
+            "yeni foça butik otel", "yeni foça köy oteli", "yeni foça taş otel", "kozbeyli foça",
         ],
     },
     "NonBrand-Foca-Genel": {  # Daha genis ama yine niyetli
@@ -110,6 +111,7 @@ KEYWORDS = {
             "foça deniz manzaralı otel", "foça balayı oteli",
             "foça evcil hayvan kabul eden otel", "foça hafta sonu kaçamağı otel",
             "otel foça", "eski foça otelleri", "yeni foça otelleri", "foça merkez otel",
+            "yeni foça otel", "yeni foça konaklama", "yeni foça deniz manzaralı otel",
         ],
     },
     "NonBrand-Niche": {  # Konsept/deneyim niyeti

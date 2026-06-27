@@ -12,8 +12,6 @@ from __future__ import annotations
 PROPERTIES = [
     {"mülk": "kozbeylikonagi.com", "tür": "Web (ana)", "durum": "GÜÇLÜ",
      "bulgu": "Gerçek site; JSON-LD VAR (Haz 2026 web-reach: PostalAddress+Geo+amenity) — Hotel/Restaurant/FAQ tamlığını doğrula; hreflang/cross-domain", "öncelik": "Yüksek"},
-    {"mülk": "kozbeylikonagi.com.tr", "tür": "Web (kabuk)", "durum": "ZAYIF",
-     "bulgu": "Image-only, metin yok, alt sayfalar ana sayfaya düşüyor", "öncelik": "Kritik"},
     {"mülk": "kozbeylikonagiotel.com", "tür": "Web (parazit)", "durum": "MUHT. ÖLÜ",
      "bulgu": "Haz 2026 web-reach: domain DNS'te ÇÖZÜLMÜYOR (muhtemelen kaldırıldı); Google listing/GBP'de kalan yanlış no (0232 218 2109) temizle", "öncelik": "Yüksek"},
     {"mülk": "hmshotel.net (booking)", "tür": "Rezervasyon", "durum": "OK",
@@ -32,12 +30,12 @@ PROPERTIES = [
 
 # Onceliklendirilmis duzeltme listesi (docs/09 ile birebir)
 FIXES = [
-    (1, "Üç marka domaini + çelişkili telefon", "Tüm domainler", "Kritik",
-     ".com canonical; diğerleri 301; tek numara +90 532 234 2686"),
+    (1, "Tek marka domaini + tek telefon", ".com", "Yüksek",
+     ".com tek kanonik (Haz 2026: .com.tr TERK EDİLDİ, menü .com'a taşındı); tek numara +90 532 234 2686"),
     (2, "Parazit otel.com (Haz 2026: DNS çözülmüyor = muht. ölü)", "otel.com", "Orta",
      "Site ölü görünüyor; Google'da kalan listing + GBP numarasını teyit/temizle"),
-    (3, ".com.tr image-only kabuk", ".com.tr", "Kritik",
-     "301 ile çöz; tutulacaksa metin + schema"),
+    (3, ".com.tr TERK EDİLDİ (menü .com'a taşındı)", "-", "Kapandı",
+     "Çözüldü: artık kullanılmıyor; tüm reklam/SEO .com'a işaret ediyor"),
     (4, "Google Business sahiplik + NAP standardı", "Google/OTA", "Kritik",
      "GBP sahiplen; NAP tek standart (Foça vs Yenifoça)"),
     (5, "JSON-LD VAR ama tamlık şüpheli (Haz 2026)", ".com", "Yüksek",
@@ -57,7 +55,7 @@ FIXES = [
     (14, "Marka adı varyasyonu", "Tüm kanallar", "Düşük", "'Kozbeyli Konağı' sabit"),
 ]
 
-_PRI = {"Kritik": 0, "Yüksek": 1, "Orta": 2, "Düşük": 3}
+_PRI = {"Kritik": 0, "Yüksek": 1, "Orta": 2, "Düşük": 3, "Kapandı": 4}
 
 
 def property_rows() -> list[dict]:

@@ -15,6 +15,12 @@ Kozbeyli | Marka | Search,Marka,kozbeyli konağı izmir,Phrase,Paused
 Kozbeyli | Marka | Search,Marka,kozbeyli konağı izmir,Exact,Paused
 Kozbeyli | Marka | Search,Marka,kozbeyli butik otel,Phrase,Paused
 Kozbeyli | Marka | Search,Marka,kozbeyli butik otel,Exact,Paused
+Kozbeyli | Marka | Search,Marka,kozbeyli konağı yorum,Phrase,Paused
+Kozbeyli | Marka | Search,Marka,kozbeyli konağı yorum,Exact,Paused
+Kozbeyli | Marka | Search,Marka,kozbeyli otel,Phrase,Paused
+Kozbeyli | Marka | Search,Marka,kozbeyli otel,Exact,Paused
+Kozbeyli | Marka | Search,Marka,foça kozbeyli konağı,Phrase,Paused
+Kozbeyli | Marka | Search,Marka,foça kozbeyli konağı,Exact,Paused
 Kozbeyli | NonBrand | Search,NonBrand-Foca-Butik,foça butik otel,Phrase,Paused
 Kozbeyli | NonBrand | Search,NonBrand-Foca-Butik,foça butik otel,Exact,Paused
 Kozbeyli | NonBrand | Search,NonBrand-Foca-Butik,foça taş ev otel,Phrase,Paused
@@ -31,6 +37,22 @@ Kozbeyli | NonBrand | Search,NonBrand-Foca-Butik,kozbeyli köyü otel,Phrase,Pau
 Kozbeyli | NonBrand | Search,NonBrand-Foca-Butik,kozbeyli köyü otel,Exact,Paused
 Kozbeyli | NonBrand | Search,NonBrand-Foca-Butik,kozbeyli konaklama,Phrase,Paused
 Kozbeyli | NonBrand | Search,NonBrand-Foca-Butik,kozbeyli konaklama,Exact,Paused
+Kozbeyli | NonBrand | Search,NonBrand-Foca-Butik,eski foça otel,Phrase,Paused
+Kozbeyli | NonBrand | Search,NonBrand-Foca-Butik,eski foça otel,Exact,Paused
+Kozbeyli | NonBrand | Search,NonBrand-Foca-Butik,foça kozbeyli,Phrase,Paused
+Kozbeyli | NonBrand | Search,NonBrand-Foca-Butik,foça kozbeyli,Exact,Paused
+Kozbeyli | NonBrand | Search,NonBrand-Foca-Butik,foça antik otel,Phrase,Paused
+Kozbeyli | NonBrand | Search,NonBrand-Foca-Butik,foça antik otel,Exact,Paused
+Kozbeyli | NonBrand | Search,NonBrand-Foca-Butik,eski foça konak otel,Phrase,Paused
+Kozbeyli | NonBrand | Search,NonBrand-Foca-Butik,eski foça konak otel,Exact,Paused
+Kozbeyli | NonBrand | Search,NonBrand-Foca-Butik,yeni foça butik otel,Phrase,Paused
+Kozbeyli | NonBrand | Search,NonBrand-Foca-Butik,yeni foça butik otel,Exact,Paused
+Kozbeyli | NonBrand | Search,NonBrand-Foca-Butik,yeni foça köy oteli,Phrase,Paused
+Kozbeyli | NonBrand | Search,NonBrand-Foca-Butik,yeni foça köy oteli,Exact,Paused
+Kozbeyli | NonBrand | Search,NonBrand-Foca-Butik,yeni foça taş otel,Phrase,Paused
+Kozbeyli | NonBrand | Search,NonBrand-Foca-Butik,yeni foça taş otel,Exact,Paused
+Kozbeyli | NonBrand | Search,NonBrand-Foca-Butik,kozbeyli foça,Phrase,Paused
+Kozbeyli | NonBrand | Search,NonBrand-Foca-Butik,kozbeyli foça,Exact,Paused
 Kozbeyli | NonBrand | Search,NonBrand-Foca-Genel,foça otel,Phrase,Paused
 Kozbeyli | NonBrand | Search,NonBrand-Foca-Genel,foça otelleri,Phrase,Paused
 Kozbeyli | NonBrand | Search,NonBrand-Foca-Genel,foça konaklama,Phrase,Paused
@@ -38,6 +60,13 @@ Kozbeyli | NonBrand | Search,NonBrand-Foca-Genel,foça deniz manzaralı otel,Phr
 Kozbeyli | NonBrand | Search,NonBrand-Foca-Genel,foça balayı oteli,Phrase,Paused
 Kozbeyli | NonBrand | Search,NonBrand-Foca-Genel,foça evcil hayvan kabul eden otel,Phrase,Paused
 Kozbeyli | NonBrand | Search,NonBrand-Foca-Genel,foça hafta sonu kaçamağı otel,Phrase,Paused
+Kozbeyli | NonBrand | Search,NonBrand-Foca-Genel,otel foça,Phrase,Paused
+Kozbeyli | NonBrand | Search,NonBrand-Foca-Genel,eski foça otelleri,Phrase,Paused
+Kozbeyli | NonBrand | Search,NonBrand-Foca-Genel,yeni foça otelleri,Phrase,Paused
+Kozbeyli | NonBrand | Search,NonBrand-Foca-Genel,foça merkez otel,Phrase,Paused
+Kozbeyli | NonBrand | Search,NonBrand-Foca-Genel,yeni foça otel,Phrase,Paused
+Kozbeyli | NonBrand | Search,NonBrand-Foca-Genel,yeni foça konaklama,Phrase,Paused
+Kozbeyli | NonBrand | Search,NonBrand-Foca-Genel,yeni foça deniz manzaralı otel,Phrase,Paused
 Kozbeyli | NonBrand | Search,NonBrand-Niche,izmir taş konak otel,Phrase,Paused
 Kozbeyli | NonBrand | Search,NonBrand-Niche,izmir butik köy oteli,Phrase,Paused
 Kozbeyli | NonBrand | Search,NonBrand-Niche,ege köy kahvaltısı konaklama,Phrase,Paused
@@ -50,3 +79,10 @@ Kozbeyli | Test | Search,NonBrand-Foca-Genel,foça deniz manzaralı otel,Phrase,
 Kozbeyli | Test | Search,NonBrand-Foca-Genel,foça balayı oteli,Phrase,Paused
 Kozbeyli | Test | Search,NonBrand-Foca-Genel,foça evcil hayvan kabul eden otel,Phrase,Paused
 Kozbeyli | Test | Search,NonBrand-Foca-Genel,foça hafta sonu kaçamağı otel,Phrase,Paused
+Kozbeyli | Test | Search,NonBrand-Foca-Genel,otel foça,Phrase,Paused
+Kozbeyli | Test | Search,NonBrand-Foca-Genel,eski foça otelleri,Phrase,Paused
+Kozbeyli | Test | Search,NonBrand-Foca-Genel,yeni foça otelleri,Phrase,Paused
+Kozbeyli | Test | Search,NonBrand-Foca-Genel,foça merkez otel,Phrase,Paused
+Kozbeyli | Test | Search,NonBrand-Foca-Genel,yeni foça otel,Phrase,Paused
+Kozbeyli | Test | Search,NonBrand-Foca-Genel,yeni foça konaklama,Phrase,Paused
+Kozbeyli | Test | Search,NonBrand-Foca-Genel,yeni foça deniz manzaralı otel,Phrase,Paused

@@ -1,7 +1,7 @@
 # fixes/ — Dijital denetim düzeltmeleri (docs/09 → kopyala-yapıştır)
 
 `docs/09` / `kads presence fixes` bulgularını uygulanabilir çözümlere çevirir. **Kanonik
-domain kararı: `kozbeylikonagi.com`** (denetim önerisi; gerçek metin sitesi orada). `.com.tr`
+domain kararı: `kozbeylikonagi.com`** (tek aktif domain; gerçek metin sitesi orada). `.com.tr` TERK EDİLDİ —
 seçersen kaynak/hedefi ters çevir.
 
 | # | Düzeltme | Dosya |
