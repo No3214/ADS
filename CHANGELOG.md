@@ -286,3 +286,16 @@ Güvenlik sıkılaştırma: guardrails PAUSED-bypass kapatıldı.
 ### Test
 - guardrails için 3 yeni güvenlik testi (status'suz create → DENY, entity'siz create → DENY,
   keyword create → ALLOW). Tüm paket yeşil.
+
+## [1.15.4] — 2026-06-26
+Reklam metni uzunluk doğrulaması genişletildi.
+
+### İyileştirildi
+- **`_length_problems()` kapsamı:** önceden sadece `data.RSA` (≤30/≤90) denetleniyordu. Artık
+  **A/B açı başlıkları** (RSA Headline 1'e girer, ≤30), **Google Display** (short ≤30, long ≤90,
+  desc ≤90) ve **Meta başlıkları** (≤40) da kapsanıyor. `kads validate` + `kads selfcheck` artık
+  generated tüm reklam metnini doğruluyor; limit aşan metin Google Editor'e gitmeden yakalanır.
+- Mevcut tüm asset'ler zaten limit içinde (0 sorun) — bu önleyici/regresyon koruması.
+
+### Test
+- `test_no_adtext_length_violations` regresyon kilidi eklendi. 148 pytest yeşil.

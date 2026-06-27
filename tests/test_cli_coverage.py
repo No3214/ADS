@@ -59,3 +59,9 @@ def test_json_file_writers(capsys, tmp_path, cmd):
     out = capsys.readouterr().out.strip()
     if out:
         json.loads(out)
+
+
+def test_no_adtext_length_violations():
+    # RSA + A/B + Display + Meta basliklari hepsi limit icinde (regresyon kilidi)
+    from kads import cli
+    assert cli._length_problems() == []

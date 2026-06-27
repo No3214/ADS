@@ -47,7 +47,7 @@ import shutil
 
 ROOT = core.ROOT
 OUT = ROOT / "out"
-VERSION = "1.15.3"
+VERSION = "1.15.4"
 
 
 # ---- arg ayiklama ----------------------------------------------------------
@@ -299,14 +299,34 @@ def cmd_seo(args: list[str]) -> int:
 
 # ---- validate --------------------------------------------------------------
 def _length_problems() -> list[dict]:
+    """Reklam metni karakter limitleri. data.RSA + A/B aci + Google Display +
+    Meta basliklari kapsanir (hepsi generated reklamlara girer; limit asarsa
+    Google Editor reddeder / Meta keser)."""
     bad = []
+    def chk(grp, tip, text, limit):
+        if text and len(text) > limit:
+            bad.append({"grup": grp, "tip": tip, "metin": text, "uzunluk": len(text)})
+    # Google RSA: headline <=30, description <=90
     for grp, a in data.RSA.items():
         for h in a["headlines"]:
-            if len(h) > 30:
-                bad.append({"grup": grp, "tip": "headline", "metin": h, "uzunluk": len(h)})
+            chk(grp, "headline", h, 30)
         for d in a["descriptions"]:
-            if len(d) > 90:
-                bad.append({"grup": grp, "tip": "description", "metin": d, "uzunluk": len(d)})
+            chk(grp, "description", d, 90)
+    # A/B aci basliklari (RSA Headline 1'e girer) <=30
+    for variant, h in dx.AB_ANGLES.items():
+        chk("AB:" + variant, "headline", h, 30)
+    # Google Display: short <=30, long <=90, description <=90
+    disp = dx.GOOGLE_DISPLAY
+    for h in disp.get("short_headlines", []):
+        chk("Display", "short_headline", h, 30)
+    chk("Display", "long_headline", disp.get("long_headline", ""), 90)
+    for d in disp.get("descriptions", []):
+        chk("Display", "description", d, 90)
+    # Meta basliklari <=40 (Meta headline limiti)
+    for ck, cv in data.META_COPY.items():
+        if isinstance(cv, dict):
+            for h in cv.get("headlines", []):
+                chk("Meta:" + ck, "headline", h, 40)
     return bad
 
 
