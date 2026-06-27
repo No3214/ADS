@@ -8,7 +8,7 @@ GA4 + Google Ads etiketleri yok → Google Ads **0 dönüşüm** gösteriyor. Bu
 ## 0. ÖN KOŞUL — container erişimi (önce bunu doğrula)
 `tagmanager.google.com` → **GTM-KCG6B4MJ** container'ını görüyor + açıp **Tags** ekleyebiliyor musun?
 - **Evet** → Bölüm 1'e geç.
-- **Hayır (eski ajans/Ezely hesabında)** → iki seçenek:
+- **Hayır (eski/başka bir hesabında)** → iki seçenek:
   1. Ajanstan container'a kullanıcı erişimi / transfer iste, veya
   2. **Kendi container'ını oluştur** → sitedeki GTM ID'sini onunla değiştir (Next.js'te GTM snippet/`ConsentAndGtm.tsx`)
      → bu dokümandaki etiketleri temiz kur. (Site sizde olduğu için ID değişimi sizde.)

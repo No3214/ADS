@@ -1,5 +1,12 @@
 # Değişiklik Günlüğü
 
+## v1.27.0 — Search Console + Bing kurulum (Vercel DNS) + eski-altyapı referans temizliği (Haz 2026)
+- **docs/25-search-console-bing-kurulum.md**: GSC Domain mülkü = `kozbeylikonagi.com` (ekrandaki "wwwkozbeylikonagi.com"
+  typo'su düzeltildi); DNS = Vercel (ns1/ns2.vercel-dns.com) → TXT VERCEL'e eklenir (mevcut SPF'e dokunma); sitemap submit
+  + Bing Webmaster (Import from GSC) + IndexNow. Canlı doğrulandı: robots.txt tüm AI botlarına açık + sitemap.xml (hreflang tr/en).
+- Eski-ajans (artık kullanılmayan) altyapı referansları repodan kaldırıldı — docs/24 + CHANGELOG nötrleştirildi.
+
+
 ## v1.26.0 — Yayına-hazır içerik paketi (bitmiş kopya, ücretsiz kanal) (Haz 2026)
 - **content/hazir-icerik-paketi.md**: kopyala-yapıştır BİTMİŞ içerik (üretilen takvim generic'ti). 6 GBP postu +
   6 Instagram caption + 5 Reels (hook/ekran yazısı) + sezon/What A Fest + hashtag bankası.
@@ -36,10 +43,10 @@
 ## v1.22.0 — Canlı hesap+site teşhisi: GTM zaten canlı, eksik=GTM-içi GA4/Ads etiketi (Haz 2026)
 - **Tarayıcıda canlı okuma.** Google Ads (648-937-2864): 8 kampanya — 1 ETKİN "Search / Foça Otel" ₺300/gün, ₺8.642
   harcama/1453 tık/%11.6 TO ama **0 dönüşüm (kör harcama)**; 6 duraklatılmış, 1 kaldırılmış. Hesap geneli 0 dönüşüm.
-- **Site ölçümü doğrulandı:** GTM-KCG6B4MJ CANLI + Meta Pixel CANLI + begin_checkout dataLayer event ATIYOR; Ezely yok.
+- **Site ölçümü doğrulandı:** GTM-KCG6B4MJ CANLI + Meta Pixel CANLI + begin_checkout dataLayer event ATIYOR; eski altyapı yok.
   **EKSİK = GTM-içi GA4 Config (G-V3R66C3MEF) + Google Ads Conversion (AW-800024713) → 0 dönüşümün kesin sebebi.**
 - **golive/GTM-KURULUM.html yeniden yazıldı**: "GTM kur" değil → "GTM canlı, içine 2 etiket + Ads conversion action".
-  config gtm_status: LIVE; meta_pixel_status: LIVE; measurement_gap eklendi. Site eskiden Ezely altyapısındaydı.
+  config gtm_status: LIVE; meta_pixel_status: LIVE; measurement_gap eklendi. Site eskiden eski altyapı altyapısındaydı.
 
 
 ## v1.21.0 — GBP içerik zenginleştirme: Yeni Foça + Q&A + İngilizce katman (Haz 2026)
