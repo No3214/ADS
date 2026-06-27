@@ -8,9 +8,11 @@
 5. Restaurant → /gastronomi; hreflang alternates tüm sayfalara.
 6. robots.txt (aeo/robots.txt); GBP NAP denetimi (profiles/).
 7. Rich Results Test + Schema Validator; GA4 AI kanalı (aeo/olcum.md).
+8. **Bing Webmaster Tools** (bing.com/webmasters): siteyi doğrula + **sitemap gönder** + **IndexNow** aç.
+   ChatGPT alıntıları Bing index'ini kullanır — çoğu rakip bunu atlar, bizim ucuz avantajımız. Yandex Webmaster da ekle.
 
 ## 30 gün (büyüme)
-- Hafta 1: Tüm şema canlı + doğrulanmış; GA4 + GSC ölçüm aktif.
+- Hafta 1: Tüm şema canlı + doğrulanmış; GA4 + GSC **+ Bing Webmaster** ölçüm aktif; Bing'e sitemap gönderildi.
 - Hafta 2: 3 yeni yanıt sayfası ("Foça'ya nasıl gidilir", "ne zaman gidilir", "Foça mı Alaçatı mı") — her biri soru-H1 + 40–70 kelime + FAQ + şema.
 - Hafta 3: /organizasyonlar genişlet (düğün soru kümeleri FAQ); GBP düğün foto + haftalık post.
 - Hafta 4: İç bağlantı (deneyim rehberleri → oda/gastronomi/lokasyon); TripAdvisor/Booking sameAs'e; ilk alıntı testi değerlendir.

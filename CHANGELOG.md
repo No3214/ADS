@@ -1,5 +1,12 @@
 # Değişiklik Günlüğü
 
+## v1.19.0 — Maps #1 + AI çıkış sahip-sayfası + AEO tazeleme (Haz 2026)
+- **golive/MAPS-VE-AI-30GUN.html**: tek-sayfa 30 günlük aksiyon (GBP birincil kategori=#1, yorum→4.2+
+  TripAdvisor 3/5 acil, şema tamlık, FAQ doğrudan-cevap, Bing Webmaster+sitemap+IndexNow, alıntı denetimi).
+- **AEO bayat iddia düzeltildi**: README "JSON-LD yok" → web-reach Haz 2026 "JSON-LD VAR; eksik=tamlık+Bing".
+- **Bing Webmaster + sitemap + IndexNow** 7-30 gün planına eklendi (ChatGPT alıntısının ön şartı; rakipler atlıyor).
+
+
 ## v1.18.0 — GTM kurulum paketi + container kararı (Haz 2026)
 - **GTM container seçildi: GTM-KCG6B4MJ** (.env + config/ads-assets.yaml işlendi; MSL2FLF5 arşiv).
 - **golive/GTM-KURULUM.html**: site geliştiricine verilecek tek-sayfa kurulum (Next.js head/body snippet

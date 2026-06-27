@@ -1,8 +1,9 @@
 # aeo/ — AEO & GEO uygulama paketi (kozbeylikonagi.com)
 
 AI motorlarında (ChatGPT/Perplexity/Gemini/Google AI Overviews) görünürlük + alıntı. Denetim:
-site **SSR, robots.txt + 57 URL sitemap + llms.txt var**; **en kritik eksik: hiçbir sayfada
-JSON-LD yok**. Bu paket onu drop-in koda çevirir.
+site **SSR, robots.txt + 57 URL sitemap + llms.txt var**. **GÜNCEL (web-reach Haz 2026): ana sayfada
+JSON-LD VAR** (PostalAddress+Geo+amenity); eksik = **tamlık** (Hotel+Restaurant+FAQPage+HotelRoom) **ve Bing
+Webmaster+sitemap** (ChatGPT alıntısının ön şartı). Bu paket şemayı tamamlar + Bing adımını ekler.
 
 **Dürüst çerçeve:** Hiçbir AEO/GEO işi alıntı/sıralama GARANTİ etmez; olasılığı artırır. Şema
 sayfadaki görünür içerikle eşleşmeli. **Sahte yorum/puan/ödül/fiyat YOK.** Temel SEO
