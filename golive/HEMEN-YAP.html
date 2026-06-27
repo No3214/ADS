@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kozbeyli — Şimdi Ne Yapmalı (Go-Live Eylem Planı)</title>
+<style>
+  :root{ --ink:#2b2620; --muted:#6b6258; --line:#d9cfc2; --bg:#faf7f2; --accent:#7a5c34; --accent2:#9c7b48; --chip:#efe7da; --ok:#2e7d32; --warn:#b26a00; --bad:#a3372b; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:#e9e4dc; color:var(--ink); font-family:"Segoe UI",Calibri,Arial,sans-serif; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .page{ max-width:210mm; margin:10mm auto; background:var(--bg); padding:14mm 14mm 10mm; box-shadow:0 2px 14px rgba(0,0,0,.18); }
+  header{ border-bottom:3px solid var(--accent); padding-bottom:10px; }
+  .brand{ font-size:26px; font-weight:700; color:var(--accent); }
+  .sub{ font-size:12.5px; color:var(--muted); margin-top:3px; }
+  .status{ display:inline-block; background:var(--ok); color:#fff; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:12px; margin-top:6px; }
+  h2{ font-size:15px; color:var(--accent); margin:18px 0 8px; border-left:4px solid var(--accent2); padding-left:8px; }
+  p,li{ font-size:13px; line-height:1.55; }
+  .big{ background:#fff5e9; border:1px solid var(--accent2); border-radius:8px; padding:12px 14px; margin:10px 0; }
+  .big b{ color:var(--accent); }
+  ol{ padding-left:20px; } ol li{ margin:5px 0; }
+  table{ width:100%; border-collapse:collapse; font-size:12px; margin-top:6px; }
+  th,td{ text-align:left; padding:6px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th{ background:var(--chip); font-size:11px; text-transform:uppercase; letter-spacing:.4px; }
+  .tag{ font-weight:700; font-size:11px; padding:1px 7px; border-radius:10px; }
+  .t-atla{ background:#e8e3da; color:var(--muted); } .t-yap{ background:#e2efe2; color:var(--ok); } .t-dikkat{ background:#fbeede; color:var(--warn); }
+  .cta{ background:var(--accent); color:#fff; padding:12px 16px; border-radius:8px; font-weight:700; font-size:14px; text-align:center; margin-top:14px; }
+  .note{ font-size:11px; color:var(--muted); margin-top:8px; }
+  code{ background:var(--chip); padding:1px 5px; border-radius:4px; font-size:12px; }
+  @media print{ body{ background:#fff; } .page{ margin:0; box-shadow:none; max-width:none; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="brand">Kozbeyli — Şimdi Ne Yapmalı</div>
+    <div class="sub">Go-live eylem planı · sistem hazır (v1.15.9, 41 komut, 407 test) · güncel: 27 Haziran 2026</div>
+    <div class="status">SİSTEM HAZIR — tek eksik: senin reklam hesabı ID'lerin</div>
+  </header>
+
+  <div class="big">
+    <b>Tek blokaj bu:</b> Sistem kurulu, test edilmiş ve güncel. Para kazanmaya başlamak için
+    yapılacak tek şey, reklam hesabı kimliklerini <code>.env</code> dosyasına girmek.
+    Nereden alacağını bilmiyorsan sorun değil — bana <b>"kurulum"</b> yaz, ekran paylaşımıyla
+    birlikte gireriz.
+  </div>
+
+  <h2>1) Gereken 5 kimlik (ben yerleştiririm, sen sadece bul/kopyala)</h2>
+  <table>
+    <tr><th>Kimlik</th><th>Nereden</th></tr>
+    <tr><td><b>Google Ads Customer ID</b> (10 hane)</td><td>Google Ads → sağ üst, hesap numarası</td></tr>
+    <tr><td><b>Meta Ad Account ID</b> (act_…)</td><td>Meta Business → Ads Manager → hesap ayarları</td></tr>
+    <tr><td><b>GTM Container ID</b> (GTM-…)</td><td>Google Tag Manager → workspace (zaten 2 aday var: docs/02)</td></tr>
+    <tr><td><b>Google Project ID + Developer Token</b></td><td>Google Cloud + Google Ads API (okuma MCP için; docs/13)</td></tr>
+  </table>
+  <p class="note">GA4 (G-V3R66C3MEF), Google Ads tag (AW-800024713), Meta Pixel zaten sistemde tanımlı.</p>
+
+  <h2>2) Güncel gerçek — bu işleri ATLA / DEĞİŞTİR (web-reach, Haz 2026)</h2>
+  <table>
+    <tr><th>Eski plan</th><th>Güncel</th><th>Durum</th></tr>
+    <tr><td>Parazit site kozbeylikonagiotel.com'u kaldır</td><td>Domain ölü görünüyor (DNS yok). Sadece Google'da kalan listing + GBP numarasını kontrol et</td><td><span class="tag t-atla">ATLA</span></td></tr>
+    <tr><td>.com'a schema ekle</td><td>Schema zaten VAR. Sıfırdan ekleme; Rich Results Test ile <b>doğrula/tamamla</b></td><td><span class="tag t-dikkat">DOĞRULA</span></td></tr>
+    <tr><td>Google Display kampanyası</td><td>Display, Demand Gen'e taşınıyor (Haz 2026). <b>Demand Gen tercih et</b></td><td><span class="tag t-dikkat">DEĞİŞTİR</span></td></tr>
+    <tr><td>Genel yorum toplama</td><td>Otelpuan 8.6 / Yandex 4.3 iyi; <b>TripAdvisor 3.0 zayıf halka</b> → yorumları oraya yönlendir</td><td><span class="tag t-yap">YAP</span></td></tr>
+    <tr><td>Meta manuel kurulum</td><td>Advantage+ varsayılan; <b>Auto Image Stretch'i kapat</b> (9:16/4:5 kreatifi bozar)</td><td><span class="tag t-dikkat">DİKKAT</span></td></tr>
+  </table>
+
+  <h2>3) İlk 30 gün sırası (PAUSED-önce, kademeli)</h2>
+  <ol>
+    <li><b>Ölçüm önce:</b> GTM + GA4 cross-domain + Pixel/CAPI + HMS onay sayfası — test rezervasyonuyla doğrula (purchase geliyor mu?). <code>tracking/</code></li>
+    <li><b>Kampanyaları PAUSED kur:</b> Google Editor CSV import (<code>campaigns/google-editor</code>) + Meta build sheet. Hiçbiri otomatik açılmaz.</li>
+    <li><b>Kapı kontrolü:</b> <code>kads golive</code> — tüm hazırlık kapıları yeşil mi?</li>
+    <li><b>Küçük başla:</b> Marka Search + 1 Meta prospecting'i ENABLE (ikinci onay + guardrail). 1-2 hafta öğren.</li>
+    <li><b>Ölç + dağıt:</b> <code>kads report</code> / <code>kads allocate</code> — çalışana bütçe kaydır.</li>
+    <li><b>Ay 2+:</b> retargeting + PMax/Demand Gen + offline dönüşüm import (<code>kads conversions</code>).</li>
+  </ol>
+
+  <h2>4) Zamanlama — talep zirvesini yakala</h2>
+  <p><b>What A Fest Foça</b> (~20-24 Ağustos + 13-17 Eylül 2026): Foça'da konaklama talebi patlar.
+  Festivalden <b>3-4 hafta önce</b> "Foça otel/konaklama" Search + Meta push; talep yüksek =
+  indirimi kıs, erken rezervasyona yönelt. (<code>kads events</code>) Foça pik Haz-Ağu; rezervasyon 2-3 ay önceden yapılıyor.</p>
+
+  <div class="cta">Başlamak için tek kelime: <b>"kurulum"</b> yaz → ID'leri birlikte girer, ilk kampanyaları PAUSED açar, kontrol ederiz.</div>
+  <p class="note">Bu sayfa golive/HEMEN-YAP.html olarak repoda. Detay: docs/03 (90 gün), docs/20 (güncel araştırma), golive/YAYINA-ALMA.md.</p>
+</div>
+</body>
+</html>

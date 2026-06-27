@@ -11,6 +11,7 @@ PAGES = {
     "dashboard/rapor.html": ["Kozbeyli"],
     "b2b/sell-sheet.html": ["Kozbeyli Konağı", "Küme Evler No:188", "+90 532 234 2686"],
     "creatives/storyboard.html": [],
+    "golive/HEMEN-YAP.html": ["Kozbeyli", "kurulum"],
 }
 
 

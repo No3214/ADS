@@ -367,3 +367,15 @@ Güncel rakip + itibar istihbaratı (web-reach, Haz 2026) sisteme işlendi.
 
 ### Test
 - Tüm suite yeşil (rakip/itibar veri + komut).
+
+## [1.15.10] — 2026-06-27
+Sahip-dostu tek-sayfa go-live eylem planı.
+
+### Eklendi
+- **`golive/HEMEN-YAP.html`** — teknik olmayan sahip için tek sayfa "şimdi ne yapmalı":
+  tek blokaj (5 hesap ID'si + nereden), güncel gerçeğe göre ATLA/DEĞİŞTİR tablosu (parazit ölü,
+  schema var, Display→Demand Gen, TripAdvisor'a yorum, Meta Auto Image Stretch kapat), ilk 30 gün
+  PAUSED-önce sırası, What A Fest zamanlaması. Yazdırılabilir/PDF. HTML testine dahil edildi.
+
+### Test
+- HTML statik test yeni sayfayı kapsıyor. Tüm suite yeşil.
