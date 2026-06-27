@@ -1,5 +1,12 @@
 # Değişiklik Günlüğü
 
+## v1.18.0 — GTM kurulum paketi + container kararı (Haz 2026)
+- **GTM container seçildi: GTM-KCG6B4MJ** (.env + config/ads-assets.yaml işlendi; MSL2FLF5 arşiv).
+- **golive/GTM-KURULUM.html**: site geliştiricine verilecek tek-sayfa kurulum (Next.js head/body snippet
+  + ConsentAndGtm.tsx yolu, GA4/Ads/Pixel GTM-içi, çift-sayım uyarısı, cross-domain hmshotel.net, doğrulama).
+- docs/02 karar banner'ı. Ölçüm kurulumu = reklam yayınının tek kritik ön şartı.
+
+
 ## v1.17.0 — .com.tr terk + bölge kelimeleri + bütçe playbook (Haz 2026)
 - **.com.tr TAMAMEN kaldırıldı**: menü .com'a taşındı; tüm reklam/SEO/tracking/config/CSV
   artık yalnızca `www.kozbeylikonagi.com`. Kaynak `data_ext.py` final_url düzeltildi (CSV'ler

@@ -26,10 +26,9 @@ tracking:
   ga4_measurement_id: "G-V3R66C3MEF"
   google_ads_tag_id: "AW-800024713"
   meta_pixel_id: "1781546559309505"
-  gtm_status: "unresolved"                     # Iki aday; canli olani tarayicida belirle (docs/02).
-  gtm_candidates:
-    - "GTM-KCG6B4MJ"
-    - "GTM-MSL2FLF5"
+  gtm_status: "chosen-deploy-pending"          # Secildi: KCG6B4MJ. Site Next.js -> ConsentAndGtm.tsx ile deploy.
+  gtm_container_id: "GTM-KCG6B4MJ"             # Tek container; deploy sonrasi gtm_status: resolved yap.
+  gtm_archived: "GTM-MSL2FLF5"                 # Duplikat; GTM hesabinda arsivle/sil.
   consent_mode_v2: "default_denied"            # EEA zorunlu; KVKK icin en guvenli varsayilan.
   cross_domain_domains:
     - "kozbeylikonagi.com"

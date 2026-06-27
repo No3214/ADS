@@ -1,5 +1,8 @@
 # 02 — Doğru GTM Container'ı Belirleme
 
+> **KARAR (Haz 2026):** Tek container = **GTM-KCG6B4MJ** (.env + config işlendi). `GTM-MSL2FLF5` duplikat → arşivle. Site Next.js → `tracking/ConsentAndGtm.tsx` ile deploy. Sahip-dostu adımlar: `golive/GTM-KURULUM.html`. Deploy+doğrulama sonrası `config gtm_status: resolved` yap.
+
+
 Elinizde iki aday var: `GTM-KCG6B4MJ` ve `GTM-MSL2FLF5`. Yalnızca biri canlı sitede
 çalışıyor olmalı; ikisi birden yüklüyse **çift etiketleme** (double tagging) ve şişmiş
 veri riski vardır.
