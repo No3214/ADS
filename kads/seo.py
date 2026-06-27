@@ -184,6 +184,8 @@ def build(out_dir: Path) -> list[tuple[str, int]]:
         json.dumps(schema, ensure_ascii=False, indent=2), encoding="utf-8")
 
     def _csv(path, rows):
+        if not rows:
+            return 0
         with path.open("w", encoding="utf-8-sig", newline="") as fh:
             w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
             w.writeheader(); w.writerows(rows)
