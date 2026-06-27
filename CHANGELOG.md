@@ -1,5 +1,13 @@
 # Değişiklik Günlüğü
 
+## v1.23.0 — Meta Pixel canlı denetimi (docs/23, Haz 2026)
+- **Tarayıcıda canlı beacon denetimi** (ana/odalar/rezervasyon). ÇALIŞAN: tek pixel 1781546559309505 (duplicate yok,
+  güncel), PageView her sayfada, **InitiateCheckout /rezervasyon'da ATIYOR**. Pixel tabanı doğru.
+- **EKSİK (öncelikli):** Purchase yok (rezervasyon hmshotel.net'te tamamlanıyor — tamamlanan ölçülmüyor);
+  Advanced Matching KAPALI (1 tık bedava); CAPI yok; ViewContent oda sayfasında yok; InitiateCheckout value/currency yok.
+- docs/23-meta-pixel-denetimi.md (kanıtlı, öncelik sıralı fix). Google ile aynı desen: niyet ölçülüyor, tamamlanma değil.
+
+
 ## v1.22.0 — Canlı hesap+site teşhisi: GTM zaten canlı, eksik=GTM-içi GA4/Ads etiketi (Haz 2026)
 - **Tarayıcıda canlı okuma.** Google Ads (648-937-2864): 8 kampanya — 1 ETKİN "Search / Foça Otel" ₺300/gün, ₺8.642
   harcama/1453 tık/%11.6 TO ama **0 dönüşüm (kör harcama)**; 6 duraklatılmış, 1 kaldırılmış. Hesap geneli 0 dönüşüm.
