@@ -1,5 +1,12 @@
 # Değişiklik Günlüğü
 
+## v1.21.0 — GBP içerik zenginleştirme: Yeni Foça + Q&A + İngilizce katman (Haz 2026)
+- **profiles/google-isletme-profili.md**: açıklamaya "Yeni Foça'ya yakın" eklendi; Q&A 6→12 (dışarıdan kahvaltı,
+  aile odası, düğün, rezervasyon nasıl, Yeni Foça); **İngilizce description + Q&A** (yabancı hacim İng/Alm — AEO/AI).
+- Yorum-isteme (TR+EN/QR/WhatsApp) + yanıt protokolü çapraz-bağlandı; hedef Google ~4.2→4.5+.
+- Tek odak www.kozbeylikonagi.com.
+
+
 ## v1.20.0 — Tek odak www.kozbeylikonagi.com; .com.tr kapsam dışı + rakip verisi (Haz 2026)
 - **KARAR (Yunuscan):** `.com.tr` ile işimiz yok — sistem gündeminden çıkarıldı. **Tek odak `www.kozbeylikonagi.com`**.
   presence/dashboard/README/golive bu doğrultuda sadeleştirildi (.com.tr artık Kritik değil, "kapsam dışı").
