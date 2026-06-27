@@ -19,3 +19,8 @@ ADS.bundle
 # Office gecici/kilit dosyalari
 .~lock.*#
 ~$*
+
+# Test artefaktlari
+.pytest_cache/
+test-results/
+playwright-report/

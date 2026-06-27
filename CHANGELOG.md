@@ -309,3 +309,21 @@ Sürüm tek kaynağa indirildi + CI gerçek Python sürümlerine çekildi.
   cli.py ↔ pyproject sürüm DRIFT'i artık imkansız (tekrarlayan tutarsızlık kökten çözüldü).
 - **CI matrisi:** EOL Python 3.8 yerine gerçek hedefler **3.10 / 3.11 / 3.12**; `requires-python ">=3.10"`.
 - `test_version_single_source` regresyon kilidi.
+
+## [1.15.6] — 2026-06-26
+Test katmanı genişletildi: monkey/fuzz + HTML statik + Playwright e2e.
+
+### Eklendi (test)
+- **Monkey/fuzz testi** (`tests/test_monkey.py`): kads CLI'a 250 rastgele/bozuk argüman
+  kombinasyonu (komut+flag+değer+çöp+rastgele string) verilir; CLI ASLA traceback ile çökmemeli,
+  her zaman int çıkış kodu döner. Kırılmaz-CLI garantisi (sandbox+Windows'ta yeşil).
+- **HTML statik testi** (`tests/test_dashboards_html.py`, yalnız stdlib): panolar (kontrol-merkezi,
+  rapor) + b2b sell-sheet + storyboard — HTML iskeleti + `<title>` + anahtar içerik + sell-sheet'te
+  kanonik NAP + sahte-puan yokluğu. Browsersiz; her yerde çalışır.
+- **Playwright e2e** (`e2e/`): gerçek Chromium ile panolar render + konsol-hatası kontrolü.
+  Varsayılan suite'in DIŞINDA (hız); tarayıcı yoksa `skipif` ile atlanır. CI'da
+  `playwright install --with-deps chromium` + ayrı **e2e job**.
+- pyproject `e2e` extra (`pytest-playwright`); CI `test` + `e2e` iki iş.
+
+### Test
+- Varsayılan suite **405 pytest** (önceki 149 + 250 fuzz + 6 HTML), <2s. e2e ayrı/CI.

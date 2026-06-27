@@ -20,3 +20,18 @@ jobs:
         run: python -m kads validate
       - name: Tests
         run: python -m pytest -q
+
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Install (e2e)
+        run: pip install -e ".[dev,e2e]"
+      - name: Playwright browsers (+system deps)
+        run: python -m playwright install --with-deps chromium
+      - name: HTML statik testler
+        run: python -m pytest tests/test_dashboards_html.py -q
+      - name: Tarayici e2e (panolar)
+        run: python -m pytest e2e/ -q
