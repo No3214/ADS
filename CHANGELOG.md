@@ -1,5 +1,12 @@
 # Değişiklik Günlüğü
 
+## v1.25.0 — README index + haftalık görev güncel bulgularla (Haz 2026)
+- README komut tablosuna `kads events` + `kads tracking` eklendi; docs index 22-24'e kadar güncellendi.
+- Haftalık zamanlı görev (kozbeyli-haftalik-kontrol) güçlendirildi: kads tracking ölçüm durumu + "Search / Foça Otel"
+  kör-harcama (₺300/gün, 0 dönüşüm) uyarısı + GTM KCG6B4MJ erişim doğrulama + Meta ID artık girili.
+- HMS onay snippet'i denetlendi: zaten üretim-hazır (GA4 purchase + Ads conversion + Meta Purchase + eventID dedup).
+
+
 ## v1.24.0 — kads tracking komutu + ölçüm regresyon kilitleri + kalite (Haz 2026)
 - **kads tracking** komutu: ölçüm durumu (GTM/GA4/Ads/Pixel canlı mı + açık kalemler) — canlı doğrulanmış
   veriden (data_ext.TRACKING_STATE). doctor'a "Ölçüm" satırı + help kaydı. json pipe-temiz.

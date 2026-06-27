@@ -70,6 +70,8 @@ kads plan                 # 30.000 TL çapraz kanal planı
 | `kads attribution` | Attribution modeli + çift sayım dedup |
 | `kads allocate [funnel|rules]` | Bütçe dağıtım matrisi (kanal × huni × ay) |
 | `kads conversions [offline|enhanced|calls]` | Dönüşüm ölçüm döngüsü (online + offline/call import) |
+| `kads events` | Yerel talep etkinlikleri (Foça festival vb.) + zamanlama |
+| `kads tracking` | **Ölçüm durumu**: GTM/GA4/Ads/Pixel canlı mı + açık kalemler |
 | `kads selfcheck` | Sistem bütünlük denetimi (kırılmaz) |
 | `kads golive` | Fazlı yayına alma kapısı (hazırlık denetimi) |
 | `kads guard --check change.json` | Değişiklik guardrail kontrolü (yazma için) |
@@ -86,6 +88,8 @@ docs/                  00-04 mimari/güvenlik · 05 optimizasyon · 06 benchmark
                        07 repo araştırması · 08 yerel SEO/GBP · 09 dijital denetim
                        10 referans kütüphanesi · 11 araç zinciri · 12 web güvenlik/Shannon
                        13 kurulum runbook (GitHub/MCP/connector/skill)
+                       14-19 büyüme/AEO/web/B2B · 20-21 platform+canlı veri analizi
+                       22 bütçe-dostu reklam/AEO · 23 Meta Pixel denetimi · 24 GTM etiket kurulumu
 scripts/               guardrails.py (güvenlik kalbi) · preflight.py
 assets/ tracking/ plans/ config/   RSA/kreatif · Consent+GTM+HMS · 30k plan · doğrulanmış config
 tests/                 pytest (guardrails + build + CLI)
