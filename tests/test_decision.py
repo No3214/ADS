@@ -36,7 +36,7 @@ def test_agent_council_cpa_kill_rule():
             "status": "active",
             "budget": 350.0,
             "bid_strategy": "Lowest Cost",
-            "spend": 1000.0,
+            "spend": 900.0,
             "clicks": 98,
             "impressions": 4500,
             "conversions": 0,

@@ -4,6 +4,7 @@ from typing import List
 from kads.core.schemas import ActionSchema
 from kads.decision.risk_score import calculate_risk_score
 from kads.decision.creative import generate_ad_variant
+from kads.decision.anomaly import detect_anomalies
 from kads.observability.health import audit_tracking_health
 
 def run_agent_council(google_campaigns: List[dict], meta_campaigns: List[dict]) -> List[ActionSchema]:
@@ -121,4 +122,49 @@ def run_agent_council(google_campaigns: List[dict], meta_campaigns: List[dict]) 
             )
             proposed_actions.append(action)
 
-    return proposed_actions
+    # Heuristic 4: Anomaly Detection -> Propose Emergency Pauses
+    anomalies = detect_anomalies(all_campaigns)
+    for anomaly in anomalies:
+        camp_id = anomaly["campaign_id"]
+        platform = anomaly["platform"]
+        severity = anomaly["severity"]
+        
+        # Propose emergency pausing if it is a critical anomaly
+        if severity == "CRITICAL":
+            action_data = {
+                "action": "pause"
+            }
+            # Unhealthy tracking health score increases risk to absolute maximum (0.99)
+            risk = calculate_risk_score(action_data, tracking_score)
+            
+            action = ActionSchema(
+                action_id=f"act_{uuid.uuid4().hex[:8]}",
+                platform=platform,
+                entity_type="campaign",
+                entity_id=camp_id,
+                action_type="pause",
+                current_state={"status": "active"},
+                proposed_state={"status": "PAUSED"},
+                expected_impact=f"EMERGENCY PAUSE: {anomaly['details']}",
+                risk_score=0.99,  # Absolute critical alert
+                confidence=0.99,
+                requires_approval=True,
+                approval_reason=risk.reasons + [f"Operational Anomaly detected: {anomaly['type']}"],
+                rollback_plan={"status": "active"},
+                expires_at=datetime.utcnow() + timedelta(hours=12),
+                status="pending"
+            )
+            proposed_actions.append(action)
+
+    # Sort proposed_actions by risk_score descending to keep the most critical alert in case of duplicates
+    proposed_actions.sort(key=lambda x: x.risk_score, reverse=True)
+
+    unique_actions = []
+    seen = set()
+    for action in proposed_actions:
+        key = (action.platform, action.entity_type, action.entity_id, action.action_type)
+        if key not in seen:
+            seen.add(key)
+            unique_actions.append(action)
+
+    return unique_actions
