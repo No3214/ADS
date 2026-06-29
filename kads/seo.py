@@ -106,6 +106,39 @@ def schema_jsonld() -> dict:
         },
     }
 
+def faq_schema_jsonld() -> dict:
+    """LLM'ler (ChatGPT, Perplexity) ve Arama Motorları için FAQPage JSON-LD Şeması (AEO)."""
+    return {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Kozbeyli Konağı nerede ve nasıl gidilir?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "İzmir'in Foça ilçesine bağlı 600 yıllık tarihi Kozbeyli Köyü'nde yer alır. Foça merkeze 13 km mesafededir."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Kozbeyli Konağı evcil hayvan kabul ediyor mu?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Evet, evcil hayvan dostu bir butik oteldir. Minik dostlarınızla konaklayabilirsiniz."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Kozbeyli Konağı'nda kahvaltı dahil mi?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Evet, tüm oda fiyatlarına yöresel Ege lezzetlerinden oluşan serpme organik köy kahvaltısı dahildir."
+                }
+            }
+        ]
+    }
+
 
 # ---- GBP optimizasyon kontrol listesi --------------------------------------
 GBP_CHECKLIST = [
@@ -192,6 +225,7 @@ def build(out_dir: Path) -> list[tuple[str, int]]:
 
     return [
         ("schema-lodgingbusiness.jsonld", len(json.dumps(schema))),
+        ("schema-faq-aeo.jsonld", len(json.dumps(faq_schema_jsonld()))),
         ("gbp-kontrol-listesi.csv", _csv(out_dir / "gbp-kontrol-listesi.csv", gbp_rows())),
         ("nap-atif-listesi.csv", _csv(out_dir / "nap-atif-listesi.csv", citation_rows())),
         ("marka-hakimiyeti.csv", _csv(out_dir / "marka-hakimiyeti.csv", brand_rows())),

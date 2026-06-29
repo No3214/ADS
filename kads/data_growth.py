@@ -293,3 +293,15 @@ LOCAL_EVENTS = [
      "etki": "Düşük turizm / YÜKSEK B2B", "aksiyon": "Aliağa B2B'ye kaydır (bakım-duruş/toplantı) + içerik/SEO + WhatsApp"},
 ]
 # Web-reach ile her sezon başında güncellenmeli (zamanlanmış görev). Kaynaklar: docs/20.
+
+# =============================================================================
+# 10) META ADVANTAGE+ STRATEJILERI (God Tier Otomasyon)
+# =============================================================================
+ADVANTAGE_PLUS_CAMPAIGNS = [
+    {"kampanya_tipi": "Advantage+ Konaklama / Katalog", "hedef_kitle": "Geniş (Broad) + CRM (Mevcut Müşteriler) %5 bütçe kapağı",
+     "optimizasyon": "Value (Ciro) Optimizasyonu / En Yüksek ROAS", "format": "Dinamik Kreatif",
+     "sinyal": "CAPI'den gelen Purchase (OCT) event_id eşleşmeli"},
+    {"kampanya_tipi": "Advantage+ Özel Hedef Kitle (Lookalike)", "hedef_kitle": "VIP Müşteri Listesi %1 LAL",
+     "optimizasyon": "Dönüşümler (Rezervasyon)", "format": "Dikey Video / Reels",
+     "sinyal": "Geçen sezon gelen rezervasyonların LTV'ye göre sıralı CRM listesi"}
+]

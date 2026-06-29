@@ -51,3 +51,6 @@ def test_web_ok(): from kads.cli import main; assert main(["web", "-f", "json"])
 def test_b2b_ok(): from kads.cli import main; assert main(["b2b", "-f", "json"]) == 0
 def test_b2b_packages_ok(): from kads.cli import main; assert main(["b2b", "packages", "-f", "csv"]) == 0
 def test_selfcheck_ok(): from kads.cli import main; assert main(["selfcheck", "-f", "json"]) == 0
+def test_godtier_audit_ok(): from kads.cli import main; assert main(["godtier-audit"]) == 0
+def test_inject_audiences_ok(): from kads.cli import main; assert main(["inject-audiences"]) == 0
+

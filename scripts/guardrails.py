@@ -38,6 +38,9 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.append(str(ROOT))
+from kads import core
+
 LOG_DIR = ROOT / "logs"
 LOG_FILE = LOG_DIR / "ads-change-audit.jsonl"
 
@@ -93,20 +96,21 @@ def _digits(s: str) -> str:
 def load_config() -> dict:
     """ads-assets.yaml'i bağımlılıksız (mini parser) okur; yalnızca ihtiyaç
     duyulan alanları çeker. PyYAML kurulu değilse de çalışır."""
+    env = core.load_env()
     cfg = {
-        "google_monthly_try": float(os.getenv("GOOGLE_MONTHLY_BUDGET_TRY", "15000")),
-        "meta_monthly_try": float(os.getenv("META_MONTHLY_BUDGET_TRY", "15000")),
-        "google_daily_try": float(os.getenv("GOOGLE_AVG_DAILY_BUDGET_TRY", "493")),
-        "meta_daily_try": float(os.getenv("META_DAILY_BUDGET_TRY", "500")),
-        "writes_enabled": os.getenv("ADS_WRITES_ENABLED", "false").lower() == "true",
+        "google_monthly_try": float(env.get("GOOGLE_MONTHLY_BUDGET_TRY", "15000")),
+        "meta_monthly_try": float(env.get("META_MONTHLY_BUDGET_TRY", "15000")),
+        "google_daily_try": float(env.get("GOOGLE_AVG_DAILY_BUDGET_TRY", "493")),
+        "meta_daily_try": float(env.get("META_DAILY_BUDGET_TRY", "500")),
+        "writes_enabled": env.get("ADS_WRITES_ENABLED", "false").lower() == "true",
         "google_allowlist": set(),
         "meta_allowlist": set(),
     }
     # Allowlist'i .env'den oku (virgül ile ayrılmış). Boşsa config'ten doldurulur.
-    g = _digits(os.getenv("GOOGLE_ADS_CUSTOMER_ID", ""))
+    g = _digits(env.get("GOOGLE_ADS_CUSTOMER_ID", ""))
     if len(g) == 10:
         cfg["google_allowlist"].add(g)
-    m = os.getenv("META_AD_ACCOUNT_ID", "").strip()
+    m = env.get("META_AD_ACCOUNT_ID", "").strip()
     if re.fullmatch(r"act_\d+", m):
         cfg["meta_allowlist"].add(m)
 

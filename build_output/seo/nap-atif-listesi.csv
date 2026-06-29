@@ -1,0 +1,13 @@
+﻿platform,öncelik,not
+Google İşletme Profili,Kritik,Birincil yerel sinyal — Maps + yerel paket
+Apple Maps Connect,Yüksek,iOS Haritalar görünürlüğü
+Yandex Haritalar,Yüksek,TR'de yaygın; işletme kaydı
+Bing Places,Orta,Bing/Copilot görünürlüğü
+Foursquare,Orta,Atıf sinyali
+TripAdvisor,Yüksek,Otel + yorum otoritesi (Top 10 ödülü vurgula)
+trivago,Orta,Meta-arama görünürlüğü
+Booking.com,Orta,"OTA; markayı koru, direkt'e yönlendir"
+Hotels.com,Orta,OTA atıfı
+neredekal / obilet / etstur,Orta,TR OTA atıfları; NAP tutarlı
+Facebook Sayfası,Yüksek,NAP + sameAs sinyali
+Instagram (@kozbeylikonagi),Yüksek,Marka + bio'da site linki

@@ -1,0 +1,6 @@
+﻿Faz,Kampanya,Amaç,Günlük TRY,Aylık TRY,Kitle,Optimizasyon,Durum,Kreatifler
+Ay 1,Kozbeyli | Prospecting | Website Sales,Sales (Conversions),350,10500,Prospecting,Purchase (güvenilirse) — değilse begin_checkout / Lead,PAUSED,"Konsept1-TasKonak, Konsept2-Manzara, Konsept3-Kahvalti, Konsept4-Evcil"
+Ay 1,Kozbeyli | WhatsApp | Mesaj,Engagement (Messaging → WhatsApp),150,4500,Prospecting,Conversations (mesaj başlatma),PAUSED,"Konsept5-WhatsApp, Konsept2-Manzara"
+Ay 2+,Kozbeyli | Prospecting | Website Sales,Sales (Conversions),300,9000,Prospecting,Purchase,PAUSED,"Konsept1-TasKonak, Konsept2-Manzara, Konsept3-Kahvalti"
+Ay 2+,Kozbeyli | Retargeting | Website Sales,Sales (Conversions),100,3000,Retargeting,Purchase,PAUSED,"Konsept2-Manzara, Konsept4-Evcil"
+Ay 2+,Kozbeyli | WhatsApp | Mesaj,Engagement (Messaging → WhatsApp),100,3000,Prospecting,Conversations,PAUSED,Konsept5-WhatsApp

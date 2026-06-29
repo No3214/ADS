@@ -24,7 +24,7 @@ seviyesinde guardrail + açık onaydan geçer.** Aşağıdaki kurallar bağlayı
 - **Platformlar:** `kads/platforms/google.py` (Editor CSV), `meta.py` (kurulum rehberi),
   `kads/seo.py` (JSON-LD + GBP), `kads/presence.py` (dijital denetim).
 - **Üretilmiş varlıklar:** `campaigns/` (launch-hazır), `dashboard/kontrol-merkezi.html`.
-- **Skills:** `.claude/skills/kozbeyli-ads-monitor` (salt okunur), `kozbeyli-ads-change`
+- **Skills:** `.agents/skills/kozbeyli-ads-monitor` (salt okunur), `.agents/skills/kozbeyli-ads-change`
   (guardrail'li değişiklik).
 - **Bağlantılar:** Meta resmî connector `https://mcp.facebook.com/ads`; Google okuma
   `googleads/google-ads-mcp`; Google yazma = Editor CSV (güvenli) veya deneysel MCP.
@@ -48,3 +48,4 @@ seviyesinde guardrail + açık onaydan geçer.** Aşağıdaki kurallar bağlayı
 - Token'ı asla `.mcp.json`/URL'ye koyma (OX Security STDIO advisory). Topluluk skill'leri **fork+audit**.
 - Ek araçlar: docs/11 (Meta analiz skill'leri, Palmier video, Codex plugin). Web güvenlik / Shannon:
   docs/12 — yalnız **sahibi olduğun sistemde, staging'de, yetkiyle**; canlı prod'a otonom exploit YOK.
+

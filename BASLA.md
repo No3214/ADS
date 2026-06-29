@@ -13,7 +13,7 @@ Meta `act_...` · Google 10 hane müşteri ID · GTM container (docs/02) · Goog
 
 ## 2) Ölç (reklamdan ÖNCE — en önemli adım)
 `tracking/implementation/` + `golive/YAYINA-ALMA.md`: Consent v2, GTM tag'leri, GA4 cross-domain,
-Meta CAPI. HMS desteğine 6 soru (`fixes/05`). **Test rezervasyonu** ile doğrula.
+`kads godtier-audit` ile durum gör. Meta CAPI. HMS desteğine 6 soru (`fixes/05`). **Test rezervasyonu** ile doğrula.
 
 ## 3) Reklamları üret + yayına al (guardrail'li)
 `kads build all` → Google Ads Editor CSV (PAUSED) + Meta kurulum + SEO. Editor'e import et.
@@ -28,7 +28,7 @@ Yayına alma: `kads guard` + açık onay. Plan: `kads plan` · bütçe: `kads bu
 Postiz'e kanalları (IG/FB/TikTok/LinkedIn/X) bağla (`publishing/`). Kreatif: `creatives/storyboard.html`.
 
 ## 6) İzle + optimize et (haftalık)
-`kads report --metrics metrics.csv` (KPI) · `kads rules` (öneri) · `dashboard/rapor.html` ·
+`kads report --metrics metrics.csv` (KPI) · `kads rules` (öneri) · `kads godtier-audit` (CAPI/OCT denetimi) · `kads inject-audiences` (CRM kitleleri) · `dashboard/rapor.html` ·
 `kads competitors` (rakip) · yorum topla (`fixes/06` + `whatsapp/takip-mesajlari.md`).
 
 ## Yardım
