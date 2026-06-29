@@ -45,7 +45,7 @@ def test_tracking_state_valid_status():
 
 # ---- domain regresyonu: .com.tr asla geri gelmesin --------------------------
 def test_no_hotel_comtr_in_source():
-    for mod in ("data.py", "data_ext.py", "seo.py", "presence.py"):
+    for mod in ("data/__init__.py", "data_ext.py", "seo.py", "presence.py"):
         txt = (ROOT / "kads" / mod).read_text(encoding="utf-8")
         assert "kozbeylikonagi.com.tr" not in txt, f"{mod} .com.tr içeriyor"
 

@@ -19,7 +19,7 @@ import re
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 ENV_FILE = ROOT / ".env"
 CONFIG_FILE = ROOT / "config" / "ads-assets.yaml"
 
