@@ -171,6 +171,12 @@
     </div>
   </div>
 
+  <h2 class="sec">Agent Council — Onay Bekleyen Aksiyonlar</h2>
+  <div id="approvals-container" class="grid k2">
+    <!-- JS will populate cards here -->
+    <p style="color:var(--muted);font-size:13px;padding-left:4px">Kuyruk kontrol ediliyor...</p>
+  </div>
+
   <h2 class="sec">Komut referansı</h2>
   <div class="card cmd">
     <code>kads doctor</code><span>Ortam + config + kanal teşhisi</span>
@@ -189,5 +195,59 @@
   </div>
 
 </div>
+<script>
+  async function loadApprovals() {
+    const container = document.getElementById("approvals-container");
+    try {
+      const response = await fetch("http://127.0.0.1:8000/approvals");
+      const approvals = await response.json();
+      
+      if (!approvals || approvals.length === 0) {
+        container.innerHTML = '<p style="color:var(--muted);font-size:13px;padding-left:4px">Şu an onay bekleyen herhangi bir aksiyon yok.</p>';
+        return;
+      }
+
+      let html = "";
+      approvals.forEach(act => {
+        let riskClass = act.risk_score > 0.4 ? 't-kritik' : (act.risk_score > 0.2 ? 't-yuksek' : 't-orta');
+        html += `
+          <div class="card" id="action-${act.action_id}">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+              <div class="st s-warn">${act.action_type.toUpperCase()}</div>
+              <span class="tag ${riskClass}">Risk: ${act.risk_score}</span>
+            </div>
+            <p style="font-size:14px;margin:0 0 4px 0"><b>Platform:</b> ${act.platform}</p>
+            <p style="font-size:14px;margin:0 0 4px 0"><b>Entity:</b> ${act.entity_type} (${act.entity_id})</p>
+            <p style="color:var(--muted);font-size:13px;margin:12px 0">${act.expected_impact}</p>
+            <div style="display:flex;gap:8px;margin-top:14px">
+              <button style="padding:6px 12px;background:var(--green);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600" onclick="handleAction('${act.action_id}', 'approve')">Onayla</button>
+              <button style="padding:6px 12px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:6px;cursor:pointer" onclick="handleAction('${act.action_id}', 'reject')">Reddet</button>
+            </div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    } catch (err) {
+      container.innerHTML = '<p style="color:var(--terra);font-size:13px;padding-left:4px">API bağlantısı başarısız. Uvicorn sunucusu çalışıyor mu? (127.0.0.1:8000)</p>';
+    }
+  }
+
+  async function handleAction(action_id, decision) {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/actions/${action_id}/${decision}`, {
+        method: "POST"
+      });
+      if (response.ok) {
+        loadApprovals(); 
+      } else {
+        alert("İşlem başarısız oldu.");
+      }
+    } catch (err) {
+      alert("API bağlantı hatası.");
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", loadApprovals);
+</script>
 </body>
 </html>

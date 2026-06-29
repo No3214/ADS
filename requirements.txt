@@ -3,3 +3,7 @@
 pytest>=7
 # Opsiyonel (config'i PyYAML ile okumak isterseniz; kads mini-parser ile de çalışır):
 # pyyaml>=6
+
+# Real API Integration
+google-ads>=23.0.0
+facebook-business>=19.0.0

@@ -51,3 +51,30 @@ def test_agent_council_cpa_kill_rule():
     assert action.action_type == "pause"
     assert action.requires_approval is True
     assert "3x Kill Rule triggered" in action.approval_reason[-1]
+
+def test_agent_council_ad_fatigue_creative():
+    google_campaigns = [
+        {
+            "campaign_id": "g_fatigue_123",
+            "campaign_name": "Google — Marka Search",
+            "platform": "google",
+            "status": "active",
+            "budget": 148.0,
+            "bid_strategy": "tCPA",
+            "spend": 120.0,
+            "clicks": 15,
+            "impressions": 1000, # CTR = 1.5% (< 2.0%)
+            "conversions": 1,
+            "revenue": 120.0,
+        }
+    ]
+    meta_campaigns = []
+
+    actions = run_agent_council(google_campaigns, meta_campaigns)
+    assert len(actions) == 1
+    action = actions[0]
+    assert isinstance(action, ActionSchema)
+    assert action.action_type == "creative_test"
+    assert "headline" in action.proposed_state
+    assert "description" in action.proposed_state
+    assert action.requires_approval is True

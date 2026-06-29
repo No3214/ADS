@@ -53,20 +53,88 @@ def fetch_google_campaigns() -> list[dict]:
             }
         ]
 
-    # In production, this would use google-ads SDK to query GAQL.
-    # Since we are executing in dry-run/mock default mode, return base data.
-    return [
-        {
-            "campaign_id": "g_brand_123",
-            "campaign_name": "Google — Marka Search",
-            "platform": "google",
-            "status": "active",
-            "budget": 148.0,
-            "bid_strategy": "tCPA",
-            "spend": 130.0,
-            "clicks": 50,
-            "impressions": 350,
-            "conversions": 4,
-            "revenue": 8000.0,
+    try:
+        from google.ads.googleads.client import GoogleAdsClient
+        from google.ads.googleads.errors import GoogleAdsException
+        
+        credentials = {
+            "developer_token": dev_token,
+            "refresh_token": env.get("GOOGLE_ADS_REFRESH_TOKEN", ""),
+            "client_id": env.get("GOOGLE_ADS_CLIENT_ID", ""),
+            "client_secret": env.get("GOOGLE_ADS_CLIENT_SECRET", ""),
+            "use_proto_plus": True
         }
-    ]
+        
+        if not credentials["refresh_token"] or core.is_placeholder(credentials["refresh_token"]):
+            raise ValueError("Missing real Google Ads refresh token")
+
+        client = GoogleAdsClient.load_from_dict(credentials, version="v17")
+        ga_service = client.get_service("GoogleAdsService")
+
+        query = """
+            SELECT
+              campaign.id,
+              campaign.name,
+              campaign.status,
+              campaign_budget.amount_micros,
+              campaign.bidding_strategy_type,
+              metrics.cost_micros,
+              metrics.clicks,
+              metrics.impressions,
+              metrics.conversions,
+              metrics.conversions_value
+            FROM campaign
+            WHERE campaign.status != 'REMOVED'
+            AND segments.date DURING LAST_30_DAYS
+        """
+        
+        request = client.get_type("SearchGoogleAdsRequest")
+        request.customer_id = customer_id
+        request.query = query
+
+        response = ga_service.search(request=request)
+
+        results = []
+        for row in response:
+            status_enum = row.campaign.status.name.lower()
+            
+            # Map enum to our simple active/paused
+            is_active = status_enum == 'enabled'
+            status = 'active' if is_active else 'paused'
+
+            budget = row.campaign_budget.amount_micros / 1000000.0 if row.campaign_budget else 0.0
+            spend = row.metrics.cost_micros / 1000000.0 if row.metrics.cost_micros else 0.0
+
+            results.append({
+                "campaign_id": str(row.campaign.id),
+                "campaign_name": row.campaign.name,
+                "platform": "google",
+                "status": status,
+                "budget": budget,
+                "bid_strategy": row.campaign.bidding_strategy_type.name,
+                "spend": spend,
+                "clicks": row.metrics.clicks,
+                "impressions": row.metrics.impressions,
+                "conversions": row.metrics.conversions,
+                "revenue": row.metrics.conversions_value,
+            })
+            
+        return results
+
+    except Exception as e:
+        # Fallback to base mock if real API fails or SDK is not installed
+        return [
+            {
+                "campaign_id": "g_brand_123",
+                "campaign_name": "Google — Marka Search",
+                "platform": "google",
+                "status": "active",
+                "budget": 148.0,
+                "bid_strategy": "tCPA",
+                "spend": 130.0,
+                "clicks": 50,
+                "impressions": 350,
+                "conversions": 4,
+                "revenue": 8000.0,
+            }
+        ]

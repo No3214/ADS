@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from typing import List
 from kads.core.schemas import ActionSchema
 from kads.decision.risk_score import calculate_risk_score
+from kads.decision.creative import generate_ad_variant
 from kads.observability.health import audit_tracking_health
 
 def run_agent_council(google_campaigns: List[dict], meta_campaigns: List[dict]) -> List[ActionSchema]:
@@ -84,6 +85,38 @@ def run_agent_council(google_campaigns: List[dict], meta_campaigns: List[dict]) 
                 approval_reason=risk.reasons + ["3x Kill Rule triggered: CPA exceeds target"],
                 rollback_plan={"status": c["status"]},
                 expires_at=datetime.utcnow() + timedelta(hours=24),
+                status="pending"
+            )
+            proposed_actions.append(action)
+
+        # Heuristic 3: Ad Fatigue -> Generate Creative (A/B Test)
+        # Low CTR but campaign is active and has spend.
+        ctr = (c["clicks"] / c["impressions"]) * 100 if c["impressions"] > 0 else 0.0
+        if 0 < ctr < 2.0 and spend > 100.0 and cpa < TARGET_CPA * 3:
+            variant = generate_ad_variant(platform, camp_name)
+            action_data = {
+                "action": "creative_test"
+            }
+            risk = calculate_risk_score(action_data, tracking_score)
+
+            action = ActionSchema(
+                action_id=f"act_{uuid.uuid4().hex[:8]}",
+                platform=platform,
+                entity_type="adgroup",
+                entity_id=f"{camp_id}_ad_1",
+                action_type="creative_test",
+                current_state={"creative": "EXISTING_AD"},
+                proposed_state={
+                    "headline": variant["headline"],
+                    "description": variant["description"]
+                },
+                expected_impact=f"Combat Ad Fatigue (CTR {ctr:.2f}%). " + variant["rationale"],
+                risk_score=risk.risk_score,
+                confidence=0.90,
+                requires_approval=True,  # Creative changes ALWAYS require approval
+                approval_reason=risk.reasons + ["Ad fatigue detected, requires A/B test approval"],
+                rollback_plan={"creative": "EXISTING_AD"},
+                expires_at=datetime.utcnow() + timedelta(hours=72),
                 status="pending"
             )
             proposed_actions.append(action)
