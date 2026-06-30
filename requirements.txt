@@ -7,3 +7,12 @@ pytest>=7
 # Real API Integration
 google-ads>=23.0.0
 facebook-business>=19.0.0
+
+# API & Backend
+fastapi>=0.111.0
+uvicorn>=0.30.0
+pydantic>=2.7.0
+sqlalchemy>=2.0.0
+
+# Scheduler
+apscheduler>=3.10.0
