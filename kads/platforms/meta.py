@@ -233,7 +233,7 @@ def copy_ab_rows() -> list[dict]:
                     "Tema": c["tema"],
                     "Varyant": variant,
                     "Hook": hook,
-                    "Primary Text": f"{hook} {base}",
+                    "Primary Text": (base if (base.strip().lower().startswith(hook.strip().lower().rstrip(".")[:18]) or hook.strip().lower().rstrip(".") in base.strip().lower()) else f"{hook} {base}"),
                     "Headline": c["headlines"][0],
                     "CTA": c["cta"],
                 }

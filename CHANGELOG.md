@@ -1,5 +1,11 @@
 # Değişiklik Günlüğü
 
+## v1.32.0 — McKinsey audit Wave-5: Ölçüm dedup + Meta A/B duplikasyon fix
+- **events.ts purchase**: `event_id` artık `transactionId` (HMS rezervasyon no) — Pixel + CAPI + GA4 AYNI id ile tekilleştirme garantili (önceden rastgele `pur_*` → dedup kırıktı, çift sayım riski).
+- **meta.py A/B üretimi**: hook körlemesine prepend ediliyordu → C-Aciliyet "Bu hafta birkaç oda boş." WhatsApp konseptinde literal çift metin üretiyordu. Hook zaten metinde varsa tekrar etmiyor.
+- Doğrulama: 452 pytest geçer; meta CSV'lerde duplikasyon yok; .com.tr regresyon temiz.
+
+
 ## v1.31.0 — McKinsey denetim Wave-4: kampanya strateji düzeltmeleri (Haz 2026)
 - **Display bidding düzeltildi** (B3): Display/Remarketing kampanyası 0 dönüşümde "Maximize conversions" → "Maximize clicks"
   (data_ext kaynağı; editor CSV yeniden üretildi). MaxConv ~15-30 dönüşüm olmadan öğrenemez; ölçüm kurulunca BID_GRADUATE ile geçilir.

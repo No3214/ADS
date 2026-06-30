@@ -84,7 +84,7 @@ export function beginCheckout(value?: number, roomId?: string, roomName?: string
  */
 export function purchase(input: PurchaseInput) {
   const { transactionId, value, currency = 'TRY', roomId, roomName, nights } = input;
-  const eventId = newEventId('pur');
+  const eventId = transactionId; // dedup anahtarı = HMS rezervasyon no (Pixel + CAPI + GA4 AYNI id)
   push({ ecommerce: null });
   push({
     event: 'purchase',
