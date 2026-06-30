@@ -27,3 +27,5 @@ playwright-report/
 build_output/
 .codex/
 kads_warehouse.db
+.coverage
+.coverage.*

@@ -33,24 +33,25 @@ code{background:#f0ece1;border:1px solid var(--line);border-radius:6px;padding:1
 
 <h2>1) Metrikleri yapıştır</h2>
 <div class="card">
+<p style="margin:0 0 8px;padding:8px 10px;background:#fdf2f3;border:1px solid #f0c0c4;border-radius:6px;color:#8a1f2a;font-size:12.5px"><b>UYARI:</b> Aşağıdaki alan boştur (örnek değil). ÖLÇÜM doğrulanana kadar gerçek dönüşüm yoktur (Ads 0 dönüşüm). Kendi metriğini yapıştır.</p>
 <p style="margin:0 0 8px;color:var(--muted);font-size:12.5px">Format: <code>metrik,deger</code> (her satır). <code>kads report --template</code> ile şablon üret, doldur, yapıştır.</p>
 <textarea id="inp">metrik,deger
-google_spend_try,15000
-meta_spend_try,15000
-tracked_revenue_try,95000
-google_clicks,1400
-google_impressions,60000
-google_conversions,6
-meta_clicks,2200
-meta_impressions,180000
-meta_purchases,5
-meta_frequency,2.8
-nonbrand_ctr_pct,1.8
-cpc_try,11.5
-weekly_conversions,11
-conversions_30d,11
-spend_pace_pct,100
-whatsapp_leads,18</textarea>
+google_spend_try,0
+meta_spend_try,0
+tracked_revenue_try,0
+google_clicks,0
+google_impressions,0
+google_conversions,0
+meta_clicks,0
+meta_impressions,0
+meta_purchases,0
+meta_frequency,0
+nonbrand_ctr_pct,0
+cpc_try,0
+weekly_conversions,0
+conversions_30d,0
+spend_pace_pct,0
+whatsapp_leads,0</textarea>
 <button onclick="run()">Hesapla</button>
 </div>
 
@@ -103,5 +104,5 @@ trig.sort(function(a,b){return pri[a[5]]-pri[b[5]];});
 var lbl={r:'Risk',f:'Fırsat',o:'Orta'};
 var tb=trig.map(function(R){return '<tr><td><span class="tag '+R[5]+'">'+lbl[R[5]]+'</span></td><td>'+R[0]+'</td><td>'+R[1]+'</td><td>'+(all[R[1]]).toFixed? (all[R[1]]).toFixed(2):all[R[1]]+'</td><td>'+R[4]+'</td></tr>';}).join('');
 document.querySelector("#sug tbody").innerHTML=tb||'<tr><td colspan="5">Tetiklenen kural yok (metrikler eşik içinde).</td></tr>';}
-run();
+// run(); KALDIRILDI — açılışta sahte rakam gösterme; kullanıcı gerçek veri yapıştırıp Hesapla'ya basar.
 </script></div></body></html>

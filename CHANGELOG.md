@@ -1,5 +1,17 @@
 # Değişiklik Günlüğü
 
+## v1.30.0 — McKinsey denetim Wave-2/3: dürüstlük + dashboard + docs (Haz 2026)
+- **rapor.html SAHTE ROAS/gelir kaldırıldı** (açılışta run() iptal + örnek değerler sıfır + kırmızı uyarı): "ölçüm kapalı,
+  sahte sayı yok" ilkesi artık panoda da uygulanıyor (önce 95.000 TL gelir / 3.17× ROAS gösteriyordu).
+- **health.py DÜRÜSTLEŞTİRİLDİ**: env-config skoru olduğu netleşti (canlı tag-fire değil) + `live_gaps` (TRACKING_STATE) +
+  uyarı → karar motorunun "fake-green"e güvenmemesi için (B1-2).
+- **Versiyon kaosu**: dashboard kads v2.0/v1.0 + golive v1.22.0 → v1.29.0/1.30.0 tek kaynak.
+- **Ezely kalıntısı** golive/GTM-KURULUM'dan kaldırıldı; tanımsız `.t-ok` CSS eklendi.
+- **"en iyi fiyat" superlatifi** kaldırıldı (doğrulanamayan iddia yok prensibi, B9).
+- BASLA.md sayılar (43 komut/docs00-26); README'ye godtier-audit + inject-audiences satırları + **Troubleshooting tablosu**.
+- .coverage gitignore'a eklendi.
+
+
 ## v1.29.0 — McKinsey denetim Wave-1: güvenlik + karar çekirdeği (Haz 2026)
 - **Executor guardrail (defense-in-depth)**: execute_action artık bütçe-tavanı + flapping (24s'de ≥3 bütçe değişimi)
   korumasıyla sarılı (B1/A1) — warehouse aynası tavanı aşamaz, gerçek yürütme eklenince koruma hazır.

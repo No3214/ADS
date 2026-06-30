@@ -4,9 +4,12 @@ from kads import core
 
 
 def audit_tracking_health() -> Dict[str, Any]:
-    """
-    Evaluates GTM, GA4, Meta Pixel, Meta CAPI, and Google OCT configurations.
-    Returns a health score and dictionary of status results.
+    """ENV-KONFIG hazırlık skoru (DİKKAT: canlı tag-fire DEĞİL).
+
+    Bu fonksiyon yalnızca .env'de ID'lerin tanımlı/placeholder-olmadığını puanlar —
+    GTM içinde etiketin gerçekten ateşlediğini doğrulamaz. Canlı doğrulanmış boşluklar
+    için tek gerçek kaynak: kads.data_ext.TRACKING_STATE (çıktıda 'live_gaps'). Karar
+    motoru bu skoru 'ölçüm canlı' kanıtı SAYMAMALI; otonom bütçe artışı live_gaps boşken yapılmalı.
     """
     env = core.load_env()
     results = {}
@@ -96,8 +99,23 @@ def audit_tracking_health() -> Dict[str, Any]:
 
     blended_score = (healthy_count / total_components) * 100.0
 
+    # Canlı doğrulanmış açık kalemler (env-presence ile karışmasın diye ayrı).
+    live_gaps = []
+    try:
+        from kads.data_ext import TRACKING_STATE
+        live_gaps = [
+            {"bilesen": r["bilesen"], "durum": r["durum"]}
+            for r in TRACKING_STATE
+            if r.get("durum") in ("EKSİK", "KAPALI", "YOK")
+        ]
+    except Exception:
+        pass
+
     return {
         "score": round(blended_score, 1),
         "status": "healthy" if blended_score >= 80.0 else "unhealthy",
         "components": results,
+        "scope": "env-config-readiness",  # canlı tag-fire değil
+        "live_gaps": live_gaps,
+        "note": "env-presence skoru; canlı boşluklar için live_gaps + 'kads tracking'. live_gaps boş değilse ölçüm canlı sayılmaz.",
     }
