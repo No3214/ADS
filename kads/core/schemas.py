@@ -5,6 +5,8 @@ from pydantic import BaseModel, Field
 
 
 class RiskSchema(BaseModel):
+    model_config = {"extra": "forbid"}
+
     risk_score: float = Field(
         ..., ge=0.0, le=1.0, description="Calculated risk score between 0.0 and 1.0"
     )
@@ -21,6 +23,8 @@ class RiskSchema(BaseModel):
 
 
 class ActionSchema(BaseModel):
+    model_config = {"extra": "forbid"}
+
     action_id: str = Field(..., description="Unique action identifier")
     created_at: datetime = Field(
         default_factory=datetime.utcnow, description="Creation timestamp"
@@ -71,6 +75,8 @@ class ActionSchema(BaseModel):
 
 
 class CampaignStateSchema(BaseModel):
+    model_config = {"extra": "forbid"}
+
     campaign_id: str = Field(..., description="Platform campaign ID")
     campaign_name: str = Field(..., description="Campaign name")
     platform: Literal["google", "meta"] = Field(..., description="Advertising network")
@@ -86,3 +92,4 @@ class CampaignStateSchema(BaseModel):
     last_updated: datetime = Field(
         default_factory=datetime.utcnow, description="Last sync timestamp"
     )
+

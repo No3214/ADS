@@ -160,6 +160,150 @@ def run_agent_council(
             )
             proposed_actions.append(action)
 
+    # Heuristic 5: Cross-Platform Budget Transfer
+    # Automatically transfer 10% budget from low-performing campaigns (< 1.5 ROAS)
+    # on one platform to high-performing campaigns (>= 3.0 ROAS) on the other.
+    high_google = [
+        c
+        for c in google_campaigns
+        if (c["revenue"] / c["spend"] if c["spend"] > 0 else 0) >= 3.0
+    ]
+    low_meta = [
+        c
+        for c in meta_campaigns
+        if c["spend"] > 100.0
+        and (c["revenue"] / c["spend"] if c["spend"] > 0 else 0) < 1.5
+    ]
+
+    for hg in high_google:
+        for lm in low_meta:
+            transfer_amount = round(lm["budget"] * 0.1, 1)
+            if transfer_amount > 0:
+                # Propose decrease for Meta
+                dec_budget = round(lm["budget"] - transfer_amount, 1)
+                dec_action_data = {
+                    "action": "budget_decrease",
+                    "daily_budget_try": dec_budget,
+                }
+                dec_risk = calculate_risk_score(dec_action_data, tracking_score)
+                dec_action = ActionSchema(
+                    action_id=f"act_{uuid.uuid4().hex[:8]}",
+                    platform="meta",
+                    entity_type="budget",
+                    entity_id=lm["campaign_id"],
+                    action_type="budget_decrease",
+                    current_state={"budget": lm["budget"]},
+                    proposed_state={"budget": dec_budget},
+                    expected_impact=f"Reduce budget by -10% (-{transfer_amount} TL) to transfer to high-performing Google campaign ({hg['campaign_name']})",
+                    risk_score=dec_risk.risk_score,
+                    confidence=0.80,
+                    requires_approval=True,
+                    approval_reason=dec_risk.reasons
+                    + ["Cross-platform budget transfer re-allocation"],
+                    rollback_plan={"budget": lm["budget"]},
+                    expires_at=datetime.utcnow() + timedelta(hours=24),
+                    status="pending",
+                )
+                proposed_actions.append(dec_action)
+
+                # Propose increase for Google
+                inc_budget = round(hg["budget"] + transfer_amount, 1)
+                inc_action_data = {
+                    "action": "budget_increase",
+                    "daily_budget_try": inc_budget,
+                }
+                inc_risk = calculate_risk_score(inc_action_data, tracking_score)
+                inc_action = ActionSchema(
+                    action_id=f"act_{uuid.uuid4().hex[:8]}",
+                    platform="google",
+                    entity_type="budget",
+                    entity_id=hg["campaign_id"],
+                    action_type="budget_increase",
+                    current_state={"budget": hg["budget"]},
+                    proposed_state={"budget": inc_budget},
+                    expected_impact=f"Increase budget by +{transfer_amount} TL transferred from low-performing Meta campaign ({lm['campaign_name']})",
+                    risk_score=inc_risk.risk_score,
+                    confidence=0.80,
+                    requires_approval=True,
+                    approval_reason=inc_risk.reasons
+                    + ["Cross-platform budget transfer allocation"],
+                    rollback_plan={"budget": hg["budget"]},
+                    expires_at=datetime.utcnow() + timedelta(hours=24),
+                    status="pending",
+                )
+                proposed_actions.append(inc_action)
+
+    # Do the same for high Meta -> low Google
+    high_meta = [
+        c
+        for c in meta_campaigns
+        if (c["revenue"] / c["spend"] if c["spend"] > 0 else 0) >= 3.0
+    ]
+    low_google = [
+        c
+        for c in google_campaigns
+        if c["spend"] > 100.0
+        and (c["revenue"] / c["spend"] if c["spend"] > 0 else 0) < 1.5
+    ]
+
+    for hm in high_meta:
+        for lg in low_google:
+            transfer_amount = round(lg["budget"] * 0.1, 1)
+            if transfer_amount > 0:
+                # Propose decrease for Google
+                dec_budget = round(lg["budget"] - transfer_amount, 1)
+                dec_action_data = {
+                    "action": "budget_decrease",
+                    "daily_budget_try": dec_budget,
+                }
+                dec_risk = calculate_risk_score(dec_action_data, tracking_score)
+                dec_action = ActionSchema(
+                    action_id=f"act_{uuid.uuid4().hex[:8]}",
+                    platform="google",
+                    entity_type="budget",
+                    entity_id=lg["campaign_id"],
+                    action_type="budget_decrease",
+                    current_state={"budget": lg["budget"]},
+                    proposed_state={"budget": dec_budget},
+                    expected_impact=f"Reduce budget by -10% (-{transfer_amount} TL) to transfer to high-performing Meta campaign ({hm['campaign_name']})",
+                    risk_score=dec_risk.risk_score,
+                    confidence=0.80,
+                    requires_approval=True,
+                    approval_reason=dec_risk.reasons
+                    + ["Cross-platform budget transfer re-allocation"],
+                    rollback_plan={"budget": lg["budget"]},
+                    expires_at=datetime.utcnow() + timedelta(hours=24),
+                    status="pending",
+                )
+                proposed_actions.append(dec_action)
+
+                # Propose increase for Meta
+                inc_budget = round(hm["budget"] + transfer_amount, 1)
+                inc_action_data = {
+                    "action": "budget_increase",
+                    "daily_budget_try": inc_budget,
+                }
+                inc_risk = calculate_risk_score(inc_action_data, tracking_score)
+                inc_action = ActionSchema(
+                    action_id=f"act_{uuid.uuid4().hex[:8]}",
+                    platform="meta",
+                    entity_type="budget",
+                    entity_id=hm["campaign_id"],
+                    action_type="budget_increase",
+                    current_state={"budget": hm["budget"]},
+                    proposed_state={"budget": inc_budget},
+                    expected_impact=f"Increase budget by +{transfer_amount} TL transferred from low-performing Google campaign ({lg['campaign_name']})",
+                    risk_score=inc_risk.risk_score,
+                    confidence=0.80,
+                    requires_approval=True,
+                    approval_reason=inc_risk.reasons
+                    + ["Cross-platform budget transfer allocation"],
+                    rollback_plan={"budget": hm["budget"]},
+                    expires_at=datetime.utcnow() + timedelta(hours=24),
+                    status="pending",
+                )
+                proposed_actions.append(inc_action)
+
     # Sort proposed_actions by risk_score descending to keep the most critical alert in case of duplicates
     proposed_actions.sort(key=lambda x: x.risk_score, reverse=True)
 
