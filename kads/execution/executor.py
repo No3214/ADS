@@ -2,38 +2,61 @@ import logging
 from datetime import datetime, timedelta
 
 from sqlalchemy.orm import Session
+from enum import Enum
 
 from kads.data.warehouse.models import DimCampaignState, FactActionJournal, FactTrackingHealth
 
 logger = logging.getLogger("kads.execution")
 
 
-def is_circuit_breaker_tripped(db: Session) -> bool:
+class CircuitBreakerState(Enum):
+    CLOSED = "closed"
+    OPEN = "open"
+    HALF_OPEN = "half-open"
+
+def get_circuit_breaker_state(db: Session) -> CircuitBreakerState:
     """
-    Checks if the system execution circuit breaker is tripped.
-    Trips if there are 2 or more failed actions in the last 24 hours.
+    Evaluates the system execution circuit breaker state.
+    - OPEN: >= 2 failures in the last 24h, and last failure is < 1h ago.
+    - HALF_OPEN: >= 2 failures in the last 24h, but last failure is >= 1h ago.
+    - CLOSED: < 2 failures in the last 24h.
     """
     one_day_ago = datetime.utcnow() - timedelta(days=1)
-    failed_count = db.query(FactActionJournal).filter(
+    failures = db.query(FactActionJournal).filter(
         FactActionJournal.status == "failed",
         FactActionJournal.executed_at >= one_day_ago
-    ).count()
+    ).order_by(FactActionJournal.executed_at.desc()).all()
+
+    failed_count = len(failures)
 
     if failed_count >= 2:
-        logger.critical(f"CIRCUIT BREAKER TRIPPED! {failed_count} execution failures in the last 24 hours. Halting all executions.")
+        last_failure_time = failures[0].executed_at
+        one_hour_ago = datetime.utcnow() - timedelta(hours=1)
+        
+        if last_failure_time and last_failure_time >= one_hour_ago:
+            state = CircuitBreakerState.OPEN
+            logger.critical(f"CIRCUIT BREAKER TRIPPED (OPEN)! {failed_count} failures in 24h. Last failure at {last_failure_time}")
+        else:
+            state = CircuitBreakerState.HALF_OPEN
+            logger.warning(f"CIRCUIT BREAKER HALF-OPEN. {failed_count} failures, but last was > 1h ago. Allowing restricted execution.")
         
         # Log to tracking health
         health_record = db.query(FactTrackingHealth).filter_by(component="CircuitBreaker").first()
         if not health_record:
             health_record = FactTrackingHealth(component="CircuitBreaker")
-        health_record.status = "error"
-        health_record.score = 0.0
+        health_record.status = state.value
+        health_record.score = 0.5 if state == CircuitBreakerState.HALF_OPEN else 0.0
         health_record.timestamp = datetime.utcnow()
-        health_record.details = {"failures_24h": failed_count, "status": "tripped"}
+        health_record.details = {"failures_24h": failed_count, "state": state.value}
         db.add(health_record)
         db.commit()
-        return True
-    return False
+        return state
+        
+    return CircuitBreakerState.CLOSED
+
+def is_circuit_breaker_tripped(db: Session) -> bool:
+    # Backwards compatibility
+    return get_circuit_breaker_state(db) == CircuitBreakerState.OPEN
 
 
 def execute_action(action: FactActionJournal, db: Session) -> bool:
@@ -41,9 +64,16 @@ def execute_action(action: FactActionJournal, db: Session) -> bool:
     Executes an approved action. Simulates platform mutation in dry-run mode,
     updates dim_campaign_state in warehouse, and updates Action status to 'executed'.
     """
-    if is_circuit_breaker_tripped(db):
-        logger.error(f"Cannot execute action {action.action_id} because the execution circuit breaker is TRIPPED.")
+    cb_state = get_circuit_breaker_state(db)
+    if cb_state == CircuitBreakerState.OPEN:
+        logger.error(f"Cannot execute action {action.action_id} because the execution circuit breaker is OPEN.")
         return False
+        
+    if cb_state == CircuitBreakerState.HALF_OPEN:
+        # In Half-Open state, we restrict budget increases or dangerous mutations.
+        if action.entity_type == "budget" or action.action_type not in ["pause", "report"]:
+            logger.error(f"Cannot execute {action.action_type} on {action.entity_type} {action.action_id} in HALF-OPEN state. Restricted to low-risk ops.")
+            return False
 
     if action.status != "approved":
         logger.warning(

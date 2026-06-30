@@ -3,8 +3,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from kads.data.warehouse import db as db_mod
-from kads.data.warehouse.models import DimCampaignState, FactActionJournal
-from kads.execution.executor import execute_action, rollback_action
+from kads.data.warehouse.models import DimCampaignState, FactActionJournal, FactTrackingHealth
+from kads.execution.executor import execute_action, rollback_action, CircuitBreakerState, get_circuit_breaker_state
 
 
 @pytest.fixture(scope="function")
@@ -98,4 +98,37 @@ def test_circuit_breaker(test_db):
     success = execute_action(approved_action, test_db)
     assert success is False
     assert approved_action.status == "approved"  # Remains unchanged
+    
+    # Test HALF_OPEN State
+    # Move the failures back by 2 hours so it transitions to HALF_OPEN
+    two_hours_ago = datetime.datetime.utcnow() - datetime.timedelta(hours=2)
+    for f in test_db.query(FactActionJournal).filter_by(status="failed").all():
+        f.executed_at = two_hours_ago
+    test_db.commit()
+    
+    cb_state = get_circuit_breaker_state(test_db)
+    assert cb_state == CircuitBreakerState.HALF_OPEN
+    
+    # Budget increase should still fail in HALF_OPEN
+    success = execute_action(approved_action, test_db)
+    assert success is False
+    
+    # But a pause action should succeed
+    pause_action = FactActionJournal(
+        action_id="pause_act",
+        platform="google",
+        entity_type="campaign",
+        entity_id="g_123",
+        action_type="pause",
+        current_state={"status": "active"},
+        proposed_state={"status": "PAUSED"},
+        risk_score=0.1,
+        confidence=0.9,
+        status="approved",
+    )
+    test_db.add(pause_action)
+    test_db.commit()
+    
+    success = execute_action(pause_action, test_db)
+    assert success is True
 

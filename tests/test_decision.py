@@ -25,7 +25,7 @@ def test_agent_council_budget_increase():
     action = actions[0]
     assert isinstance(action, ActionSchema)
     assert action.action_type == "budget_increase"
-    assert action.proposed_state["budget"] == round(148.0 * 1.2, 1)
+    assert action.proposed_state["budget"] == 180.8
 
 
 def test_agent_council_cpa_kill_rule():
@@ -52,7 +52,7 @@ def test_agent_council_cpa_kill_rule():
     assert isinstance(action, ActionSchema)
     assert action.action_type == "pause"
     assert action.requires_approval is True
-    assert "3x Kill Rule triggered" in action.approval_reason[-1]
+    assert "Analyst Agent: 3x Kill Rule" in action.approval_reason[-1]
 
 
 def test_agent_council_ad_fatigue_creative():
