@@ -1,5 +1,14 @@
 # Değişiklik Günlüğü
 
+## v1.29.0 — McKinsey denetim Wave-1: güvenlik + karar çekirdeği (Haz 2026)
+- **Executor guardrail (defense-in-depth)**: execute_action artık bütçe-tavanı + flapping (24s'de ≥3 bütçe değişimi)
+  korumasıyla sarılı (B1/A1) — warehouse aynası tavanı aşamaz, gerçek yürütme eklenince koruma hazır.
+- **MMM ölçek-değişmez + DÜRÜST** (B2/B1-3): tek-noktalı Hill tautolojisi giderildi (gamma=mevcut harcamaya sabit →
+  mROI=0.75×ROAS, ölçekten bağımsız); "industry-standard fitted MMM" abartısı "tek-nokta sezgisel" olarak düzeltildi.
+- **Circuit breaker** HALF_OPEN'daki ölü "report" action_type dalı kaldırıldı (B4).
+- +3 test (cap guardrail, MMM scale-invariance, underperforming); 1 test yeni doğru değere güncellendi. Tüm pytest yeşil.
+
+
 ## v1.28.0 — Canlı site sayfa-içi SEO + şema denetimi (docs/26) (Haz 2026)
 - **docs/26**: tarayıcıda canlı denetim. SONUÇ: site SEO'su GÜÇLÜ — title/meta/tek-H1/hreflang(tr/en/x-default) düzgün;
   JSON-LD zengin: Hotel/LodgingBusiness/Restaurant + BreadcrumbList her sayfada, **ana sayfada FAQPage** (AEO ideal);

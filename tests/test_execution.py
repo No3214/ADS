@@ -132,3 +132,22 @@ def test_circuit_breaker(test_db):
     success = execute_action(pause_action, test_db)
     assert success is True
 
+
+
+def test_budget_cap_guardrail_blocks(test_db):
+    """Defense-in-depth: günlük bütçe tavanını aşan onaylı aksiyon ENGELLENMELİ (executor)."""
+    camp = DimCampaignState(
+        campaign_id="g_cap", campaign_name="Cap test", platform="google",
+        status="active", budget=150.0, bid_strategy="tCPA",
+    )
+    test_db.add(camp)
+    action = FactActionJournal(
+        action_id="cap_act", platform="google", entity_type="budget", entity_id="g_cap",
+        action_type="budget_increase", current_state={"budget": 150.0},
+        proposed_state={"budget": 9000.0},  # tavanın çok üstü
+        risk_score=0.1, confidence=0.9, status="approved", rollback_plan={"budget": 150.0},
+    )
+    test_db.add(action)
+    test_db.commit()
+    assert execute_action(action, test_db) is False
+    assert camp.budget == 150.0  # değişmedi

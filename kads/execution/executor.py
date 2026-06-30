@@ -71,7 +71,7 @@ def execute_action(action: FactActionJournal, db: Session) -> bool:
         
     if cb_state == CircuitBreakerState.HALF_OPEN:
         # In Half-Open state, we restrict budget increases or dangerous mutations.
-        if action.entity_type == "budget" or action.action_type not in ["pause", "report"]:
+        if action.entity_type == "budget" or action.action_type not in ["pause"]:
             logger.error(f"Cannot execute {action.action_type} on {action.entity_type} {action.action_id} in HALF-OPEN state. Restricted to low-risk ops.")
             return False
 
@@ -80,6 +80,35 @@ def execute_action(action: FactActionJournal, db: Session) -> bool:
             f"Action {action.action_id} cannot be executed because status is {action.status}"
         )
         return False
+
+    # GUARDRAIL (defense-in-depth): bütçe-tavanı + flapping. Executor simülasyon olsa da
+    # warehouse aynası tavanı aşmamalı; gerçek yürütme eklenince koruma zaten yerinde olur.
+    if action.entity_type == "budget":
+        from kads.core.security import load_security_config
+        _cfg = load_security_config()
+        _cap = _cfg["google_daily_try"] if (action.platform or "").lower() == "google" else _cfg["meta_daily_try"]
+        _proposed = (action.proposed_state or {}).get("budget")
+        try:
+            if _proposed is not None and float(_proposed) > float(_cap):
+                logger.error(f"Guardrail: günlük bütçe tavanı aşıldı ({_proposed} > {_cap} TL, {action.platform}). {action.action_id} ENGELLENDİ.")
+                return False
+        except (TypeError, ValueError):
+            logger.error(f"Guardrail: geçersiz proposed budget {_proposed!r}. {action.action_id} ENGELLENDİ.")
+            return False
+        _since = datetime.utcnow() - timedelta(hours=24)
+        _recent = (
+            db.query(FactActionJournal)
+            .filter(
+                FactActionJournal.entity_id == action.entity_id,
+                FactActionJournal.action_type.in_(["budget_increase", "budget_decrease"]),
+                FactActionJournal.status == "executed",
+                FactActionJournal.executed_at >= _since,
+            )
+            .count()
+        )
+        if _recent >= 3:
+            logger.error(f"Guardrail: flapping — {action.entity_id} 24s'de {_recent} bütçe değişimi. {action.action_id} ENGELLENDİ.")
+            return False
 
     logger.info(
         f"Executing action {action.action_id}: {action.action_type} on {action.platform} {action.entity_type} {action.entity_id}"

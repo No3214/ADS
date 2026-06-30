@@ -25,7 +25,8 @@ def test_agent_council_budget_increase():
     action = actions[0]
     assert isinstance(action, ActionSchema)
     assert action.action_type == "budget_increase"
-    assert action.proposed_state["budget"] == 180.8
+    # MMM artık ROAS-ölçekli + engine +%50/gün güvenlik clamp: 148*1.5 = 222.0 (eski 180.8 tautolojik bazdı)
+    assert action.proposed_state["budget"] == 222.0
 
 
 def test_agent_council_cpa_kill_rule():
@@ -81,3 +82,11 @@ def test_agent_council_ad_fatigue_creative():
     assert "headline" in action.proposed_state
     assert "description" in action.proposed_state
     assert action.requires_approval is True
+
+
+def test_mmm_scale_invariant():
+    """MMM ölçek-değişmez olmalı: aynı ROAS farklı ölçekte aynı status; farklı ROAS farklı cap."""
+    from kads.decision.mmm import calculate_saturation_point as f
+    assert {f(s, s * 3)["status"] for s in (100, 1000, 5000)} == {"scalable"}
+    assert f(300, 1500)["suggested_cap"] != f(300, 90000)["suggested_cap"]
+    assert f(300, 300)["status"] == "underperforming"  # ROAS 1.0
