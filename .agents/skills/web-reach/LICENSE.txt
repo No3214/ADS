@@ -1,0 +1,11 @@
+web-reach skill
+Copyright (c) 2026. All rights reserved.
+
+This skill and its bundled scripts are provided "as is", without warranty of any
+kind, express or implied. The author is not liable for any claim, damages, or
+other liability arising from its use.
+
+Use of this skill must comply with the terms of service of every website and API
+it accesses, with applicable law, and with all copyright and data-protection
+obligations. The scripts fetch publicly reachable content only; they do not
+bypass authentication or access controls, and they must not be used to do so.
