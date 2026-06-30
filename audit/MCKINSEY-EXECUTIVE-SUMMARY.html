@@ -1,0 +1,82 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kozbeyli ADS — McKinsey-Seviye Denetim · Yönetici Özeti (v1.35.0)</title>
+<style>
+:root{--ink:#1a1a1a;--muted:#666;--line:#e5e5e5;--accent:#8a6d3b;--bg:#faf8f5;--ok:#2e7d32;--warn:#b00020;--mid:#b8860b}
+*{box-sizing:border-box}body{font:16px/1.6 -apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);max-width:920px;margin:0 auto;padding:32px 22px;background:#fff}
+h1{font-size:25px;margin:0 0 4px;border-bottom:3px solid var(--accent);padding-bottom:10px}
+h2{font-size:19px;margin:26px 0 8px;color:var(--accent)}
+.sub{color:var(--muted);margin:0 0 16px}
+.box{background:var(--bg);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:12px 16px;margin:14px 0}
+.warn{border-left-color:var(--warn);background:#fdf2f3}.ok{border-left-color:var(--ok);background:#f1f8f2}
+table{border-collapse:collapse;width:100%;margin:8px 0;font-size:14px}th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}th{background:var(--bg)}
+code{background:#f3efe9;padding:1px 6px;border-radius:3px;font-size:13px}
+ol li,ul li{margin:6px 0}.tag{display:inline-block;border-radius:4px;padding:1px 8px;font-size:12px;font-weight:600}
+.up{background:#e6f4ea;color:#1e7a34}.flat{background:#fff4e0;color:#92660a}
+.score{font-weight:700}
+@media print{body{padding:0}}
+</style></head><body>
+
+<h1>Kozbeyli Konağı — Reklam &amp; Dijital Sistem · McKinsey-Seviye Denetim</h1>
+<p class="sub">Yönetici Özeti · 8 boyut · kaynak repo <code>github.com/No3214/ADS</code> · sürüm <b>v1.35.0</b> · Tem 2026 · 455 test geçer, pyflakes temiz</p>
+
+<div class="box warn"><b>Tek cümlelik teşhis:</b> Sistem mimari/strateji olarak hazır ve sağlam; <b>tek darboğaz ÖLÇÜM canlı değil.</b> GTM içinde GA4/Ads dönüşüm etiketi yok → Google Ads <b>0 dönüşüm</b> gösteriyor → ₺300/gün canlı kampanya <b>kör</b> harcıyor. Bu denetimdeki en yüksek getirili iş yeni kampanya değil, <b>ölçümü açıp kör harcamayı durdurmak.</b></div>
+
+<h2>1) Olgunluk Skoru (1–5) — denetim öncesi → sonrası</h2>
+<table>
+<tr><th>Boyut</th><th>Önce</th><th>Sonra</th><th>Bu denetimde ne yapıldı</th></tr>
+<tr><td>Kod Kalitesi &amp; Mimari</td><td>3.0</td><td class="score">3.5 <span class="tag up">↑</span></td><td>pyflakes tamamen temiz (8 ölü import/değişken); dürüst docstring'ler</td></tr>
+<tr><td>Kampanya Stratejisi</td><td>3.5</td><td class="score">4.0 <span class="tag up">↑</span></td><td>Marka adı poz-1 pin (OTA savunması); 3 NonBrand grubu farklılaştırıldı</td></tr>
+<tr><td>Ölçüm &amp; Attribution</td><td>3.5</td><td class="score">4.0 <span class="tag up">↑</span></td><td>purchase <code>event_id=transactionId</code> dedup; dürüst sağlık skoru — <b>ama canlı tag bekliyor</b></td></tr>
+<tr><td>Otomasyon &amp; Guardrail</td><td>2.0</td><td class="score">3.0 <span class="tag up">↑</span></td><td>executor bütçe-tavanı + flapping (24s ≥3) bloğu; ölü <code>report</code> dalı temizlendi</td></tr>
+<tr><td>İçerik &amp; Kreatif</td><td>3.0</td><td class="score">3.5 <span class="tag up">↑</span></td><td>Meta A/B literal-duplikasyon fix; doğrulanmamış "13 km" tüm metinden kaldırıldı</td></tr>
+<tr><td>Rekabet &amp; Pazar</td><td>2.5</td><td class="score">3.0 <span class="tag up">↑</span></td><td>rakip verisine kaynak/dürüstlük notu (~tahmini, tarih, canlı-doğrula)</td></tr>
+<tr><td>Raporlama &amp; Dashboard</td><td>2.5</td><td class="score">3.0 <span class="tag up">↑</span></td><td>rapor.html'deki sahte "3.17× ROAS" örnek verisi sıfırlandı + uyarı bandı</td></tr>
+<tr><td>Dokümantasyon</td><td>3.5</td><td class="score">4.0 <span class="tag up">↑</span></td><td>troubleshooting tablosu; 8 dalga CHANGELOG; Ezely kaldırıldı</td></tr>
+<tr><td><b>GENEL</b></td><td><b>2.9</b></td><td class="score"><b>3.5 <span class="tag up">↑</span></b></td><td><b>Sağlam temel; ölçüm canlıya geçince 4.0+ erişilebilir</b></td></tr>
+</table>
+<p class="sub">Skorlar kanıt→etki→fix→doğrulama disiplinine dayanır. "Ölçüm" 4.0'da tavanlı: kod hazır ama canlı dönüşüm doğrulanana kadar 5.0 olamaz.</p>
+
+<h2>2) Hızlı Kazanımlar (1 hafta) — sıra önemli</h2>
+<ol>
+<li><b>ÖLÇÜMÜ AÇ (her şeyin önünde):</b> GTM <code>GTM-KCG6B4MJ</code> içine GA4 Config <code>G-V3R66C3MEF</code> + Google Ads Conversion Linker/Conversion <code>AW-800024713</code> → Publish → <b>test rezervasyonuyla doğrula</b>. Bu yeşillenene kadar kör <code>Search/Foça Otel</code> (₺300/gün) kampanyasını <b>duraklat veya kıs</b>. Rehber: <code>golive/GTM-KURULUM.html</code>.</li>
+<li><b>Meta Pixel tamamla (bedava):</b> Events Manager → Advanced Matching AÇ (1 tık) + <code>hmshotel.net</code> onay sayfasına Purchase + oda sayfalarına ViewContent.</li>
+<li><b>Arama görünürlüğü:</b> Search Console + Bing Webmaster doğrula → sitemap (57 URL) → IndexNow AÇ (ChatGPT/AI-alıntı ön koşulu, rakiplerin atladığı ucuz avantaj). Rehber: <code>docs/25</code>.</li>
+<li><b>Yorum hızı (en yüksek getirili ÜCRETSİZ kaldıraç):</b> Google puanı ~4.2 vs rakipler 4.7–4.8. Son-yorum kampanyası + tüm yorumlara yanıt → 4.5+ algısı.</li>
+<li><b>Temiz kampanyaları yükle:</b> yeniden üretilmiş Google Editor paketi (marka-pinli, grup-farklılaştırılmış, "13 km"siz uyumlu metin) — <code>Paused</code> import et, etiketler doğrulanınca <code>enable</code>.</li>
+</ol>
+
+<h2>3) Stratejik Girişimler (1 ay)</h2>
+<ol>
+<li><b>Gerçek attribution:</b> ölçüm 2–4 hafta veri toplayınca MMM gamma'sını gerçek harcama-tepki eğrisinden kalibre et (şu an scale-invariant <b>sezgisel</b>, gerçek MMM değil) + offline/telefon dönüşüm import'unu bağla.</li>
+<li><b>decision_memory gerçek reflection:</b> şu an "actual_outcome" <b>sabit-simüle</b> (kodda açıkça işaretli). <code>FactCampaignPerformance</code>'tan gerçek CPA/dönüşüm oku → heuristik promote'u gerçek veriye bağla.</li>
+<li><b>Remarketing + Demand Gen canlıya:</b> <code>begin_checkout</code> terk havuzu en sıcak retargeting — ölçüm sağlam aktıktan sonra aç.</li>
+<li><b>B2B Aliağa motoru:</b> sell-sheet + outreach sekansını devreye al (kurumsal etkinlik/konaklama talebi).</li>
+<li><b>Executor'ı gerçeğe bağla:</b> şu an simülasyon (lokal state). Guardrail + circuit breaker + approval kuyruğu hazır; writes-default-off ile gerçek Google Ads API yazımına kademeli geç.</li>
+</ol>
+
+<h2>4) Gelir Etkisi Tahmini <span class="tag flat">MODEL — canlı ölçüme bağlı</span></h2>
+<div class="box">
+<p>En büyük etki yeni kampanya değil; <b>kör harcamayı durdurmak + ölçmek.</b> Mevcut durum: ~₺9.000/ay canlı Search harcaması, <b>0 ölçülen dönüşüm</b>.</p>
+<ul>
+<li><b>Verimlilik (hemen):</b> ölçüm + marka-pin + NonBrand farklılaştırma + negatifler → mevcut ~₺9k/ay Google harcamasında tahmini <b>%20–35 daha düşük CPA</b> = ~<b>₺1.800–3.150/ay</b> tasarruf/yeniden dağıtım.</li>
+<li><b>Gelir (atfedilebilir):</b> Purchase takibi canlı olunca, ~1.450 tık/ay üzerinde muhafazakâr %1,5–2,5 rezervasyon dönüşümü × ~₺4.000 ort. rezervasyon → kabaca <b>₺85k–145k/ay</b> görünür <b>komisyonsuz doğrudan</b> rezervasyon (şu an ölçülemediği için optimize edilemiyor).</li>
+<li><b>Marka savunması:</b> marka-terimi poz-1 pin, OTA komisyonunu (~%15–20) marka aramalarında geri kazanır.</li>
+</ul>
+<p class="sub"><b>Dürüstlük kaydı:</b> bu sayılar MODEL tahminidir, garanti değil — canlı etiket + gerçek veriye bağlıdır. Sistem artık bunları <b>iddia etmek yerine dürüstçe ÖLÇECEK</b> şekilde donatıldı (sahte örnek-veri sıfırlandı, ölçüm-doğruluk kaynağı tek).</p>
+</div>
+
+<h2>Bu denetimde uygulananlar (8 dalga · hepsi test + commit + push)</h2>
+<table>
+<tr><th>Sürüm</th><th>Bulgu → Fix</th><th>Etki</th></tr>
+<tr><td>v1.29.0</td><td>executor guardrail (bütçe-tavanı + flapping); MMM scale-invariance</td><td>Compliance / Efficiency</td></tr>
+<tr><td>v1.30.0</td><td>sağlık skoru dürüstlüğü; dashboard sahte-veri sıfırlama</td><td>Reporting honesty</td></tr>
+<tr><td>v1.31.0</td><td>Display bidding Max-clicks (0-dönüşümde); PMax asset minimumları</td><td>Efficiency</td></tr>
+<tr><td>v1.32.0</td><td>purchase <code>event_id=transactionId</code> dedup; Meta A/B duplikasyon</td><td>Measurement</td></tr>
+<tr><td>v1.33.0</td><td>marka RSA poz-1 pin; doğrulanmamış "13 km" kaldırma</td><td>Revenue / Compliance</td></tr>
+<tr><td>v1.34.0</td><td>3 NonBrand grubu farklılaştırma (niyet-eşleşmeli H1)</td><td>Efficiency (+QS/−CPC)</td></tr>
+<tr><td>v1.35.0</td><td>pyflakes temiz; reflection simülasyon-dürüstlüğü; rakip kaynak notu</td><td>Code Quality</td></tr>
+</table>
+
+<p class="sub" style="margin-top:18px">Kozbeyli Konağı dijital sistemi · <code>github.com/No3214/ADS</code> · v1.35.0 · 455 pytest geçer · pyflakes temiz · selfcheck yeşil · <code>.com.tr</code> kapsam-dışı (temiz) · doğrulama: tüm fix'ler test + commit + push edildi.</p>
+</body></html>
