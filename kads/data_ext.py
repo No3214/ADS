@@ -14,7 +14,7 @@ GOOGLE_DISPLAY = {
     "campaign": "Kozbeyli | Display | Remarketing",
     "daily_try": 60,
     "status": "Paused",
-    "bid": "Maximize conversions",
+    "bid": "Maximize clicks",  # 0 dönüşümde tCPA/MaxConv öğrenemez; ölçüm kurulunca BID_GRADUATE ile geç
     "note": "Plan gereği ertelenir; Meta retargeting önce. PAUSED hazır şablon.",
     "audience": "Site ziyaretçileri 30/60 gün (Google Ads remarketing list)",
     "short_headlines": [  # <=30

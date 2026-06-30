@@ -1,5 +1,12 @@
 # Değişiklik Günlüğü
 
+## v1.31.0 — McKinsey denetim Wave-4: kampanya strateji düzeltmeleri (Haz 2026)
+- **Display bidding düzeltildi** (B3): Display/Remarketing kampanyası 0 dönüşümde "Maximize conversions" → "Maximize clicks"
+  (data_ext kaynağı; editor CSV yeniden üretildi). MaxConv ~15-30 dönüşüm olmadan öğrenemez; ölçüm kurulunca BID_GRADUATE ile geçilir.
+- **PMax asset group'ları Google minimumuna çıkarıldı** (B1): Köy Kahvaltısı / Düğün / Kurumsal grupları artık her biri
+  5 başlık + 1 uzun başlık + 2 açıklama (önce uzun-başlık YOK + tek açıklama = yayın/zayıf-reklam riski). Uzunluk ihlali yok.
+
+
 ## v1.30.0 — McKinsey denetim Wave-2/3: dürüstlük + dashboard + docs (Haz 2026)
 - **rapor.html SAHTE ROAS/gelir kaldırıldı** (açılışta run() iptal + örnek değerler sıfır + kırmızı uyarı): "ölçüm kapalı,
   sahte sayı yok" ilkesi artık panoda da uygulanıyor (önce 95.000 TL gelir / 3.17× ROAS gösteriyordu).
