@@ -60,7 +60,6 @@ def fetch_google_campaigns() -> list[dict]:
 
     try:
         from google.ads.googleads.client import GoogleAdsClient
-        from google.ads.googleads.errors import GoogleAdsException
 
         credentials = {
             "developer_token": dev_token,
@@ -136,7 +135,7 @@ def fetch_google_campaigns() -> list[dict]:
 
         return results
 
-    except Exception as e:
+    except Exception:
         # Fallback to base mock if real API fails or SDK is not installed
         return [
             {

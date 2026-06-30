@@ -1,5 +1,12 @@
 # Değişiklik Günlüğü
 
+## v1.35.0 — McKinsey audit Wave-8: Kod kalitesi + rakip dürüstlük + reflection honesty
+- **Pyflakes TAMAMEN temiz**: 8 kullanılmayan import/değişken kaldırıldı (security, db, anomaly, risk_score, google_ads, meta_ads, decision_memory).
+- **decision_memory honesty**: reflection "actual_outcome" değerlerinin SABİT-SİMÜLE olduğu açıkça işaretlendi (ölçüm canlıya geçmeden heuristik'e PROMOTE etme uyarısı) + ölü DB sorgusu kaldırıldı.
+- **competitors/rakipler.md**: veri-kaynağı/dürüstlük notu eklendi (puan/yorum ~tahmini, Haz 2026, karar öncesi canlı doğrula).
+- 455 pytest geçer; selfcheck yeşil; pyflakes temiz.
+
+
 ## v1.34.0 — McKinsey audit Wave-7: NonBrand reklam grubu farklılaştırma (B8)
 - **3 NonBrand grubu artık AYRI RSA alıyor** (önceden hepsi aynı "NonBrand" metnini paylaşıyordu → düşük alaka/Quality Score). Her grup kendi niyetiyle eşleşen Headline 1: Butik→"Foça Butik Taş Otel", Genel→"Foça'da Konaklama", Niche→"İzmir Taş Konak Oteli". Quality Score ↑ → CPC ↓ (kısıtlı bütçede doğrudan getiri).
 - rsa_ab_rows (A/B varyantları) da artık grup-özel tabandan üretiliyor (B7 iyileştirme).

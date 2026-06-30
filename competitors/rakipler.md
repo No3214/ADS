@@ -1,4 +1,10 @@
 # Rakip Profilleri (Foça / Eski Foça)
+>
+> **VERİ KAYNAĞI / DÜRÜSTLÜK NOTU:** Bu dosyadaki puan (~4.x) ve yorum sayısı (~N) değerleri
+> Haz 2026'da Google/TripAdvisor'dan **yaklaşık** okunmuştur (`~` = tahmini, gün-gün değişir).
+> Fiyat/sıralama gözlemleri o tarihe aittir. **Karar öncesi canlı doğrulayın** (Maps/Booking).
+> Kesin sayı yazılması gereken yerde "DOĞRULANDI: <tarih>" notu düşün; aksi halde `~` ile bırakın.
+
 
 > Pazar dokusu: küçük aile işletmesi butik oteller; Eski Foça'da restore Rum/taş evler,
 > genelde liman/merkez yürüme mesafesi. Bizim ayrışma: Kozbeyli **köyü** + miras + köy

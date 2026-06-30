@@ -152,7 +152,7 @@ def fetch_meta_campaigns() -> list[dict]:
 
         return results
 
-    except Exception as e:
+    except Exception:
         # Fallback to mock data if real API fails
         return [
             {

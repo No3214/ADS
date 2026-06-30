@@ -2,27 +2,27 @@ import logging
 
 from sqlalchemy.orm import Session
 
-from kads.data.warehouse.models import DimCampaignState, FactActionJournal
+from kads.data.warehouse.models import FactActionJournal
 
 logger = logging.getLogger("kads.memory")
 
 
 def reflect_on_past_actions(db: Session) -> list[dict]:
     """
-    Reflection Agent: Reviews executed actions, compares predicted impact with
-    actual outcomes (simulated), and logs lessons learned.
+    Reflection Agent: Reviews executed actions and logs lessons learned.
+
+    DİKKAT: Bu fonksiyonun "actual_outcome" değerleri ŞU AN SABİT-SİMÜLEDİR
+    (gerçek performans okumaz). Ölçüm (GA4/Ads conversion) canlıya geçince
+    FactCampaignPerformance'tan gerçek CPA/dönüşüm okunup buraya bağlanmalı.
+    O zamana kadar çıkan "ders"ler gerçek değil — heuristik'e PROMOTE etmeyin.
     """
     logger.info("Starting KADS Reflection Agent...")
     executed_actions = db.query(FactActionJournal).filter_by(status="executed").all()
     lessons = []
 
     for action in executed_actions:
-        # Simulate checking campaign performance 24 hours after execution
-        camp = (
-            db.query(DimCampaignState).filter_by(campaign_id=action.entity_id).first()
-        )
-
-        # Simple simulated reflection logic
+        # NOT: gerçek performans okuması ölçüm canlıya geçince eklenecek.
+        # Şimdilik aşağıdaki actual_outcome değerleri SABİT-SİMÜLEDİR.
         if action.action_type == "budget_increase":
             lesson = {
                 "action_id": action.action_id,
