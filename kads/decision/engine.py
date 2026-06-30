@@ -223,9 +223,12 @@ def run_agent_council(
     google_campaigns: List[dict], meta_campaigns: List[dict]
 ) -> List[ActionSchema]:
     """
-    KADS v3.0 L99 God Tier: Multi-Agent Council
-    Evaluates campaign performance snapshot via specialized agents.
+    KADS v3.0 L99 God Tier: Concurrent Multi-Agent Council
+    Evaluates campaign performance snapshot via specialized agents running in parallel.
+    This simulates a true Compound AI Swarm where agents process state asynchronously.
     """
+    import concurrent.futures
+
     proposed_actions = []
     
     tracking_info = audit_tracking_health()
@@ -233,16 +236,40 @@ def run_agent_council(
     
     all_campaigns = google_campaigns + meta_campaigns
 
+    # Initialize the Council
     analyst = AnalystAgent()
     creative = CreativeAgent()
     strategist = StrategistAgent()
 
-    proposed_actions.extend(analyst.evaluate(all_campaigns, tracking_score))
-    proposed_actions.extend(creative.evaluate(all_campaigns, tracking_score))
-    proposed_actions.extend(strategist.evaluate(google_campaigns, meta_campaigns, tracking_score))
+    # Define execution wrappers
+    def run_analyst():
+        return analyst.evaluate(all_campaigns, tracking_score)
+        
+    def run_creative():
+        return creative.evaluate(all_campaigns, tracking_score)
+        
+    def run_strategist():
+        return strategist.evaluate(google_campaigns, meta_campaigns, tracking_score)
+
+    # Execute agents concurrently
+    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
+        future_analyst = executor.submit(run_analyst)
+        future_creative = executor.submit(run_creative)
+        future_strategist = executor.submit(run_strategist)
+        
+        # Gather results as they complete
+        for future in concurrent.futures.as_completed([future_analyst, future_creative, future_strategist]):
+            try:
+                actions = future.result()
+                proposed_actions.extend(actions)
+            except Exception as e:
+                # Fallback to avoid crashing the whole council if one agent fails
+                print(f"[Council Error] Agent failed during evaluation: {e}")
     
+    # Sort by risk score (highest risk / most critical first)
     proposed_actions.sort(key=lambda x: x.risk_score, reverse=True)
 
+    # Deduplicate actions (if multiple agents propose identical changes)
     unique_actions = []
     seen = set()
     for action in proposed_actions:
