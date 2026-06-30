@@ -1,9 +1,11 @@
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
 from kads.data.warehouse import db as db_mod
 from kads.data.warehouse.models import DimCampaignState, FactActionJournal
 from kads.memory.decision_memory import reflect_on_past_actions
+
 
 @pytest.fixture(scope="function")
 def test_db():
@@ -17,6 +19,7 @@ def test_db():
         db.close()
         db_mod.Base.metadata.drop_all(bind=engine)
 
+
 def test_reflection_on_budget_increase(test_db):
     camp = DimCampaignState(
         campaign_id="g_123",
@@ -24,7 +27,7 @@ def test_reflection_on_budget_increase(test_db):
         platform="google",
         status="active",
         budget=180.0,
-        bid_strategy="tCPA"
+        bid_strategy="tCPA",
     )
     test_db.add(camp)
 
@@ -39,7 +42,7 @@ def test_reflection_on_budget_increase(test_db):
         risk_score=0.1,
         confidence=0.9,
         status="executed",
-        rollback_plan={"budget": 150.0}
+        rollback_plan={"budget": 150.0},
     )
     test_db.add(action)
     test_db.commit()

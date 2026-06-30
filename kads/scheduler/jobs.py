@@ -1,11 +1,15 @@
 import logging
 from datetime import datetime
+
 from kads.data.ingestion.google_ads import fetch_google_campaigns
 from kads.data.ingestion.meta_ads import fetch_meta_campaigns
 from kads.data.warehouse.db import SessionLocal
-from kads.data.warehouse.models import DimCampaignState, FactAdPerformanceHourly, FactTrackingHealth, FactActionJournal
+from kads.data.warehouse.models import (DimCampaignState, FactActionJournal,
+                                        FactAdPerformanceHourly,
+                                        FactTrackingHealth)
 
 logger = logging.getLogger("kads.scheduler")
+
 
 def job_p0_health_check():
     """
@@ -20,7 +24,11 @@ def job_p0_health_check():
         # Ingest Google campaigns
         google_camps = fetch_google_campaigns()
         for gc in google_camps:
-            camp = db.query(DimCampaignState).filter_by(campaign_id=gc["campaign_id"]).first()
+            camp = (
+                db.query(DimCampaignState)
+                .filter_by(campaign_id=gc["campaign_id"])
+                .first()
+            )
             if not camp:
                 camp = DimCampaignState(campaign_id=gc["campaign_id"])
             camp.campaign_name = gc["campaign_name"]
@@ -29,7 +37,7 @@ def job_p0_health_check():
             camp.budget = gc["budget"]
             camp.bid_strategy = gc["bid_strategy"]
             db.add(camp)
-            
+
             # Log hourly performance
             perf = FactAdPerformanceHourly(
                 campaign_id=gc["campaign_id"],
@@ -38,14 +46,18 @@ def job_p0_health_check():
                 clicks=gc["clicks"],
                 impressions=gc["impressions"],
                 conversions=gc["conversions"],
-                revenue=gc["revenue"]
+                revenue=gc["revenue"],
             )
             db.add(perf)
 
         # Ingest Meta campaigns
         meta_camps = fetch_meta_campaigns()
         for mc in meta_camps:
-            camp = db.query(DimCampaignState).filter_by(campaign_id=mc["campaign_id"]).first()
+            camp = (
+                db.query(DimCampaignState)
+                .filter_by(campaign_id=mc["campaign_id"])
+                .first()
+            )
             if not camp:
                 camp = DimCampaignState(campaign_id=mc["campaign_id"])
             camp.campaign_name = mc["campaign_name"]
@@ -54,7 +66,7 @@ def job_p0_health_check():
             camp.budget = mc["budget"]
             camp.bid_strategy = mc["bid_strategy"]
             db.add(camp)
-            
+
             # Log hourly performance
             perf = FactAdPerformanceHourly(
                 campaign_id=mc["campaign_id"],
@@ -63,7 +75,7 @@ def job_p0_health_check():
                 clicks=mc["clicks"],
                 impressions=mc["impressions"],
                 conversions=mc["conversions"],
-                revenue=mc["revenue"]
+                revenue=mc["revenue"],
             )
             db.add(perf)
 
@@ -72,7 +84,7 @@ def job_p0_health_check():
             component="CAPI",
             status="healthy",
             score=98.5,
-            details={"match_quality": "good"}
+            details={"match_quality": "good"},
         )
         db.add(health)
 
@@ -83,6 +95,7 @@ def job_p0_health_check():
         logger.error(f"Error executing P0 Health Check: {e}")
     finally:
         db.close()
+
 
 def job_p1_optimization():
     """
@@ -104,11 +117,15 @@ def job_p1_optimization():
 
         for action in proposed_actions:
             # Skip if an identical pending action already exists (avoid duplicates across runs)
-            existing = db.query(FactActionJournal).filter_by(
-                entity_id=action.entity_id,
-                action_type=action.action_type,
-                status="pending"
-            ).first()
+            existing = (
+                db.query(FactActionJournal)
+                .filter_by(
+                    entity_id=action.entity_id,
+                    action_type=action.action_type,
+                    status="pending",
+                )
+                .first()
+            )
             if existing:
                 continue
 
@@ -132,12 +149,15 @@ def job_p1_optimization():
             new_count += 1
 
         db.commit()
-        logger.info(f"P1 Optimization Job completed. {new_count} new actions proposed, {len(proposed_actions) - new_count} duplicates skipped.")
+        logger.info(
+            f"P1 Optimization Job completed. {new_count} new actions proposed, {len(proposed_actions) - new_count} duplicates skipped."
+        )
     except Exception as e:
         db.rollback()
         logger.error(f"Error executing P1 Optimization: {e}")
     finally:
         db.close()
+
 
 def job_reflection():
     """
@@ -152,10 +172,11 @@ def job_reflection():
     try:
         lessons = reflect_on_past_actions(db)
         for lesson in lessons:
-            logger.info(f"Lesson [{lesson['action_id']}]: {lesson['lesson']} (quality: {lesson['decision_quality']})")
+            logger.info(
+                f"Lesson [{lesson['action_id']}]: {lesson['lesson']} (quality: {lesson['decision_quality']})"
+            )
         logger.info(f"Reflection Job completed. {len(lessons)} lessons extracted.")
     except Exception as e:
         logger.error(f"Error executing Reflection Job: {e}")
     finally:
         db.close()
-

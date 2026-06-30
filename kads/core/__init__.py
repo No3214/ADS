@@ -11,6 +11,7 @@ Tasarim ilkeleri (OpenCLI + Agent-Reach'ten esinlenildi):
 
 Tek kaynak: tum kampanya verisi kads/data.py icindedir.
 """
+
 from __future__ import annotations
 
 import json
@@ -24,25 +25,45 @@ ENV_FILE = ROOT / ".env"
 CONFIG_FILE = ROOT / "config" / "ads-assets.yaml"
 
 # ---- Unix sysexits.h cikis kodlari (OpenCLI deseni) ------------------------
-EX_OK = 0            # Basarili
-EX_GENERIC = 1       # Genel/siniflandirilmamis hata
-EX_USAGE = 2         # Hatali arguman / bilinmeyen komut
-EX_NOINPUT = 66      # Bos sonuc (EX_NOINPUT)
+EX_OK = 0  # Basarili
+EX_GENERIC = 1  # Genel/siniflandirilmamis hata
+EX_USAGE = 2  # Hatali arguman / bilinmeyen komut
+EX_NOINPUT = 66  # Bos sonuc (EX_NOINPUT)
 EX_UNAVAILABLE = 69  # Servis yok (ornegin MCP baglanmamis)
-EX_TEMPFAIL = 75     # Gecici hata, tekrar dene
-EX_NOPERM = 77       # Yetki/onay gerekli (EX_NOPERM)
-EX_CONFIG = 78       # Eksik kimlik veya hatali config (EX_CONFIG)
+EX_TEMPFAIL = 75  # Gecici hata, tekrar dene
+EX_NOPERM = 77  # Yetki/onay gerekli (EX_NOPERM)
+EX_CONFIG = 78  # Eksik kimlik veya hatali config (EX_CONFIG)
 
 # ---- ANSI renkler (TTY ise) ------------------------------------------------
 _TTY = sys.stdout.isatty() and os.getenv("NO_COLOR") is None
+
+
 def _c(code: str, s: str) -> str:
     return f"\033[{code}m{s}\033[0m" if _TTY else s
-def green(s: str) -> str: return _c("32", s)
-def red(s: str) -> str: return _c("31", s)
-def yellow(s: str) -> str: return _c("33", s)
-def cyan(s: str) -> str: return _c("36", s)
-def bold(s: str) -> str: return _c("1", s)
-def dim(s: str) -> str: return _c("2", s)
+
+
+def green(s: str) -> str:
+    return _c("32", s)
+
+
+def red(s: str) -> str:
+    return _c("31", s)
+
+
+def yellow(s: str) -> str:
+    return _c("33", s)
+
+
+def cyan(s: str) -> str:
+    return _c("36", s)
+
+
+def bold(s: str) -> str:
+    return _c("1", s)
+
+
+def dim(s: str) -> str:
+    return _c("2", s)
 
 
 # ---- Mini .env okuyucu (bagimliliksiz) -------------------------------------
@@ -59,11 +80,21 @@ def load_env(path: Path = ENV_FILE) -> dict:
             data[k.strip()] = v.split(" #", 1)[0].strip().strip('"').strip("'")
     # Ortam degiskenleri onceliklidir.
     for k in list(data) + [
-        "GA4_MEASUREMENT_ID", "GOOGLE_ADS_TAG_ID", "META_PIXEL_ID", "META_BUSINESS_ID",
-        "GTM_CONTAINER_ID", "META_AD_ACCOUNT_ID", "GOOGLE_ADS_CUSTOMER_ID",
-        "GOOGLE_ADS_LOGIN_CUSTOMER_ID", "GOOGLE_PROJECT_ID", "GOOGLE_ADS_DEVELOPER_TOKEN",
-        "GOOGLE_MONTHLY_BUDGET_TRY", "META_MONTHLY_BUDGET_TRY",
-        "GOOGLE_AVG_DAILY_BUDGET_TRY", "META_DAILY_BUDGET_TRY", "ADS_WRITES_ENABLED",
+        "GA4_MEASUREMENT_ID",
+        "GOOGLE_ADS_TAG_ID",
+        "META_PIXEL_ID",
+        "META_BUSINESS_ID",
+        "GTM_CONTAINER_ID",
+        "META_AD_ACCOUNT_ID",
+        "GOOGLE_ADS_CUSTOMER_ID",
+        "GOOGLE_ADS_LOGIN_CUSTOMER_ID",
+        "GOOGLE_PROJECT_ID",
+        "GOOGLE_ADS_DEVELOPER_TOKEN",
+        "GOOGLE_MONTHLY_BUDGET_TRY",
+        "META_MONTHLY_BUDGET_TRY",
+        "GOOGLE_AVG_DAILY_BUDGET_TRY",
+        "META_DAILY_BUDGET_TRY",
+        "ADS_WRITES_ENABLED",
     ]:
         if os.getenv(k) is not None:
             data[k] = os.getenv(k, "")
@@ -71,6 +102,8 @@ def load_env(path: Path = ENV_FILE) -> dict:
 
 
 SECRET_HINT = re.compile(r"(token|secret|password|credential|refresh)", re.I)
+
+
 def mask(key: str, value: str) -> str:
     """Secret benzeri anahtarlarin degerini maskeler."""
     if not value:
@@ -88,8 +121,12 @@ def is_placeholder(value: str) -> bool:
 
 
 # ---- Cikti bicimlendirici (table|json|yaml|md|csv) -------------------------
-def emit(rows: list[dict], fmt: str = "table", title: str | None = None,
-         columns: list[str] | None = None) -> None:
+def emit(
+    rows: list[dict],
+    fmt: str = "table",
+    title: str | None = None,
+    columns: list[str] | None = None,
+) -> None:
     """Bir kayit listesini istenen bicimde stdout'a yazar. Deterministik."""
     fmt = (fmt or "table").lower()
     if not rows:
@@ -103,7 +140,9 @@ def emit(rows: list[dict], fmt: str = "table", title: str | None = None,
     if fmt == "json":
         print(json.dumps(rows, ensure_ascii=False, indent=2))
     elif fmt == "csv":
-        import csv, io
+        import csv
+        import io
+
         buf = io.StringIO()
         w = csv.DictWriter(buf, fieldnames=cols, extrasaction="ignore")
         w.writeheader()
@@ -120,11 +159,17 @@ def emit(rows: list[dict], fmt: str = "table", title: str | None = None,
         print("| " + " | ".join(cols) + " |")
         print("| " + " | ".join("---" for _ in cols) + " |")
         for r in rows:
-            print("| " + " | ".join(str(r.get(c, "")).replace("|", "\\|") for c in cols) + " |")
+            print(
+                "| "
+                + " | ".join(str(r.get(c, "")).replace("|", "\\|") for c in cols)
+                + " |"
+            )
     else:  # table
         if title:
             print(bold(cyan(title)))
-        widths = {c: max(len(str(c)), *(len(str(r.get(c, ""))) for r in rows)) for c in cols}
+        widths = {
+            c: max(len(str(c)), *(len(str(r.get(c, ""))) for r in rows)) for c in cols
+        }
         header = "  ".join(bold(str(c).ljust(widths[c])) for c in cols)
         print(header)
         print(dim("  ".join("-" * widths[c] for c in cols)))

@@ -1,5 +1,7 @@
-from typing import Dict, Any, List
+from typing import Any, Dict, List
+
 from kads.core.schemas import RiskSchema
+
 
 def calculate_risk_score(action: dict, tracking_score: float = 100.0) -> RiskSchema:
     """
@@ -64,5 +66,5 @@ def calculate_risk_score(action: dict, tracking_score: float = 100.0) -> RiskSch
         risk_score=round(score, 2),
         risk_level=level,
         reasons=reasons,
-        required_action=req_action
+        required_action=req_action,
     )

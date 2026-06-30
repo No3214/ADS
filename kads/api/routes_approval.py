@@ -1,9 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+
 from kads.data.warehouse.db import get_db
 from kads.data.warehouse.models import FactActionJournal
 
 router = APIRouter(tags=["Approvals"])
+
 
 @router.get("/approvals")
 def list_pending_approvals(db: Session = Depends(get_db)):
@@ -27,10 +29,11 @@ def list_pending_approvals(db: Session = Depends(get_db)):
             "requires_approval": a.requires_approval,
             "approval_reason": a.approval_reason,
             "rollback_plan": a.rollback_plan,
-            "status": a.status
+            "status": a.status,
         }
         for a in actions
     ]
+
 
 @router.post("/actions/{action_id}/approve")
 def approve_action(action_id: str, db: Session = Depends(get_db)):
@@ -41,11 +44,14 @@ def approve_action(action_id: str, db: Session = Depends(get_db)):
     if not action:
         raise HTTPException(status_code=404, detail="Action not found")
     if action.status != "pending":
-        raise HTTPException(status_code=400, detail=f"Action is already {action.status}")
-    
+        raise HTTPException(
+            status_code=400, detail=f"Action is already {action.status}"
+        )
+
     action.status = "approved"
     db.commit()
     return {"message": "Action approved", "action_id": action_id, "status": "approved"}
+
 
 @router.post("/actions/{action_id}/reject")
 def reject_action(action_id: str, db: Session = Depends(get_db)):
@@ -56,8 +62,10 @@ def reject_action(action_id: str, db: Session = Depends(get_db)):
     if not action:
         raise HTTPException(status_code=404, detail="Action not found")
     if action.status != "pending":
-        raise HTTPException(status_code=400, detail=f"Action is already {action.status}")
-    
+        raise HTTPException(
+            status_code=400, detail=f"Action is already {action.status}"
+        )
+
     action.status = "rejected"
     db.commit()
     return {"message": "Action rejected", "action_id": action_id, "status": "rejected"}

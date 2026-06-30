@@ -1,6 +1,7 @@
 """Genişletme testleri: display, A/B, yerleşim, kitle, kurallar, rapor."""
+
 from kads import data_ext as dx
-from kads import rules, report
+from kads import report, rules
 from kads.platforms import google as gx
 from kads.platforms import meta as mx
 
@@ -33,7 +34,9 @@ def test_meta_placements_audiences_ab():
 def test_rules_ascii_keys_and_eval():
     for r in rules.rule_rows():
         assert set(["oncelik", "id", "metrik", "kosul", "aksiyon"]).issubset(r.keys())
-    trig = rules.evaluate({"blended_roas": 3.5, "blended_cpa_try": 2500, "meta_frequency": 3.0})
+    trig = rules.evaluate(
+        {"blended_roas": 3.5, "blended_cpa_try": 2500, "meta_frequency": 3.0}
+    )
     ids = [t["id"] for t in trig]
     assert "ROAS_SCALE" in ids and "CPA_OVER" in ids and "FREQ_HIGH" in ids
     # risk önce
@@ -41,8 +44,15 @@ def test_rules_ascii_keys_and_eval():
 
 
 def test_report_compute():
-    k = report.compute({"google_spend_try": 15000, "meta_spend_try": 15000,
-                        "tracked_revenue_try": 90000, "google_conversions": 6, "meta_purchases": 6})
+    k = report.compute(
+        {
+            "google_spend_try": 15000,
+            "meta_spend_try": 15000,
+            "tracked_revenue_try": 90000,
+            "google_conversions": 6,
+            "meta_purchases": 6,
+        }
+    )
     assert k["toplam_harcama_try"] == 30000
     assert k["blended_roas"] == 3.0
     assert abs(k["blended_cpa_try"] - 2500) < 1
@@ -57,12 +67,17 @@ def test_build_includes_new_files(tmp_path):
     res = dict(gx.build(tmp_path / "g"))
     assert "09_display_campaign.csv" in res and "10_rsa_ab_variants.csv" in res
     res2 = dict(mx.build(tmp_path / "m"))
-    assert "meta-yerlesim-sablonlari.csv" in res2 and "meta-retargeting-kitleleri.csv" in res2
+    assert (
+        "meta-yerlesim-sablonlari.csv" in res2
+        and "meta-retargeting-kitleleri.csv" in res2
+    )
 
 
 def test_calendar_generate():
-    from kads import calendar as cal
     import datetime
+
+    from kads import calendar as cal
+
     rows = cal.generate(30, datetime.date(2026, 7, 1))
     assert len(rows) > 40
     chans = {r["kanal"] for r in rows}
@@ -70,19 +85,23 @@ def test_calendar_generate():
 
 
 def test_publish_rows_match():
-    from kads import calendar as cal, publish
+    from kads import calendar as cal
+    from kads import publish
+
     rows = cal.generate(14)
     assert len(publish.to_postiz_rows(rows)) == len(rows)
 
 
 def test_competitors_data():
     from kads import data_ext as dx
+
     assert len(dx.COMPETITORS) >= 4
     assert len(dx.CHANNELS) >= 5 and "TikTok" in dx.CHANNELS
 
 
 def test_apify_actors():
     from kads import data_ext as dx
+
     assert len(dx.APIFY_ACTORS) >= 5
     assert any("rag-web-browser" in a["actor"] for a in dx.APIFY_ACTORS)
     assert "tripadvisor" in dx.APIFY_LIVE_URLS
@@ -90,13 +109,16 @@ def test_apify_actors():
 
 def test_aeo_data():
     from kads import data_ext as dx
+
     assert len(dx.AEO_CLUSTERS) == 8
     assert len(dx.AEO_SCHEMA_CHECKLIST) == 5
 
 
 def test_aeo_schemas_valid_json():
-    import json, glob
+    import glob
+    import json
     from pathlib import Path
+
     root = Path(__file__).resolve().parents[1]
     files = glob.glob(str(root / "aeo" / "schema" / "*.jsonld"))
     assert len(files) >= 5
@@ -109,6 +131,7 @@ def test_aeo_schemas_valid_json():
 
 def test_season_funnel_offers_data():
     from kads import data_ext as dx
+
     assert len(dx.SEASONS) == 3
     assert len(dx.FUNNEL_STAGES) == 5
     assert len(dx.OFFERS) >= 4
@@ -117,15 +140,22 @@ def test_season_funnel_offers_data():
 def test_web_checklist_and_manifest():
     import json
     from pathlib import Path
+
     from kads import data_ext as dx
+
     assert len(dx.WEB_CHECKLIST) == 6
     root = Path(__file__).resolve().parents[1]
-    man = json.load(open(root / "web" / "pwa" / "manifest.webmanifest", encoding="utf-8"))
+    man = json.load(
+        open(root / "web" / "pwa" / "manifest.webmanifest", encoding="utf-8")
+    )
     assert man["display"] == "standalone" and man["start_url"].startswith("/")
     assert any(i["sizes"] == "512x512" for i in man["icons"])
 
 
 def test_b2b_data():
     from kads import data_ext as dx
+
     assert len(dx.B2B_TARGETS) == 4 and len(dx.B2B_PACKAGES) == 5
-    assert any("SOCAR" in t["cap_firma"] or "STAR" in t["cap_firma"] for t in dx.B2B_TARGETS)
+    assert any(
+        "SOCAR" in t["cap_firma"] or "STAR" in t["cap_firma"] for t in dx.B2B_TARGETS
+    )

@@ -3,7 +3,7 @@
 Kozbeyli Konağı — Meta Conversions API (CAPI) Entegrasyonu
 (God Tier / Server-Side Tracking)
 
-Amaç: iOS 14+ kısıtlamaları ve AdBlocker kaynaklı veri kayıplarını (%30+) engellemek 
+Amaç: iOS 14+ kısıtlamaları ve AdBlocker kaynaklı veri kayıplarını (%30+) engellemek
 için CRM (otel rezervasyon sistemi) üzerinden Meta'ya doğrudan ciro verisini (Purchase) atmak.
 
 Kullanım:
@@ -23,15 +23,21 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.append(str(ROOT))
 from kads import core
 
+
 def hash_data(data: str) -> str:
     """CAPI standartlarına göre veriyi hash'ler (SHA-256)."""
-    return hashlib.sha256(data.strip().lower().encode('utf-8')).hexdigest() if data else ""
+    return (
+        hashlib.sha256(data.strip().lower().encode("utf-8")).hexdigest() if data else ""
+    )
+
 
 def main():
     parser = argparse.ArgumentParser(description="Meta CAPI Sync")
     parser.add_argument("--email", required=True, help="Müşteri E-posta Adresi")
     parser.add_argument("--phone", required=True, help="Müşteri Telefon Numarası")
-    parser.add_argument("--value", required=True, type=float, help="Rezervasyon Tutarı (TRY)")
+    parser.add_argument(
+        "--value", required=True, type=float, help="Rezervasyon Tutarı (TRY)"
+    )
     args = parser.parse_args()
 
     # Ortam değişkenlerini .env'den yükle
@@ -54,14 +60,8 @@ def main():
                 "event_name": "Purchase",
                 "event_time": event_time,
                 "action_source": "website",
-                "user_data": {
-                    "em": [hashed_email],
-                    "ph": [hashed_phone]
-                },
-                "custom_data": {
-                    "currency": "TRY",
-                    "value": args.value
-                }
+                "user_data": {"em": [hashed_email], "ph": [hashed_phone]},
+                "custom_data": {"currency": "TRY", "value": args.value},
             }
         ]
     }
@@ -72,6 +72,7 @@ def main():
     print("\n[Simülasyon - Gerçek İstek (requests.post) bu aşamada kapalıdır]")
     print("API Endpoint: https://graph.facebook.com/v19.0/{pixel_id}/events")
     print("Durum: BAŞARILI (Veri CRM'den Meta'ya Server-Side aktarıldı)")
+
 
 if __name__ == "__main__":
     main()

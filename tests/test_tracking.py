@@ -1,9 +1,11 @@
 """Ölçüm (tracking) + domain/keyword regresyon kilitleri."""
+
 import json
 from pathlib import Path
-from kads.cli import main
+
 from kads import core, data
 from kads import data_ext as dx
+from kads.cli import main
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -32,9 +34,9 @@ def test_tracking_state_structure():
         assert cols <= set(r.keys())
     blob = " ".join(r["bilesen"] for r in dx.TRACKING_STATE)
     assert "GTM-KCG6B4MJ" in blob
-    assert "1781546559309505" in blob          # Meta Pixel
-    assert "G-V3R66C3MEF" in blob              # GA4
-    assert "AW-800024713" in blob              # Google Ads
+    assert "1781546559309505" in blob  # Meta Pixel
+    assert "G-V3R66C3MEF" in blob  # GA4
+    assert "AW-800024713" in blob  # Google Ads
 
 
 def test_tracking_state_valid_status():
@@ -54,7 +56,9 @@ def test_no_hotel_comtr_in_campaigns():
     camp = ROOT / "campaigns"
     if camp.exists():
         for f in camp.rglob("*.csv"):
-            assert "kozbeylikonagi.com.tr" not in f.read_text(encoding="utf-8"), f"{f} .com.tr"
+            assert "kozbeylikonagi.com.tr" not in f.read_text(
+                encoding="utf-8"
+            ), f"{f} .com.tr"
 
 
 def test_final_url_is_dotcom():

@@ -11,6 +11,7 @@ aynalardir; uretim icin kanonik kaynak BU dosyadir.
 Tum sayilar PLANLAMA TAHMINIDIR, garanti degildir (bkz. README + plan notu).
 Para birimi: TRY. Diller: reklamlar TR, site TR+EN.
 """
+
 from __future__ import annotations
 
 # ---- Otel gercekleri (web arastirmasiyla dogrulandi, Haziran 2026) ---------
@@ -23,7 +24,7 @@ HOTEL = {
     "distance_foca_km": 13,
     "rooms_total": 16,
     "room_types": ["Standart Oda", "Superior Oda (manzaralı)", "Aile Odası (5 kişi)"],
-    "avg_nightly_try": 2000,          # web: ~1.900-2.000 TL/gece (Haziran 2026)
+    "avg_nightly_try": 2000,  # web: ~1.900-2.000 TL/gece (Haziran 2026)
     "checkin": "14:00",
     "checkout": "12:00",
     "usps": [
@@ -55,18 +56,48 @@ PLAN = {
     "google_monthly_try": 15000,
     "meta_monthly_try": 15000,
     "channels": [
-        {"kanal": "Google — Marka Search", "aylik_try": 4500, "gunluk_try": 148,
-         "islev": "Marka/OTA savunması", "faz": "Hafta 3-5"},
-        {"kanal": "Google — Dar non-brand Search", "aylik_try": 9000, "gunluk_try": 296,
-         "islev": "Yüksek niyetli yeni talep", "faz": "Hafta 5-8"},
-        {"kanal": "Google — Kontrollü test", "aylik_try": 1500, "gunluk_try": 49,
-         "islev": "Arama terimi & sezon testi", "faz": "Sürekli"},
-        {"kanal": "Meta — Prospecting (Website Sales)", "aylik_try": 10500, "gunluk_try": 350,
-         "islev": "Yeni kitle, direkt rezervasyon", "faz": "Hafta 4-6 (ay 1)"},
-        {"kanal": "Meta — WhatsApp/Mesaj", "aylik_try": 4500, "gunluk_try": 150,
-         "islev": "Nitelikli rezervasyon görüşmesi", "faz": "Hafta 4-6 (ay 1)"},
-        {"kanal": "Meta — Retargeting", "aylik_try": 3000, "gunluk_try": 100,
-         "islev": "Site/IG/checkout terk", "faz": "Hafta 8-12 (ay 2+)"},
+        {
+            "kanal": "Google — Marka Search",
+            "aylik_try": 4500,
+            "gunluk_try": 148,
+            "islev": "Marka/OTA savunması",
+            "faz": "Hafta 3-5",
+        },
+        {
+            "kanal": "Google — Dar non-brand Search",
+            "aylik_try": 9000,
+            "gunluk_try": 296,
+            "islev": "Yüksek niyetli yeni talep",
+            "faz": "Hafta 5-8",
+        },
+        {
+            "kanal": "Google — Kontrollü test",
+            "aylik_try": 1500,
+            "gunluk_try": 49,
+            "islev": "Arama terimi & sezon testi",
+            "faz": "Sürekli",
+        },
+        {
+            "kanal": "Meta — Prospecting (Website Sales)",
+            "aylik_try": 10500,
+            "gunluk_try": 350,
+            "islev": "Yeni kitle, direkt rezervasyon",
+            "faz": "Hafta 4-6 (ay 1)",
+        },
+        {
+            "kanal": "Meta — WhatsApp/Mesaj",
+            "aylik_try": 4500,
+            "gunluk_try": 150,
+            "islev": "Nitelikli rezervasyon görüşmesi",
+            "faz": "Hafta 4-6 (ay 1)",
+        },
+        {
+            "kanal": "Meta — Retargeting",
+            "aylik_try": 3000,
+            "gunluk_try": 100,
+            "islev": "Site/IG/checkout terk",
+            "faz": "Hafta 8-12 (ay 2+)",
+        },
     ],
     # Ay 2+ Meta yeniden dengeleme: Prospecting 9.000 / Retargeting 3.000 / WhatsApp 3.000
     "commercial_targets": [
@@ -77,8 +108,10 @@ PLAN = {
 
 # ---- Bicimlendirilmis butce tavanlari (guardrails ile ayni) ----------------
 BUDGET_CAPS = {
-    "google_daily_try": 493, "google_monthly_try": 15000,
-    "meta_daily_try": 500, "meta_monthly_try": 15000,
+    "google_daily_try": 493,
+    "google_monthly_try": 15000,
+    "meta_daily_try": 500,
+    "meta_monthly_try": 15000,
 }
 
 # ---- GOOGLE: anahtar kelimeler ---------------------------------------------
@@ -88,37 +121,66 @@ KEYWORDS = {
     "Marka": {  # Brand — OTA savunmasi, en dusuk CPC, en yuksek CVR
         "match": "phrase_and_exact",
         "terms": [
-            "kozbeyli konağı", "kozbeyli konagi", "kozbeyli konağı otel",
-            "kozbeyli konağı foça", "kozbeyli konağı rezervasyon",
-            "kozbeyli konağı fiyat", "kozbeyli konağı izmir", "kozbeyli butik otel",
-            "kozbeyli konağı yorum", "kozbeyli otel", "foça kozbeyli konağı",
+            "kozbeyli konağı",
+            "kozbeyli konagi",
+            "kozbeyli konağı otel",
+            "kozbeyli konağı foça",
+            "kozbeyli konağı rezervasyon",
+            "kozbeyli konağı fiyat",
+            "kozbeyli konağı izmir",
+            "kozbeyli butik otel",
+            "kozbeyli konağı yorum",
+            "kozbeyli otel",
+            "foça kozbeyli konağı",
         ],
     },
     "NonBrand-Foca-Butik": {  # Yuksek niyetli yeni talep
         "match": "phrase_and_exact",
         "terms": [
-            "foça butik otel", "foça taş ev otel", "foça konak otel",
-            "eski foça butik otel", "foça köy oteli", "foça otantik otel",
-            "kozbeyli köyü otel", "kozbeyli konaklama",
-            "eski foça otel", "foça kozbeyli", "foça antik otel", "eski foça konak otel",
-            "yeni foça butik otel", "yeni foça köy oteli", "yeni foça taş otel", "kozbeyli foça",
+            "foça butik otel",
+            "foça taş ev otel",
+            "foça konak otel",
+            "eski foça butik otel",
+            "foça köy oteli",
+            "foça otantik otel",
+            "kozbeyli köyü otel",
+            "kozbeyli konaklama",
+            "eski foça otel",
+            "foça kozbeyli",
+            "foça antik otel",
+            "eski foça konak otel",
+            "yeni foça butik otel",
+            "yeni foça köy oteli",
+            "yeni foça taş otel",
+            "kozbeyli foça",
         ],
     },
     "NonBrand-Foca-Genel": {  # Daha genis ama yine niyetli
         "match": "phrase",
         "terms": [
-            "foça otel", "foça otelleri", "foça konaklama",
-            "foça deniz manzaralı otel", "foça balayı oteli",
-            "foça evcil hayvan kabul eden otel", "foça hafta sonu kaçamağı otel",
-            "otel foça", "eski foça otelleri", "yeni foça otelleri", "foça merkez otel",
-            "yeni foça otel", "yeni foça konaklama", "yeni foça deniz manzaralı otel",
+            "foça otel",
+            "foça otelleri",
+            "foça konaklama",
+            "foça deniz manzaralı otel",
+            "foça balayı oteli",
+            "foça evcil hayvan kabul eden otel",
+            "foça hafta sonu kaçamağı otel",
+            "otel foça",
+            "eski foça otelleri",
+            "yeni foça otelleri",
+            "foça merkez otel",
+            "yeni foça otel",
+            "yeni foça konaklama",
+            "yeni foça deniz manzaralı otel",
         ],
     },
     "NonBrand-Niche": {  # Konsept/deneyim niyeti
         "match": "phrase",
         "terms": [
-            "izmir taş konak otel", "izmir butik köy oteli",
-            "ege köy kahvaltısı konaklama", "foça doğa tatili otel",
+            "izmir taş konak otel",
+            "izmir butik köy oteli",
+            "ege köy kahvaltısı konaklama",
+            "foça doğa tatili otel",
             "izmir sakin kaçış oteli",
         ],
     },
@@ -128,31 +190,104 @@ KEYWORDS = {
 # Niyetsiz/yanlis-niyet trafigi keser. Kucuk butcede negatif = en onemli kaldirac.
 NEGATIVES = [
     # is/emlak/finans niyeti
-    "iş ilanı", "iş", "kariyer", "personel", "eleman", "maaş",
-    "kiralık", "satılık", "emlak", "arsa", "daire", "müstakil",
+    "iş ilanı",
+    "iş",
+    "kariyer",
+    "personel",
+    "eleman",
+    "maaş",
+    "kiralık",
+    "satılık",
+    "emlak",
+    "arsa",
+    "daire",
+    "müstakil",
     # bilgi/ucretsiz niyeti
-    "nasıl gidilir", "yol tarifi", "harita", "hava durumu", "nüfus",
-    "gezilecek yerler", "ne demek", "tarihçe", "vikipedi", "wikipedia",
-    "nedir", "yorumları", "şikayet", "şikayetvar",
+    "nasıl gidilir",
+    "yol tarifi",
+    "harita",
+    "hava durumu",
+    "nüfus",
+    "gezilecek yerler",
+    "ne demek",
+    "tarihçe",
+    "vikipedi",
+    "wikipedia",
+    "nedir",
+    "yorumları",
+    "şikayet",
+    "şikayetvar",
     # ucuz/bedava/alakasiz
-    "ucuz", "bedava", "free", "camping", "kamp", "çadır", "karavan",
-    "pansiyon", "hostel", "apart", "günlük kiralık", "yazlık kiralık",
+    "ucuz",
+    "bedava",
+    "free",
+    "camping",
+    "kamp",
+    "çadır",
+    "karavan",
+    "pansiyon",
+    "hostel",
+    "apart",
+    "günlük kiralık",
+    "yazlık kiralık",
     # alakasiz lokasyon/markalar (genel non-brand grubu icin)
-    "çeşme", "alaçatı", "bodrum", "kuşadası", "marmaris", "didim",
-    "antalya", "kapadokya", "abant", "sapanca",
+    "çeşme",
+    "alaçatı",
+    "bodrum",
+    "kuşadası",
+    "marmaris",
+    "didim",
+    "antalya",
+    "kapadokya",
+    "abant",
+    "sapanca",
     # OTA/aggregator (marka disinda; direkt rezervasyona yonlendir)
-    "booking", "trivago", "etstur", "tatilsepeti", "jolly", "obilet",
+    "booking",
+    "trivago",
+    "etstur",
+    "tatilsepeti",
+    "jolly",
+    "obilet",
     # alakasiz arama
-    "düğün salonu fiyat", "iş başvurusu", "telefon numarası rehber",
+    "düğün salonu fiyat",
+    "iş başvurusu",
+    "telefon numarası rehber",
     # --- canli hesap arama terimi madenciligi (Haz 2026): bos-harcama ---
-    "plaj", "plajları", "beach", "koylar", "deniz", "glamping", "bungalow",
-    "orman kampı", "dome", "öğretmenevi", "sosyal tesis", "tesisleri",
-    "gezilecek", "kordon", "kemeraltı", "seyir tepesi", "bostanlı",
+    "plaj",
+    "plajları",
+    "beach",
+    "koylar",
+    "deniz",
+    "glamping",
+    "bungalow",
+    "orman kampı",
+    "dome",
+    "öğretmenevi",
+    "sosyal tesis",
+    "tesisleri",
+    "gezilecek",
+    "kordon",
+    "kemeraltı",
+    "seyir tepesi",
+    "bostanlı",
     # alakasiz lokasyonlar (gercek terimlerden)
-    "urla", "manisa", "bergama", "dikili", "karaburun", "sasalı", "şakran",
-    "nazarköy", "çiçekli", "aliağa kiralık",
+    "urla",
+    "manisa",
+    "bergama",
+    "dikili",
+    "karaburun",
+    "sasalı",
+    "şakran",
+    "nazarköy",
+    "çiçekli",
+    "aliağa kiralık",
     # rakip isimleri (markalarini biz odemeyelim)
-    "gaia", "saklı cennet", "club med", "voodoo", "kybele", "palandız",
+    "gaia",
+    "saklı cennet",
+    "club med",
+    "voodoo",
+    "kybele",
+    "palandız",
 ]
 
 # ---- GOOGLE: RSA varliklari (reklam grubu bazinda) -------------------------
@@ -160,9 +295,10 @@ NEGATIVES = [
 RSA = {
     "Marka": {
         "final_url": "https://www.kozbeylikonagi.com/rezervasyon",
-        "path1": "Foca", "path2": "Rezervasyon",
+        "path1": "Foca",
+        "path2": "Rezervasyon",
         "headlines": [
-            "Kozbeyli Konağı Resmî",          # marka + resmi sinyali
+            "Kozbeyli Konağı Resmî",  # marka + resmi sinyali
             "Kozbeyli Konağı Foça",
             "Doğrudan & Komisyonsuz",
             "Resmî Siteden Rezerve Et",
@@ -187,7 +323,8 @@ RSA = {
     },
     "NonBrand": {
         "final_url": "https://www.kozbeylikonagi.com/odalar",
-        "path1": "Foca", "path2": "Butik-Otel",
+        "path1": "Foca",
+        "path2": "Butik-Otel",
         "headlines": [
             "Foça'da Taş Konak Oteli",
             "Kozbeyli Konağı Foça",
@@ -216,31 +353,73 @@ RSA = {
 
 # ---- GOOGLE: uzantilar (sitelink/callout/snippet) --------------------------
 SITELINKS = [
-    {"text": "Odalar", "desc1": "16 özel tasarım oda", "desc2": "Deniz manzaralı seçenekler",
-     "url": "https://www.kozbeylikonagi.com/odalar"},
-    {"text": "Restoran ve Mutfak", "desc1": "Antakya ve Ege sofrası", "desc2": "Organik köy kahvaltısı",
-     "url": "https://www.kozbeylikonagi.com/gastronomi"},
-    {"text": "Galeri ve Foça", "desc1": "Konak ve köy fotoğrafları", "desc2": "Çevre gezi önerileri",
-     "url": "https://www.kozbeylikonagi.com/galeri"},
-    {"text": "Rezervasyon", "desc1": "Doğrudan ve komisyonsuz", "desc2": "Hızlı tarih seçimi",
-     "url": "https://www.kozbeylikonagi.com/rezervasyon"},
-    {"text": "İletişim ve Yol Tarifi", "desc1": "Telefon ve WhatsApp", "desc2": "Foça'ya 13 km",
-     "url": "https://www.kozbeylikonagi.com/lokasyon"},
-    {"text": "Etkinlik ve Düğün", "desc1": "Tarihi konak atmosferi", "desc2": "Özel organizasyon",
-     "url": "https://www.kozbeylikonagi.com/organizasyonlar"},
+    {
+        "text": "Odalar",
+        "desc1": "16 özel tasarım oda",
+        "desc2": "Deniz manzaralı seçenekler",
+        "url": "https://www.kozbeylikonagi.com/odalar",
+    },
+    {
+        "text": "Restoran ve Mutfak",
+        "desc1": "Antakya ve Ege sofrası",
+        "desc2": "Organik köy kahvaltısı",
+        "url": "https://www.kozbeylikonagi.com/gastronomi",
+    },
+    {
+        "text": "Galeri ve Foça",
+        "desc1": "Konak ve köy fotoğrafları",
+        "desc2": "Çevre gezi önerileri",
+        "url": "https://www.kozbeylikonagi.com/galeri",
+    },
+    {
+        "text": "Rezervasyon",
+        "desc1": "Doğrudan ve komisyonsuz",
+        "desc2": "Hızlı tarih seçimi",
+        "url": "https://www.kozbeylikonagi.com/rezervasyon",
+    },
+    {
+        "text": "İletişim ve Yol Tarifi",
+        "desc1": "Telefon ve WhatsApp",
+        "desc2": "Foça'ya 13 km",
+        "url": "https://www.kozbeylikonagi.com/lokasyon",
+    },
+    {
+        "text": "Etkinlik ve Düğün",
+        "desc1": "Tarihi konak atmosferi",
+        "desc2": "Özel organizasyon",
+        "url": "https://www.kozbeylikonagi.com/organizasyonlar",
+    },
 ]
 CALLOUTS = [
-    "Ücretsiz otopark", "Organik köy kahvaltısı", "Evcil hayvan dostu",
-    "Deniz manzaralı odalar", "Doğrudan rezervasyon avantajı", "Çatı terası",
+    "Ücretsiz otopark",
+    "Organik köy kahvaltısı",
+    "Evcil hayvan dostu",
+    "Deniz manzaralı odalar",
+    "Doğrudan rezervasyon avantajı",
+    "Çatı terası",
 ]
 STRUCTURED_SNIPPETS = [
-    {"header": "Olanaklar", "values": ["Ücretsiz Wi-Fi", "Klima", "Restoran", "Tarihi konak", "Çatı terası"]},
+    {
+        "header": "Olanaklar",
+        "values": [
+            "Ücretsiz Wi-Fi",
+            "Klima",
+            "Restoran",
+            "Tarihi konak",
+            "Çatı terası",
+        ],
+    },
     {"header": "Çevre", "values": ["Foça", "Yeni Foça", "Kozbeyli Köyü"]},
 ]
 
 # ---- GOOGLE: hedefleme ------------------------------------------------------
 GEO_TARGETS = [
-    "Foça, İzmir", "İzmir", "Manisa", "İstanbul", "Ankara", "Bursa",
+    "Foça, İzmir",
+    "İzmir",
+    "Manisa",
+    "İstanbul",
+    "Ankara",
+    "Bursa",
 ]
 GEO_NOTE = "Kaynak şehirler (İstanbul/Ankara/Bursa) + yerel (İzmir/Foça). Radius değil şehir hedefi."
 AD_SCHEDULE_NOTE = "Türkiye'de turizm dönüşüm pikleri 08–11 ve 19–22. Bütçe darsa bu saatlere ağırlık ver."
@@ -259,7 +438,8 @@ META_COPY = {
         ],
         "headlines": ["Taş Konakta Huzur", "600 Yıllık Köyde Konaklayın"],
         "description": "Foça'ya 13 km, doğrudan rezervasyon.",
-        "cta": "Book Now", "destination": "Website (rezervasyon/oda sayfası)",
+        "cta": "Book Now",
+        "destination": "Website (rezervasyon/oda sayfası)",
     },
     "Konsept2-Manzara": {
         "tema": "Oda, çatı terası & Ege manzarası",
@@ -271,7 +451,8 @@ META_COPY = {
         ],
         "headlines": ["Ege Manzaralı Kaçış", "Çatı Terasında Gün Batımı"],
         "description": "Müsaitliğe bakın, doğrudan rezerve edin.",
-        "cta": "Book Now", "destination": "Website (oda sayfası)",
+        "cta": "Book Now",
+        "destination": "Website (oda sayfası)",
     },
     "Konsept3-Kahvalti": {
         "tema": "Organik köy kahvaltısı & Antakya–Ege mutfağı",
@@ -283,7 +464,8 @@ META_COPY = {
         ],
         "headlines": ["Organik Köy Kahvaltısı", "Antakya & Ege Sofrası"],
         "description": "Köy lezzetleri, taş konak atmosferi.",
-        "cta": "Learn More", "destination": "Website (restoran sayfası)",
+        "cta": "Learn More",
+        "destination": "Website (restoran sayfası)",
     },
     "Konsept4-Evcil": {
         "tema": "Evcil hayvan dostu konaklama",
@@ -293,7 +475,8 @@ META_COPY = {
         ],
         "headlines": ["Evcil Dostunuzla Gelin", "Pati Dostu Konak"],
         "description": "Ücretsiz kabul, avluda huzur.",
-        "cta": "Book Now", "destination": "Website (rezervasyon sayfası)",
+        "cta": "Book Now",
+        "destination": "Website (rezervasyon sayfası)",
     },
     "Konsept5-WhatsApp": {
         "tema": "Hafta içi sakin kaçış & müsaitlik (WhatsApp/Mesaj)",
@@ -303,7 +486,8 @@ META_COPY = {
         ],
         "headlines": ["Bu Hafta Birkaç Oda", "Mesaj Atın, Yanıtlayalım"],
         "description": "WhatsApp'tan hızlı rezervasyon görüşmesi.",
-        "cta": "Send Message", "destination": "WhatsApp / Messenger",
+        "cta": "Send Message",
+        "destination": "WhatsApp / Messenger",
     },
 }
 
@@ -312,15 +496,26 @@ META_AUDIENCES = {
     "Prospecting": {
         "tip": "Geniş + ilgi sinyali (Advantage+ kitle önerilir, dar tutma)",
         "konum": "İstanbul, Ankara, İzmir, Bursa + 25 km Foça çevresi",
-        "yas": "28-60", "diller": ["Türkçe"],
-        "ilgi": ["Butik otel", "Seyahat", "Hafta sonu kaçamağı", "Doğa turizmi",
-                  "Gurme/yeme-içme", "Evcil hayvan sahipleri", "Ege/Foça"],
+        "yas": "28-60",
+        "diller": ["Türkçe"],
+        "ilgi": [
+            "Butik otel",
+            "Seyahat",
+            "Hafta sonu kaçamağı",
+            "Doğa turizmi",
+            "Gurme/yeme-içme",
+            "Evcil hayvan sahipleri",
+            "Ege/Foça",
+        ],
         "not": "Öğrenme aşaması için kitleyi aşırı daraltma; tek ad set, 3-4 kreatif.",
     },
     "Retargeting": {
         "tip": "Custom Audience (ay 2+, liste dolunca)",
-        "kaynaklar": ["Site ziyaretçisi 30/60 gün", "IG/FB etkileşim 365 gün",
-                       "rezervasyon başlatıp tamamlamayan (begin_checkout)"],
+        "kaynaklar": [
+            "Site ziyaretçisi 30/60 gün",
+            "IG/FB etkileşim 365 gün",
+            "rezervasyon başlatıp tamamlamayan (begin_checkout)",
+        ],
         "not": "Site/IG kitlesi yeterince dolmadan AÇMA.",
     },
     "Lookalike": {

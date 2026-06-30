@@ -1,6 +1,8 @@
 """kads veri + uretim testleri."""
+
 import json
-from kads import data, seo, presence
+
+from kads import data, presence, seo
 from kads.platforms import google as gx
 from kads.platforms import meta as mx
 
@@ -30,8 +32,12 @@ def test_keywords_and_negatives():
 
 def test_google_build(tmp_path):
     res = dict(gx.build(tmp_path))
-    for f in ("01_campaigns.csv", "03_keywords.csv", "04_responsive_search_ads.csv",
-              "05_negative_keywords.csv"):
+    for f in (
+        "01_campaigns.csv",
+        "03_keywords.csv",
+        "04_responsive_search_ads.csv",
+        "05_negative_keywords.csv",
+    ):
         assert (tmp_path / f).exists() and (tmp_path / f).stat().st_size > 0
     assert res["01_campaigns.csv"] == 3
     assert res["03_keywords.csv"] >= 25
@@ -58,4 +64,6 @@ def test_presence_data():
     assert len(presence.PROPERTIES) >= 8
     assert len(presence.FIXES) == 14
     c = presence.counts()
-    assert c["Kritik"] >= 1  # .com.tr terk edildi (Haz 2026): kritikler azaldı, GBP/NAP kaldı
+    assert (
+        c["Kritik"] >= 1
+    )  # .com.tr terk edildi (Haz 2026): kritikler azaldı, GBP/NAP kaldı

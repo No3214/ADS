@@ -1,13 +1,16 @@
 import pytest
+
+from kads.core.schemas import RiskSchema
 from kads.core.security import evaluate_change, load_security_config
 from kads.decision.risk_score import calculate_risk_score
-from kads.core.schemas import RiskSchema
+
 
 def test_load_security_config():
     cfg = load_security_config()
     assert isinstance(cfg, dict)
     assert "google_monthly_try" in cfg
     assert "writes_enabled" in cfg
+
 
 def test_evaluate_change_dry_run_denied():
     cfg = {
@@ -17,17 +20,18 @@ def test_evaluate_change_dry_run_denied():
         "google_daily_try": 500,
         "meta_daily_try": 500,
         "google_allowlist": {"1234567890"},
-        "meta_allowlist": {"act_123"}
+        "meta_allowlist": {"act_123"},
     }
     change = {
         "platform": "google",
         "account_id": "1234567890",
         "action": "pause",
-        "entity": "campaign"
+        "entity": "campaign",
     }
     decision, reasons = evaluate_change(change, cfg, None)
     assert decision == "DENY"
     assert "Gerçek yazma kapalı" in reasons[0]
+
 
 def test_risk_score_calculation():
     # Low risk

@@ -1,7 +1,8 @@
 import re
 from pathlib import Path
-from typing import Tuple, List, Dict, Any, Optional
-from kads.core import load_env, CONFIG_FILE
+from typing import Any, Dict, List, Optional, Tuple
+
+from kads.core import CONFIG_FILE, load_env
 
 HARD_BLOCKED_ACTIONS = {
     "delete",
@@ -42,8 +43,10 @@ ALLOWED_ACTIONS = {
     "pause_ad",
 } | ENABLE_ACTIONS
 
+
 def _digits(s: str) -> str:
     return re.sub(r"\D", "", s or "")
+
 
 def load_security_config() -> dict:
     env = load_env()
@@ -74,7 +77,10 @@ def load_security_config() -> dict:
             cfg["writes_enabled"] = cfg["writes_enabled"] and (m2.group(1) == "true")
     return cfg
 
-def evaluate_change(change: dict, cfg: dict, approval: Optional[str]) -> Tuple[str, List[str]]:
+
+def evaluate_change(
+    change: dict, cfg: dict, approval: Optional[str]
+) -> Tuple[str, List[str]]:
     reasons = []
     platform = (change.get("platform") or "").lower()
     action = (change.get("action") or "").lower()
@@ -84,7 +90,9 @@ def evaluate_change(change: dict, cfg: dict, approval: Optional[str]) -> Tuple[s
     monthly = change.get("monthly_budget_try")
 
     if not cfg["writes_enabled"]:
-        reasons.append("Gerçek yazma kapalı (ADS_WRITES_ENABLED!=true veya write_guardrails.enabled!=true). Yalnızca dry-run/önizleme.")
+        reasons.append(
+            "Gerçek yazma kapalı (ADS_WRITES_ENABLED!=true veya write_guardrails.enabled!=true). Yalnızca dry-run/önizleme."
+        )
         return "DENY", reasons
 
     if platform not in {"google", "meta"}:
@@ -92,7 +100,9 @@ def evaluate_change(change: dict, cfg: dict, approval: Optional[str]) -> Tuple[s
         return "DENY", reasons
 
     if action in HARD_BLOCKED_ACTIONS:
-        reasons.append(f"Aksiyon kalıcı olarak engellendi: '{action}' (silme/ödeme/kullanıcı/liste yükleme yok).")
+        reasons.append(
+            f"Aksiyon kalıcı olarak engellendi: '{action}' (silme/ödeme/kullanıcı/liste yükleme yok)."
+        )
         return "DENY", reasons
 
     if action not in ALLOWED_ACTIONS:
@@ -103,33 +113,56 @@ def evaluate_change(change: dict, cfg: dict, approval: Optional[str]) -> Tuple[s
         allow = cfg["google_allowlist"]
         acc_key = _digits(account)
         if not allow:
-            reasons.append("Google hesap allowlist boş. GOOGLE_ADS_CUSTOMER_ID (10 hane) tanımlayın.")
+            reasons.append(
+                "Google hesap allowlist boş. GOOGLE_ADS_CUSTOMER_ID (10 hane) tanımlayın."
+            )
             return "DENY", reasons
         if acc_key not in allow:
-            reasons.append(f"Google hesabı allowlist dışında: '{account}'. İzinli: {sorted(allow)}")
+            reasons.append(
+                f"Google hesabı allowlist dışında: '{account}'. İzinli: {sorted(allow)}"
+            )
             return "DENY", reasons
     else:  # meta
         allow = cfg["meta_allowlist"]
         if not allow:
-            reasons.append("Meta hesap allowlist boş. META_AD_ACCOUNT_ID (act_...) tanımlayın.")
+            reasons.append(
+                "Meta hesap allowlist boş. META_AD_ACCOUNT_ID (act_...) tanımlayın."
+            )
             return "DENY", reasons
         if account not in allow:
-            reasons.append(f"Meta hesabı allowlist dışında: '{account}'. İzinli: {sorted(allow)}")
+            reasons.append(
+                f"Meta hesabı allowlist dışında: '{account}'. İzinli: {sorted(allow)}"
+            )
             return "DENY", reasons
 
-    _status_creates = {"create_campaign", "create_adset", "create_ad_group", "create_ad"}
+    _status_creates = {
+        "create_campaign",
+        "create_adset",
+        "create_ad_group",
+        "create_ad",
+    }
     creates_entity = action in _status_creates or (
-        action.startswith("create") and change.get("entity") in {"campaign", "adset", "ad_group", "ad"})
+        action.startswith("create")
+        and change.get("entity") in {"campaign", "adset", "ad_group", "ad"}
+    )
     if creates_entity and status != "PAUSED":
-        reasons.append(f"Yeni varlik PAUSED olusturulmali; gelen status='{status or '(yok)'}'.")
+        reasons.append(
+            f"Yeni varlik PAUSED olusturulmali; gelen status='{status or '(yok)'}'."
+        )
         return "DENY", reasons
 
-    daily_cap = cfg["google_daily_try"] if platform == "google" else cfg["meta_daily_try"]
-    monthly_cap = cfg["google_monthly_try"] if platform == "google" else cfg["meta_monthly_try"]
+    daily_cap = (
+        cfg["google_daily_try"] if platform == "google" else cfg["meta_daily_try"]
+    )
+    monthly_cap = (
+        cfg["google_monthly_try"] if platform == "google" else cfg["meta_monthly_try"]
+    )
     if daily is not None:
         try:
             if float(daily) > float(daily_cap):
-                reasons.append(f"Günlük bütçe tavanı aşıldı: {daily} > {daily_cap} TL ({platform}).")
+                reasons.append(
+                    f"Günlük bütçe tavanı aşıldı: {daily} > {daily_cap} TL ({platform})."
+                )
                 return "DENY", reasons
         except (TypeError, ValueError):
             reasons.append(f"Geçersiz daily_budget_try: {daily!r}")
@@ -137,7 +170,9 @@ def evaluate_change(change: dict, cfg: dict, approval: Optional[str]) -> Tuple[s
     if monthly is not None:
         try:
             if float(monthly) > float(monthly_cap):
-                reasons.append(f"Aylık bütçe tavanı aşıldı: {monthly} > {monthly_cap} TL ({platform}).")
+                reasons.append(
+                    f"Aylık bütçe tavanı aşıldı: {monthly} > {monthly_cap} TL ({platform})."
+                )
                 return "DENY", reasons
         except (TypeError, ValueError):
             reasons.append(f"Geçersiz monthly_budget_try: {monthly!r}")
@@ -146,8 +181,15 @@ def evaluate_change(change: dict, cfg: dict, approval: Optional[str]) -> Tuple[s
     needs = _approval_matches(approval, platform, account, action)
     if action in ENABLE_ACTIONS:
         head = re.split(r"[|;]", (approval or ""))[0].strip().lower()
-        second_marker = head.startswith("onayla-2") or head.startswith("approve-2") \
-            or re.search(r"etkinle\u015ftir|etkinlestir|i\u015fte etkinle", (approval or ""), re.I)
+        second_marker = (
+            head.startswith("onayla-2")
+            or head.startswith("approve-2")
+            or re.search(
+                r"etkinle\u015ftir|etkinlestir|i\u015fte etkinle",
+                (approval or ""),
+                re.I,
+            )
+        )
         if not (needs and second_marker):
             reasons.append(
                 "ENABLED işlemi AYRI ikinci onay ister. Biçim: "
@@ -155,13 +197,20 @@ def evaluate_change(change: dict, cfg: dict, approval: Optional[str]) -> Tuple[s
             )
             return "NEEDS_APPROVAL", reasons
     if not needs:
-        reasons.append("Açık onay gerekli. Biçim: 'ONAYLA | platform | hesap_id | aksiyon | gunluk_butce'.")
+        reasons.append(
+            "Açık onay gerekli. Biçim: 'ONAYLA | platform | hesap_id | aksiyon | gunluk_butce'."
+        )
         return "NEEDS_APPROVAL", reasons
 
-    reasons.append("Tüm korkuluklar geçildi: allowlist OK, PAUSED OK, bütçe OK, onay OK.")
+    reasons.append(
+        "Tüm korkuluklar geçildi: allowlist OK, PAUSED OK, bütçe OK, onay OK."
+    )
     return "ALLOW", reasons
 
-def _approval_matches(approval: Optional[str], platform: str, account: str, action: str) -> bool:
+
+def _approval_matches(
+    approval: Optional[str], platform: str, account: str, action: str
+) -> bool:
     if not approval:
         return False
     parts = [p.strip() for p in re.split(r"[|;]", approval)]
@@ -175,7 +224,11 @@ def _approval_matches(approval: Optional[str], platform: str, account: str, acti
     p_action = parts[3].lower()
     if p_platform != platform:
         return False
-    if _digits(p_account) and _digits(p_account) != _digits(account) and p_account != account:
+    if (
+        _digits(p_account)
+        and _digits(p_account) != _digits(account)
+        and p_account != account
+    ):
         return False
     if p_action and p_action != action:
         return False

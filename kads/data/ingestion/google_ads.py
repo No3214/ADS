@@ -1,5 +1,6 @@
 from kads import core
 
+
 def fetch_google_campaigns() -> list[dict]:
     """
     Fetches campaign data from Google Ads API.
@@ -9,7 +10,11 @@ def fetch_google_campaigns() -> list[dict]:
     customer_id = env.get("GOOGLE_ADS_CUSTOMER_ID", "")
     dev_token = env.get("GOOGLE_ADS_DEVELOPER_TOKEN", "")
 
-    if not customer_id or core.is_placeholder(customer_id) or core.is_placeholder(dev_token):
+    if (
+        not customer_id
+        or core.is_placeholder(customer_id)
+        or core.is_placeholder(dev_token)
+    ):
         # Simulated campaign data matching Kozbeyli Konağı channels
         return [
             {
@@ -50,22 +55,24 @@ def fetch_google_campaigns() -> list[dict]:
                 "impressions": 0,
                 "conversions": 0,
                 "revenue": 0.0,
-            }
+            },
         ]
 
     try:
         from google.ads.googleads.client import GoogleAdsClient
         from google.ads.googleads.errors import GoogleAdsException
-        
+
         credentials = {
             "developer_token": dev_token,
             "refresh_token": env.get("GOOGLE_ADS_REFRESH_TOKEN", ""),
             "client_id": env.get("GOOGLE_ADS_CLIENT_ID", ""),
             "client_secret": env.get("GOOGLE_ADS_CLIENT_SECRET", ""),
-            "use_proto_plus": True
+            "use_proto_plus": True,
         }
-        
-        if not credentials["refresh_token"] or core.is_placeholder(credentials["refresh_token"]):
+
+        if not credentials["refresh_token"] or core.is_placeholder(
+            credentials["refresh_token"]
+        ):
             raise ValueError("Missing real Google Ads refresh token")
 
         client = GoogleAdsClient.load_from_dict(credentials, version="v17")
@@ -87,7 +94,7 @@ def fetch_google_campaigns() -> list[dict]:
             WHERE campaign.status != 'REMOVED'
             AND segments.date DURING LAST_30_DAYS
         """
-        
+
         request = client.get_type("SearchGoogleAdsRequest")
         request.customer_id = customer_id
         request.query = query
@@ -97,28 +104,36 @@ def fetch_google_campaigns() -> list[dict]:
         results = []
         for row in response:
             status_enum = row.campaign.status.name.lower()
-            
+
             # Map enum to our simple active/paused
-            is_active = status_enum == 'enabled'
-            status = 'active' if is_active else 'paused'
+            is_active = status_enum == "enabled"
+            status = "active" if is_active else "paused"
 
-            budget = row.campaign_budget.amount_micros / 1000000.0 if row.campaign_budget else 0.0
-            spend = row.metrics.cost_micros / 1000000.0 if row.metrics.cost_micros else 0.0
+            budget = (
+                row.campaign_budget.amount_micros / 1000000.0
+                if row.campaign_budget
+                else 0.0
+            )
+            spend = (
+                row.metrics.cost_micros / 1000000.0 if row.metrics.cost_micros else 0.0
+            )
 
-            results.append({
-                "campaign_id": str(row.campaign.id),
-                "campaign_name": row.campaign.name,
-                "platform": "google",
-                "status": status,
-                "budget": budget,
-                "bid_strategy": row.campaign.bidding_strategy_type.name,
-                "spend": spend,
-                "clicks": row.metrics.clicks,
-                "impressions": row.metrics.impressions,
-                "conversions": row.metrics.conversions,
-                "revenue": row.metrics.conversions_value,
-            })
-            
+            results.append(
+                {
+                    "campaign_id": str(row.campaign.id),
+                    "campaign_name": row.campaign.name,
+                    "platform": "google",
+                    "status": status,
+                    "budget": budget,
+                    "bid_strategy": row.campaign.bidding_strategy_type.name,
+                    "spend": spend,
+                    "clicks": row.metrics.clicks,
+                    "impressions": row.metrics.impressions,
+                    "conversions": row.metrics.conversions,
+                    "revenue": row.metrics.conversions_value,
+                }
+            )
+
         return results
 
     except Exception as e:

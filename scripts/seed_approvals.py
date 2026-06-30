@@ -1,9 +1,11 @@
-import sys
 import os
+import sys
 import uuid
 from datetime import datetime
+
 from kads.data.warehouse import db
-from kads.data.warehouse.models import FactActionJournal, DimCampaignState
+from kads.data.warehouse.models import DimCampaignState, FactActionJournal
+
 
 def seed_data():
     session = db.SessionLocal()
@@ -22,7 +24,7 @@ def seed_data():
         platform="google",
         status="enabled",
         budget=150.0,
-        bid_strategy="tCPA"
+        bid_strategy="tCPA",
     )
     camp2 = DimCampaignState(
         campaign_id="m_prospecting_002",
@@ -30,10 +32,10 @@ def seed_data():
         platform="meta",
         status="enabled",
         budget=450.0,
-        bid_strategy="Lowest Cost"
+        bid_strategy="Lowest Cost",
     )
     session.add_all([camp1, camp2])
-    
+
     # Insert mock actions
     action1 = FactActionJournal(
         action_id=f"act_{uuid.uuid4().hex[:8]}",
@@ -49,7 +51,7 @@ def seed_data():
         requires_approval=True,
         approval_reason=["Bütçe artırımı eşiği aşıldı"],
         status="pending",
-        rollback_plan={"budget": 150.0}
+        rollback_plan={"budget": 150.0},
     )
 
     action2 = FactActionJournal(
@@ -64,11 +66,14 @@ def seed_data():
         risk_score=0.45,
         confidence=0.95,
         requires_approval=True,
-        approval_reason=["3x Kill Rule: CPA exceeds target threshold", "Campaign status mutation"],
+        approval_reason=[
+            "3x Kill Rule: CPA exceeds target threshold",
+            "Campaign status mutation",
+        ],
         status="pending",
-        rollback_plan={"status": "enabled"}
+        rollback_plan={"status": "enabled"},
     )
-    
+
     action3 = FactActionJournal(
         action_id=f"act_{uuid.uuid4().hex[:8]}",
         platform="google",
@@ -78,7 +83,7 @@ def seed_data():
         current_state={"creative": "EXISTING_AD"},
         proposed_state={
             "headline": "Kozbeyli Konağı: 600 Yıllık Tarih Sizi Bekliyor",
-            "description": "Doğa manzaralı odalarımız, yöresel Ege kahvaltımız ve tarihi atmosferimizle hizmetinizdeyiz. Hemen rezervasyon yapın."
+            "description": "Doğa manzaralı odalarımız, yöresel Ege kahvaltımız ve tarihi atmosferimizle hizmetinizdeyiz. Hemen rezervasyon yapın.",
         },
         expected_impact="Combat Ad Fatigue (CTR 1.20%). Generated new variant focusing on 'Tarihi Konak' and 'Ege Kahvaltısı' angles.",
         risk_score=0.10,
@@ -86,13 +91,14 @@ def seed_data():
         requires_approval=True,
         approval_reason=["Ad fatigue detected, requires A/B test approval"],
         status="pending",
-        rollback_plan={"creative": "EXISTING_AD"}
+        rollback_plan={"creative": "EXISTING_AD"},
     )
-    
+
     session.add_all([action1, action2, action3])
     session.commit()
     print("Seeded database with 2 mock campaigns and 3 pending actions.")
     session.close()
+
 
 if __name__ == "__main__":
     seed_data()

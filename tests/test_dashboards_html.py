@@ -1,8 +1,10 @@
 """Dashboard/HTML statik dogrulama — yalniz stdlib (browsersiz; sandbox/Windows/CI her yerde).
 Gercek tarayici e2e (konsol hatasi vs.) ayri: tests/e2e/. Bu katman HTML iskeleti + <title> +
 anahtar icerik + sell-sheet'te kanonik NAP + sahte-puan yoklugu garanti eder."""
+
 from html.parser import HTMLParser
 from pathlib import Path
+
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,14 +20,21 @@ PAGES = {
 class _V(HTMLParser):
     def __init__(self):
         super().__init__()
-        self.tags = set(); self.titles = 0; self._in_title = False; self.title_text = ""
+        self.tags = set()
+        self.titles = 0
+        self._in_title = False
+        self.title_text = ""
+
     def handle_starttag(self, t, a):
         self.tags.add(t)
         if t == "title":
-            self._in_title = True; self.titles += 1
+            self._in_title = True
+            self.titles += 1
+
     def handle_endtag(self, t):
         if t == "title":
             self._in_title = False
+
     def handle_data(self, d):
         if self._in_title:
             self.title_text += d
@@ -36,7 +45,8 @@ def test_html_valid_and_content(rel, must):
     p = ROOT / rel
     assert p.exists(), f"sayfa yok: {rel}"
     html = p.read_text(encoding="utf-8")
-    v = _V(); v.feed(html)  # parse hatasi -> exception = test fail
+    v = _V()
+    v.feed(html)  # parse hatasi -> exception = test fail
     for skel in ("html", "head", "body", "title"):
         assert skel in v.tags, f"{rel}: <{skel}> eksik"
     assert v.titles >= 1 and v.title_text.strip(), f"{rel}: <title> bos"

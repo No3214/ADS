@@ -1,9 +1,13 @@
-import pytest
 from datetime import datetime
+
+import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
 from kads.data.warehouse.db import Base
-from kads.data.warehouse.models import DimCampaignState, FactAdPerformanceHourly, FactActionJournal
+from kads.data.warehouse.models import (DimCampaignState, FactActionJournal,
+                                        FactAdPerformanceHourly)
+
 
 @pytest.fixture(scope="function")
 def test_db():
@@ -17,6 +21,7 @@ def test_db():
         db.close()
         Base.metadata.drop_all(bind=engine)
 
+
 def test_campaign_state_lifecycle(test_db):
     # Create campaign state
     camp = DimCampaignState(
@@ -25,7 +30,7 @@ def test_campaign_state_lifecycle(test_db):
         platform="google",
         status="active",
         budget=150.0,
-        bid_strategy="tCPA"
+        bid_strategy="tCPA",
     )
     test_db.add(camp)
     test_db.commit()
@@ -36,6 +41,7 @@ def test_campaign_state_lifecycle(test_db):
     assert queried.campaign_name == "Google Search Brand"
     assert queried.budget == 150.0
 
+
 def test_hourly_performance_relation(test_db):
     camp = DimCampaignState(
         campaign_id="g_123",
@@ -43,7 +49,7 @@ def test_hourly_performance_relation(test_db):
         platform="google",
         status="active",
         budget=150.0,
-        bid_strategy="tCPA"
+        bid_strategy="tCPA",
     )
     test_db.add(camp)
     test_db.commit()
@@ -55,15 +61,18 @@ def test_hourly_performance_relation(test_db):
         clicks=12,
         impressions=120,
         conversions=1,
-        revenue=120.0
+        revenue=120.0,
     )
     test_db.add(perf)
     test_db.commit()
 
-    queried = test_db.query(FactAdPerformanceHourly).filter_by(campaign_id="g_123").first()
+    queried = (
+        test_db.query(FactAdPerformanceHourly).filter_by(campaign_id="g_123").first()
+    )
     assert queried is not None
     assert queried.spend == 45.2
     assert queried.clicks == 12
+
 
 def test_action_journal_json_fields(test_db):
     journal = FactActionJournal(
@@ -78,7 +87,7 @@ def test_action_journal_json_fields(test_db):
         confidence=0.9,
         requires_approval=True,
         approval_reason=["budget increase above 15%"],
-        rollback_plan={"budget": 100}
+        rollback_plan={"budget": 100},
     )
     test_db.add(journal)
     test_db.commit()

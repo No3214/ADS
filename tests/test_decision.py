@@ -1,5 +1,6 @@
-from kads.decision.engine import run_agent_council
 from kads.core.schemas import ActionSchema
+from kads.decision.engine import run_agent_council
+
 
 def test_agent_council_budget_increase():
     google_campaigns = [
@@ -25,6 +26,7 @@ def test_agent_council_budget_increase():
     assert isinstance(action, ActionSchema)
     assert action.action_type == "budget_increase"
     assert action.proposed_state["budget"] == round(148.0 * 1.2, 1)
+
 
 def test_agent_council_cpa_kill_rule():
     google_campaigns = []
@@ -52,6 +54,7 @@ def test_agent_council_cpa_kill_rule():
     assert action.requires_approval is True
     assert "3x Kill Rule triggered" in action.approval_reason[-1]
 
+
 def test_agent_council_ad_fatigue_creative():
     google_campaigns = [
         {
@@ -63,7 +66,7 @@ def test_agent_council_ad_fatigue_creative():
             "bid_strategy": "tCPA",
             "spend": 120.0,
             "clicks": 15,
-            "impressions": 1000, # CTR = 1.5% (< 2.0%)
+            "impressions": 1000,  # CTR = 1.5% (< 2.0%)
             "conversions": 1,
             "revenue": 120.0,
         }

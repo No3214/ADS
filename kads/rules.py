@@ -6,6 +6,7 @@ Metrikleri (CSV: metrik,deger) okur, OPT_RULES'a göre tetiklenen kuralları ve
 ÖNERİLEN aksiyonları döndürür. Otomatik UYGULAMAZ — her yazma yine guardrail +
 açık onaydan geçer (docs/04). "Otomasyon" = öneri + guardrail'li değişiklik yolu.
 """
+
 from __future__ import annotations
 
 import csv
@@ -13,13 +14,26 @@ from pathlib import Path
 
 from kads.data_ext import OPT_RULES
 
-_OPS = {">": lambda a, b: a > b, ">=": lambda a, b: a >= b,
-        "<": lambda a, b: a < b, "<=": lambda a, b: a <= b, "==": lambda a, b: a == b}
+_OPS = {
+    ">": lambda a, b: a > b,
+    ">=": lambda a, b: a >= b,
+    "<": lambda a, b: a < b,
+    "<=": lambda a, b: a <= b,
+    "==": lambda a, b: a == b,
+}
 
 
 def rule_rows() -> list[dict]:
-    return [{"id": r["id"], "metrik": r["metric"], "kosul": f'{r["op"]} {r["threshold"]}',
-             "aksiyon": r["action"], "oncelik": r["pri"]} for r in OPT_RULES]
+    return [
+        {
+            "id": r["id"],
+            "metrik": r["metric"],
+            "kosul": f'{r["op"]} {r["threshold"]}',
+            "aksiyon": r["action"],
+            "oncelik": r["pri"],
+        }
+        for r in OPT_RULES
+    ]
 
 
 def evaluate(metrics: dict) -> list[dict]:
@@ -31,9 +45,16 @@ def evaluate(metrics: dict) -> list[dict]:
             continue
         try:
             if _OPS[r["op"]](float(v), float(r["threshold"])):
-                out.append({"id": r["id"], "metrik": r["metric"], "deger": v,
-                            "kosul": f'{r["op"]} {r["threshold"]}', "aksiyon": r["action"],
-                            "oncelik": r["pri"]})
+                out.append(
+                    {
+                        "id": r["id"],
+                        "metrik": r["metric"],
+                        "deger": v,
+                        "kosul": f'{r["op"]} {r["threshold"]}',
+                        "aksiyon": r["action"],
+                        "oncelik": r["pri"],
+                    }
+                )
         except (TypeError, ValueError):
             continue
     pri = {"Risk": 0, "Fırsat": 1, "Orta": 2}
@@ -54,7 +75,12 @@ def load_metrics_csv(path: Path) -> dict:
 
 
 METRICS_TEMPLATE = [
-    ("blended_roas", 0), ("blended_cpa_try", 0), ("nonbrand_ctr_pct", 0),
-    ("meta_frequency", 0), ("cpc_try", 0), ("weekly_conversions", 0),
-    ("conversions_30d", 0), ("spend_pace_pct", 0),
+    ("blended_roas", 0),
+    ("blended_cpa_try", 0),
+    ("nonbrand_ctr_pct", 0),
+    ("meta_frequency", 0),
+    ("cpc_try", 0),
+    ("weekly_conversions", 0),
+    ("conversions_30d", 0),
+    ("spend_pace_pct", 0),
 ]

@@ -1,7 +1,10 @@
-import pytest
 from datetime import datetime
-from kads.core.schemas import RiskSchema, ActionSchema, CampaignStateSchema
+
+import pytest
 from pydantic import ValidationError
+
+from kads.core.schemas import ActionSchema, CampaignStateSchema, RiskSchema
+
 
 def test_risk_schema_validation():
     # Valid model
@@ -9,7 +12,7 @@ def test_risk_schema_validation():
         risk_score=0.34,
         risk_level="medium",
         reasons=["budget impact above normal"],
-        required_action="human_approval"
+        required_action="human_approval",
     )
     assert risk.risk_score == 0.34
     assert risk.risk_level == "medium"
@@ -26,6 +29,7 @@ def test_risk_schema_validation():
     with pytest.raises(ValidationError):
         RiskSchema(risk_score=0.5, risk_level="super-high", required_action="block")
 
+
 def test_action_schema_validation():
     # Valid model
     action = ActionSchema(
@@ -37,7 +41,7 @@ def test_action_schema_validation():
         expected_impact="Stop budget bleed",
         risk_score=0.1,
         confidence=0.9,
-        requires_approval=True
+        requires_approval=True,
     )
     assert action.action_id == "act_123"
     assert action.status == "pending"
@@ -53,8 +57,9 @@ def test_action_schema_validation():
             action_type="pause",
             expected_impact="Stop budget bleed",
             risk_score=0.1,
-            confidence=0.9
+            confidence=0.9,
         )
+
 
 def test_campaign_state_schema_validation():
     # Valid model
@@ -65,7 +70,7 @@ def test_campaign_state_schema_validation():
         status="active",
         budget=100.0,
         bid_strategy="tCPA",
-        metrics={"conversions": 10, "spend": 500}
+        metrics={"conversions": 10, "spend": 500},
     )
     assert state.campaign_id == "12345"
     assert state.metrics["conversions"] == 10

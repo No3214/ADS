@@ -14,12 +14,12 @@ kontrol listesi, NAP/atıf listesi ve markalı arama hâkimiyeti taktikleri.
   gbp-kontrol-listesi.csv         Google İşletme Profili eksiksizlik denetimi
   nap-atif-listesi.csv            Tutarlı NAP için dizin/OTA atıfları
 """
+
 from __future__ import annotations
 
 import csv
 import json
 from pathlib import Path
-
 
 # ---- SEO-ozel dogrulanmis veri (web arastirmasi, Haziran 2026) -------------
 SEO = {
@@ -27,14 +27,19 @@ SEO = {
     "legal_note": "Aile işletmesi taş otel & restoran (hizmette: 2013'ten beri)",
     "url": "https://www.kozbeylikonagi.com/",
     "alt_url": "https://www.kozbeylikonagi.com/",
-    "phone": "+905322342686",            # +90 532 234 2686
+    "phone": "+905322342686",  # +90 532 234 2686
     "street": "Kozbeyli Köyü, Küme Evler No:188",
-    "locality": "Foça", "region": "İzmir", "postal": "35680", "country": "TR",
-    "lat": 38.7145, "lon": 26.8942,       # Kozbeyli köyü; GBP pini ile DOĞRULA
+    "locality": "Foça",
+    "region": "İzmir",
+    "postal": "35680",
+    "country": "TR",
+    "lat": 38.7145,
+    "lon": 26.8942,  # Kozbeyli köyü; GBP pini ile DOĞRULA
     "maps_note": "Kesin pini Google İşletme Profili'ndeki konumla doğrula.",
     "price_range": "₺₺",
     "rooms": 16,
-    "checkin": "14:00", "checkout": "12:00",
+    "checkin": "14:00",
+    "checkout": "12:00",
     "languages": ["tr", "en"],
     "sameas": [
         "https://www.instagram.com/kozbeylikonagi/",
@@ -42,9 +47,16 @@ SEO = {
         "https://www.kozbeylikonagi.com/",
     ],
     "amenities": [
-        "Ücretsiz Wi-Fi", "Ücretsiz otopark", "Organik kahvaltı", "Restoran",
-        "Çatı terası", "Klima", "Evcil hayvan dostu", "Deniz/doğa manzarası",
-        "Aile odaları", "Etkinlik alanı (200 kişi)",
+        "Ücretsiz Wi-Fi",
+        "Ücretsiz otopark",
+        "Organik kahvaltı",
+        "Restoran",
+        "Çatı terası",
+        "Klima",
+        "Evcil hayvan dostu",
+        "Deniz/doğa manzarası",
+        "Aile odaları",
+        "Etkinlik alanı (200 kişi)",
     ],
 }
 
@@ -106,6 +118,7 @@ def schema_jsonld() -> dict:
         },
     }
 
+
 def faq_schema_jsonld() -> dict:
     """LLM'ler (ChatGPT, Perplexity) ve Arama Motorları için FAQPage JSON-LD Şeması (AEO)."""
     return {
@@ -117,26 +130,26 @@ def faq_schema_jsonld() -> dict:
                 "name": "Kozbeyli Konağı nerede ve nasıl gidilir?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "İzmir'in Foça ilçesine bağlı 600 yıllık tarihi Kozbeyli Köyü'nde yer alır. Foça merkeze 13 km mesafededir."
-                }
+                    "text": "İzmir'in Foça ilçesine bağlı 600 yıllık tarihi Kozbeyli Köyü'nde yer alır. Foça merkeze 13 km mesafededir.",
+                },
             },
             {
                 "@type": "Question",
                 "name": "Kozbeyli Konağı evcil hayvan kabul ediyor mu?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Evet, evcil hayvan dostu bir butik oteldir. Minik dostlarınızla konaklayabilirsiniz."
-                }
+                    "text": "Evet, evcil hayvan dostu bir butik oteldir. Minik dostlarınızla konaklayabilirsiniz.",
+                },
             },
             {
                 "@type": "Question",
                 "name": "Kozbeyli Konağı'nda kahvaltı dahil mi?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Evet, tüm oda fiyatlarına yöresel Ege lezzetlerinden oluşan serpme organik köy kahvaltısı dahildir."
-                }
-            }
-        ]
+                    "text": "Evet, tüm oda fiyatlarına yöresel Ege lezzetlerinden oluşan serpme organik köy kahvaltısı dahildir.",
+                },
+            },
+        ],
     }
 
 
@@ -150,15 +163,39 @@ GBP_CHECKLIST = [
     ("Adres/pin", "Harita pini gerçek konuma tam oturuyor (No:188)", "Kritik"),
     ("Telefon", "+90 532 234 2686 (yerel + tutarlı)", "Yüksek"),
     ("Web sitesi", "kozbeylikonagi.com (UTM ile izlenebilir)", "Yüksek"),
-    ("Rezervasyon linki", "Doğrudan hmshotel.net rezervasyon bağlantısı eklendi", "Yüksek"),
+    (
+        "Rezervasyon linki",
+        "Doğrudan hmshotel.net rezervasyon bağlantısı eklendi",
+        "Yüksek",
+    ),
     ("Çalışma saatleri", "7/24 resepsiyon / sezon saatleri güncel", "Orta"),
-    ("Öznitelikler", "Evcil dostu, ücretsiz Wi-Fi, ücretsiz otopark, kahvaltı, erişilebilirlik", "Yüksek"),
-    ("Fotoğraflar", "Cephe, odalar, kahvaltı, teras, restoran, logo, kapak — min 25 görsel", "Yüksek"),
+    (
+        "Öznitelikler",
+        "Evcil dostu, ücretsiz Wi-Fi, ücretsiz otopark, kahvaltı, erişilebilirlik",
+        "Yüksek",
+    ),
+    (
+        "Fotoğraflar",
+        "Cephe, odalar, kahvaltı, teras, restoran, logo, kapak — min 25 görsel",
+        "Yüksek",
+    ),
     ("Video", "Kısa konak/oda turu (15-30 sn)", "Orta"),
-    ("Açıklama", "750 karakter, USP'ler + Foça/Kozbeyli + doğal anahtar kelimeler", "Yüksek"),
-    ("Ürün/Hizmet", "Oda tipleri (Standart/Superior/Aile) + restoran + etkinlik", "Orta"),
+    (
+        "Açıklama",
+        "750 karakter, USP'ler + Foça/Kozbeyli + doğal anahtar kelimeler",
+        "Yüksek",
+    ),
+    (
+        "Ürün/Hizmet",
+        "Oda tipleri (Standart/Superior/Aile) + restoran + etkinlik",
+        "Orta",
+    ),
     ("Google Posts", "Haftalık post (teklif/etkinlik/sezon)", "Orta"),
-    ("Soru-Cevap", "Sık sorulanları kendin sor + yanıtla (evcil, otopark, kahvaltı)", "Orta"),
+    (
+        "Soru-Cevap",
+        "Sık sorulanları kendin sor + yanıtla (evcil, otopark, kahvaltı)",
+        "Orta",
+    ),
     ("Yorumlar", "Her misafirden iste; TÜMÜNE 48 saatte yanıt ver", "Kritik"),
     ("Mesajlaşma", "GBP mesajlaşma açık + hızlı yanıt", "Orta"),
     ("Spam", "Rakip/sahte listeleme veya yinelenen pin yok (Maps'te temizlik)", "Orta"),
@@ -182,18 +219,36 @@ CITATIONS = [
 
 # ---- Markali arama hakimiyeti taktikleri -----------------------------------
 BRAND_DOMINATION = [
-    ("Organik (kozbeyli konağı)", "Ana sayfa <title> ve H1 = 'Kozbeyli Konağı'; marka şeması; hız.",
-     "Markalı sorguda #1 çok ulaşılabilir"),
-    ("Maps (kozbeyli / kozbeyli konağı)", "Eksiksiz GBP + yorum + foto + pin doğru.",
-     "Yerel pakette/Maps'te üst sıra"),
-    ("Paid savunma (kozbeyli konağı, kozbeyli otel)", "Marka Search kampanyası (kads build google).",
-     "Paid'de en üst; OTA savunması"),
-    ("Bare 'kozbeyli'", "Köy adı = bilgi niyeti (Vikipedi/gezi). GBP + Maps + marka içerik ile yan-yana çık.",
-     "Tam organik #1 GARANTİ DEĞİL; GBP + ad ile kapsa"),
-    ("İçerik", "Blog: Kozbeyli köyü rehberi, Foça gezi, köy kahvaltısı — marka otoritesi.",
-     "Uzun kuyruk + marka güçlenir"),
-    ("Şema/zengin sonuç", "LodgingBusiness JSON-LD + sitelink; SERP alanını büyüt.",
-     "Tıklama oranı artar"),
+    (
+        "Organik (kozbeyli konağı)",
+        "Ana sayfa <title> ve H1 = 'Kozbeyli Konağı'; marka şeması; hız.",
+        "Markalı sorguda #1 çok ulaşılabilir",
+    ),
+    (
+        "Maps (kozbeyli / kozbeyli konağı)",
+        "Eksiksiz GBP + yorum + foto + pin doğru.",
+        "Yerel pakette/Maps'te üst sıra",
+    ),
+    (
+        "Paid savunma (kozbeyli konağı, kozbeyli otel)",
+        "Marka Search kampanyası (kads build google).",
+        "Paid'de en üst; OTA savunması",
+    ),
+    (
+        "Bare 'kozbeyli'",
+        "Köy adı = bilgi niyeti (Vikipedi/gezi). GBP + Maps + marka içerik ile yan-yana çık.",
+        "Tam organik #1 GARANTİ DEĞİL; GBP + ad ile kapsa",
+    ),
+    (
+        "İçerik",
+        "Blog: Kozbeyli köyü rehberi, Foça gezi, köy kahvaltısı — marka otoritesi.",
+        "Uzun kuyruk + marka güçlenir",
+    ),
+    (
+        "Şema/zengin sonuç",
+        "LodgingBusiness JSON-LD + sitelink; SERP alanını büyüt.",
+        "Tıklama oranı artar",
+    ),
 ]
 
 
@@ -213,20 +268,28 @@ def build(out_dir: Path) -> list[tuple[str, int]]:
     out_dir.mkdir(parents=True, exist_ok=True)
     schema = schema_jsonld()
     (out_dir / "schema-lodgingbusiness.jsonld").write_text(
-        json.dumps(schema, ensure_ascii=False, indent=2), encoding="utf-8")
+        json.dumps(schema, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
 
     def _csv(path, rows):
         if not rows:
             return 0
         with path.open("w", encoding="utf-8-sig", newline="") as fh:
             w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
-            w.writeheader(); w.writerows(rows)
+            w.writeheader()
+            w.writerows(rows)
         return len(rows)
 
     return [
         ("schema-lodgingbusiness.jsonld", len(json.dumps(schema))),
         ("schema-faq-aeo.jsonld", len(json.dumps(faq_schema_jsonld()))),
-        ("gbp-kontrol-listesi.csv", _csv(out_dir / "gbp-kontrol-listesi.csv", gbp_rows())),
-        ("nap-atif-listesi.csv", _csv(out_dir / "nap-atif-listesi.csv", citation_rows())),
+        (
+            "gbp-kontrol-listesi.csv",
+            _csv(out_dir / "gbp-kontrol-listesi.csv", gbp_rows()),
+        ),
+        (
+            "nap-atif-listesi.csv",
+            _csv(out_dir / "nap-atif-listesi.csv", citation_rows()),
+        ),
         ("marka-hakimiyeti.csv", _csv(out_dir / "marka-hakimiyeti.csv", brand_rows())),
     ]

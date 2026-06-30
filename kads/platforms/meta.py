@@ -12,6 +12,7 @@ Ciktilar (out/meta/):
   meta-kampanyalar.csv        Kampanya/ad set ozet tablosu
   meta-reklam-metinleri.csv   Konsept bazinda primary text / headline / cta
 """
+
 from __future__ import annotations
 
 import csv
@@ -22,25 +23,58 @@ from kads import data_ext as dx
 
 # Faz bazinda kampanya yapisi (plan ile birebir)
 PHASE1 = [
-    {"campaign": "Kozbeyli | Prospecting | Website Sales", "objective": "Sales (Conversions)",
-     "daily_try": 350, "monthly_try": 10500, "audience": "Prospecting",
-     "optimize": "Purchase (güvenilirse) — değilse begin_checkout / Lead",
-     "concepts": ["Konsept1-TasKonak", "Konsept2-Manzara", "Konsept3-Kahvalti", "Konsept4-Evcil"]},
-    {"campaign": "Kozbeyli | WhatsApp | Mesaj", "objective": "Engagement (Messaging → WhatsApp)",
-     "daily_try": 150, "monthly_try": 4500, "audience": "Prospecting",
-     "optimize": "Conversations (mesaj başlatma)",
-     "concepts": ["Konsept5-WhatsApp", "Konsept2-Manzara"]},
+    {
+        "campaign": "Kozbeyli | Prospecting | Website Sales",
+        "objective": "Sales (Conversions)",
+        "daily_try": 350,
+        "monthly_try": 10500,
+        "audience": "Prospecting",
+        "optimize": "Purchase (güvenilirse) — değilse begin_checkout / Lead",
+        "concepts": [
+            "Konsept1-TasKonak",
+            "Konsept2-Manzara",
+            "Konsept3-Kahvalti",
+            "Konsept4-Evcil",
+        ],
+    },
+    {
+        "campaign": "Kozbeyli | WhatsApp | Mesaj",
+        "objective": "Engagement (Messaging → WhatsApp)",
+        "daily_try": 150,
+        "monthly_try": 4500,
+        "audience": "Prospecting",
+        "optimize": "Conversations (mesaj başlatma)",
+        "concepts": ["Konsept5-WhatsApp", "Konsept2-Manzara"],
+    },
 ]
 PHASE2 = [
-    {"campaign": "Kozbeyli | Prospecting | Website Sales", "objective": "Sales (Conversions)",
-     "daily_try": 300, "monthly_try": 9000, "audience": "Prospecting",
-     "optimize": "Purchase", "concepts": ["Konsept1-TasKonak", "Konsept2-Manzara", "Konsept3-Kahvalti"]},
-    {"campaign": "Kozbeyli | Retargeting | Website Sales", "objective": "Sales (Conversions)",
-     "daily_try": 100, "monthly_try": 3000, "audience": "Retargeting",
-     "optimize": "Purchase", "concepts": ["Konsept2-Manzara", "Konsept4-Evcil"]},
-    {"campaign": "Kozbeyli | WhatsApp | Mesaj", "objective": "Engagement (Messaging → WhatsApp)",
-     "daily_try": 100, "monthly_try": 3000, "audience": "Prospecting",
-     "optimize": "Conversations", "concepts": ["Konsept5-WhatsApp"]},
+    {
+        "campaign": "Kozbeyli | Prospecting | Website Sales",
+        "objective": "Sales (Conversions)",
+        "daily_try": 300,
+        "monthly_try": 9000,
+        "audience": "Prospecting",
+        "optimize": "Purchase",
+        "concepts": ["Konsept1-TasKonak", "Konsept2-Manzara", "Konsept3-Kahvalti"],
+    },
+    {
+        "campaign": "Kozbeyli | Retargeting | Website Sales",
+        "objective": "Sales (Conversions)",
+        "daily_try": 100,
+        "monthly_try": 3000,
+        "audience": "Retargeting",
+        "optimize": "Purchase",
+        "concepts": ["Konsept2-Manzara", "Konsept4-Evcil"],
+    },
+    {
+        "campaign": "Kozbeyli | WhatsApp | Mesaj",
+        "objective": "Engagement (Messaging → WhatsApp)",
+        "daily_try": 100,
+        "monthly_try": 3000,
+        "audience": "Prospecting",
+        "optimize": "Conversations",
+        "concepts": ["Konsept5-WhatsApp"],
+    },
 ]
 
 
@@ -48,12 +82,19 @@ def campaign_rows() -> list[dict]:
     rows = []
     for faz, items in (("Ay 1", PHASE1), ("Ay 2+", PHASE2)):
         for c in items:
-            rows.append({
-                "Faz": faz, "Kampanya": c["campaign"], "Amaç": c["objective"],
-                "Günlük TRY": c["daily_try"], "Aylık TRY": c["monthly_try"],
-                "Kitle": c["audience"], "Optimizasyon": c["optimize"],
-                "Durum": "PAUSED", "Kreatifler": ", ".join(c["concepts"]),
-            })
+            rows.append(
+                {
+                    "Faz": faz,
+                    "Kampanya": c["campaign"],
+                    "Amaç": c["objective"],
+                    "Günlük TRY": c["daily_try"],
+                    "Aylık TRY": c["monthly_try"],
+                    "Kitle": c["audience"],
+                    "Optimizasyon": c["optimize"],
+                    "Durum": "PAUSED",
+                    "Kreatifler": ", ".join(c["concepts"]),
+                }
+            )
     return rows
 
 
@@ -61,11 +102,18 @@ def copy_rows() -> list[dict]:
     rows = []
     for key, c in data.META_COPY.items():
         for i, pt in enumerate(c["primary_text"], 1):
-            rows.append({
-                "Konsept": key, "Tema": c["tema"], "Varyant": i,
-                "Primary Text": pt, "Headline": " / ".join(c["headlines"]),
-                "Description": c["description"], "CTA": c["cta"], "Hedef": c["destination"],
-            })
+            rows.append(
+                {
+                    "Konsept": key,
+                    "Tema": c["tema"],
+                    "Varyant": i,
+                    "Primary Text": pt,
+                    "Headline": " / ".join(c["headlines"]),
+                    "Description": c["description"],
+                    "CTA": c["cta"],
+                    "Hedef": c["destination"],
+                }
+            )
     return rows
 
 
@@ -95,8 +143,10 @@ def build_sheet_md() -> str:
         "Resmî yol: `https://mcp.facebook.com/ads` connector (OAuth) veya Ads Manager elle.",
         "",
     ]
-    for faz, items in (("## Faz 1 — İlk 30 gün (2 kampanya)", PHASE1),
-                       ("## Faz 2 — Ay 2+ (3 kampanya)", PHASE2)):
+    for faz, items in (
+        ("## Faz 1 — İlk 30 gün (2 kampanya)", PHASE1),
+        ("## Faz 2 — Ay 2+ (3 kampanya)", PHASE2),
+    ):
         lines.append(faz)
         lines.append("")
         for c in items:
@@ -142,21 +192,33 @@ def _write_csv(path: Path, rows: list[dict]) -> int:
     return len(rows)
 
 
-
 def placement_rows() -> list[dict]:
     rows = []
     for pl, spec in dx.META_PLACEMENT_SPECS.items():
-        rows.append({"Yerleşim": pl, "Oran": spec["ratio"], "Çözünürlük": spec["px"],
-                     "Medya": spec.get("media", ""),
-                     "Süre/Limit": spec.get("duration", spec.get("primary_text_max", "")),
-                     "Not": spec["note"]})
+        rows.append(
+            {
+                "Yerleşim": pl,
+                "Oran": spec["ratio"],
+                "Çözünürlük": spec["px"],
+                "Medya": spec.get("media", ""),
+                "Süre/Limit": spec.get("duration", spec.get("primary_text_max", "")),
+                "Not": spec["note"],
+            }
+        )
     return rows
 
 
 def audiences_rows() -> list[dict]:
-    return [{"Kitle": a["ad"], "Tip": a["tip"], "Kaynak": a["kaynak"],
-             "Pencere": a["pencere"], "Kullanim": a["kullanim"]}
-            for a in dx.RETARGETING_AUDIENCES]
+    return [
+        {
+            "Kitle": a["ad"],
+            "Tip": a["tip"],
+            "Kaynak": a["kaynak"],
+            "Pencere": a["pencere"],
+            "Kullanim": a["kullanim"],
+        }
+        for a in dx.RETARGETING_AUDIENCES
+    ]
 
 
 def copy_ab_rows() -> list[dict]:
@@ -165,9 +227,17 @@ def copy_ab_rows() -> list[dict]:
     for key, c in data.META_COPY.items():
         base = c["primary_text"][0]
         for variant, hook in dx.META_AB_HOOKS.items():
-            rows.append({"Konsept": key, "Tema": c["tema"], "Varyant": variant,
-                         "Hook": hook, "Primary Text": f"{hook} {base}",
-                         "Headline": c["headlines"][0], "CTA": c["cta"]})
+            rows.append(
+                {
+                    "Konsept": key,
+                    "Tema": c["tema"],
+                    "Varyant": variant,
+                    "Hook": hook,
+                    "Primary Text": f"{hook} {base}",
+                    "Headline": c["headlines"][0],
+                    "CTA": c["cta"],
+                }
+            )
     return rows
 
 
@@ -176,10 +246,25 @@ def build(out_dir: Path) -> list[tuple[str, int]]:
     (out_dir / "meta-kurulum-rehberi.md").write_text(build_sheet_md(), encoding="utf-8")
     res = [
         ("meta-kurulum-rehberi.md", build_sheet_md().count("\n") + 1),
-        ("meta-kampanyalar.csv", _write_csv(out_dir / "meta-kampanyalar.csv", campaign_rows())),
-        ("meta-reklam-metinleri.csv", _write_csv(out_dir / "meta-reklam-metinleri.csv", copy_rows())),
-        ("meta-yerlesim-sablonlari.csv", _write_csv(out_dir / "meta-yerlesim-sablonlari.csv", placement_rows())),
-        ("meta-reklam-ab-varyantlari.csv", _write_csv(out_dir / "meta-reklam-ab-varyantlari.csv", copy_ab_rows())),
-        ("meta-retargeting-kitleleri.csv", _write_csv(out_dir / "meta-retargeting-kitleleri.csv", audiences_rows())),
+        (
+            "meta-kampanyalar.csv",
+            _write_csv(out_dir / "meta-kampanyalar.csv", campaign_rows()),
+        ),
+        (
+            "meta-reklam-metinleri.csv",
+            _write_csv(out_dir / "meta-reklam-metinleri.csv", copy_rows()),
+        ),
+        (
+            "meta-yerlesim-sablonlari.csv",
+            _write_csv(out_dir / "meta-yerlesim-sablonlari.csv", placement_rows()),
+        ),
+        (
+            "meta-reklam-ab-varyantlari.csv",
+            _write_csv(out_dir / "meta-reklam-ab-varyantlari.csv", copy_ab_rows()),
+        ),
+        (
+            "meta-retargeting-kitleleri.csv",
+            _write_csv(out_dir / "meta-retargeting-kitleleri.csv", audiences_rows()),
+        ),
     ]
     return res

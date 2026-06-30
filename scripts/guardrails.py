@@ -27,6 +27,7 @@ change.json örneği:
 Çıkış kodu: 0 = izinli (ALLOW), 1 = reddedildi (DENY), 2 = onay bekliyor (NEEDS_APPROVAL).
 Hiçbir koşulda gerçek API çağrısı YAPMAZ; yalnızca karar verir ve loglar.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -93,7 +94,8 @@ def _digits(s: str) -> str:
     return re.sub(r"\D", "", s or "")
 
 
-from kads.core.security import load_security_config, evaluate_change
+from kads.core.security import evaluate_change, load_security_config
+
 
 def load_config() -> dict:
     return load_security_config()
@@ -101,7 +103,6 @@ def load_config() -> dict:
 
 def evaluate(change: dict, cfg: dict, approval: str | None) -> tuple[str, list[str]]:
     return evaluate_change(change, cfg, approval)
-
 
 
 def write_log(change: dict, decision: str, reasons: list[str]) -> None:
