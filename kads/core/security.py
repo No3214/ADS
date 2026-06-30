@@ -78,10 +78,54 @@ def load_security_config() -> dict:
     return cfg
 
 
+def check_anti_loop_policy(change: dict) -> bool:
+    """
+    Anti-Loop Guard (L99 God Tier):
+    Checks if the same action for this platform and account has failed 2 or more times in the last 24 hours.
+    Returns True if looping is detected (should deny).
+    """
+    from datetime import datetime, timedelta
+    try:
+        from kads.data.warehouse.db import SessionLocal
+        from kads.data.warehouse.models import FactActionJournal
+        
+        db = SessionLocal()
+        try:
+            action = change.get("action")
+            platform = change.get("platform")
+            
+            one_day_ago = datetime.utcnow() - timedelta(days=1)
+            
+            # Query failed actions for the same platform and action type
+            query = db.query(FactActionJournal).filter(
+                FactActionJournal.platform == platform,
+                FactActionJournal.action_type == action,
+                FactActionJournal.status == "failed",
+                FactActionJournal.executed_at >= one_day_ago
+            )
+            
+            failed_count = query.count()
+            if failed_count >= 2:
+                return True
+        finally:
+            db.close()
+    except Exception:
+        # Fallback to False if database is unavailable (e.g. during simple tests)
+        pass
+    return False
+
+
 def evaluate_change(
     change: dict, cfg: dict, approval: Optional[str]
 ) -> Tuple[str, List[str]]:
     reasons = []
+    
+    if check_anti_loop_policy(change):
+        reasons.append(
+            "Anti-Loop Policy triggered: this action has failed 2 or more times in the last 24 hours. Halting to prevent runaway API spend."
+        )
+        return "DENY", reasons
+
     platform = (change.get("platform") or "").lower()
     action = (change.get("action") or "").lower()
     account = (change.get("account_id") or "").strip()
