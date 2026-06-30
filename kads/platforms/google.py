@@ -120,8 +120,9 @@ def rsa_rows() -> list[dict]:
     rows = []
     for name, _, groups in CAMPAIGNS:
         for g in groups:
-            asset_key = "Marka" if g == "Marka" else "NonBrand"
-            a = data.RSA[asset_key]
+            # Grup-bazli RSA: her reklam grubu kendi niyetine uygun metin alir
+            # (yoksa genel NonBrand'e duser) -> alaka + Quality Score artar.
+            a = data.RSA.get(g, data.RSA["NonBrand"])
             row = {
                 "Campaign": name,
                 "Ad Group": g,
@@ -247,8 +248,9 @@ def rsa_ab_rows() -> list[dict]:
     rows = []
     for name, _, groups in CAMPAIGNS:
         for g in groups:
-            asset_key = "Marka" if g == "Marka" else "NonBrand"
-            a = data.RSA[asset_key]
+            # Grup-bazli RSA: her reklam grubu kendi niyetine uygun metin alir
+            # (yoksa genel NonBrand'e duser) -> alaka + Quality Score artar.
+            a = data.RSA.get(g, data.RSA["NonBrand"])
             for variant, angle_h in dx.AB_ANGLES.items():
                 pool = [angle_h] + [h for h in a["headlines"] if h != angle_h]
                 row = {

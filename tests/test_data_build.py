@@ -67,3 +67,14 @@ def test_presence_data():
     assert (
         c["Kritik"] >= 1
     )  # .com.tr terk edildi (Haz 2026): kritikler azaldı, GBP/NAP kaldı
+
+
+def test_nonbrand_adgroups_differentiated():
+    """B8: 3 NonBrand reklam grubu aynı RSA'yı paylaşmamalı (alaka/QS).
+    Her grup kendi niyetine uygun farklı Headline 1 almalı."""
+    from kads.platforms import google as _g
+    h1 = {r["Ad Group"]: r["Headline 1"] for r in _g.rsa_rows()}
+    for grp in ("NonBrand-Foca-Butik", "NonBrand-Foca-Genel", "NonBrand-Niche"):
+        assert grp in h1, f"{grp} RSA yok"
+    nb = [h1["NonBrand-Foca-Butik"], h1["NonBrand-Foca-Genel"], h1["NonBrand-Niche"]]
+    assert len(set(nb)) == 3, f"NonBrand grupları aynı H1 paylaşıyor: {nb}"

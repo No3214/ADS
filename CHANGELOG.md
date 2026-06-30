@@ -1,5 +1,11 @@
 # Değişiklik Günlüğü
 
+## v1.34.0 — McKinsey audit Wave-7: NonBrand reklam grubu farklılaştırma (B8)
+- **3 NonBrand grubu artık AYRI RSA alıyor** (önceden hepsi aynı "NonBrand" metnini paylaşıyordu → düşük alaka/Quality Score). Her grup kendi niyetiyle eşleşen Headline 1: Butik→"Foça Butik Taş Otel", Genel→"Foça'da Konaklama", Niche→"İzmir Taş Konak Oteli". Quality Score ↑ → CPC ↓ (kısıtlı bütçede doğrudan getiri).
+- rsa_ab_rows (A/B varyantları) da artık grup-özel tabandan üretiliyor (B7 iyileştirme).
+- Regresyon: `test_nonbrand_adgroups_differentiated`. 455 pytest geçer.
+
+
 ## v1.33.0 — McKinsey audit Wave-6: Marka pin + doğrulanmamış mesafe temizliği
 - **Marka RSA pin (B2)**: marka adı (H1+H2) artık 1. pozisyona sabit → OTA/rakip marka teriminde üstte komisyonsuz site görünür (en yüksek-CVR savunma).
 - **Doğrulanmamış "13 km" KALDIRILDI (Compliance)**: reklam RSA, Meta metni, GBP, OTA, schema, AEO/FAQ ve llms.txt'te sabit "Foça'ya 13 km" iddiası vardı (MEB: Yeni Foça ~10 km; 13 km DOĞRULANMADI). Hepsi MEB-doğrulanmış "Yeni Foça'ya yakın / ~10 km" diline çevrildi. Yanlış-sabit-sayı = uyum/itibar riski elimine.
