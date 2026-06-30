@@ -73,7 +73,7 @@ def schema_jsonld() -> dict:
         "description": (
             "600 yıllık Kozbeyli köyünde Osmanlı taş mimarisiyle restore edilmiş "
             "butik otel ve restoran. 16 oda, organik köy kahvaltısı, çatı terasında "
-            "Ege manzarası, Antakya–Ege mutfağı. Evcil hayvan dostu. Foça'ya 13 km."
+            "Ege manzarası, Antakya–Ege mutfağı. Evcil hayvan dostu. Yeni Foça'ya yakın."
         ),
         "url": s["url"],
         "telephone": s["phone"],
@@ -130,7 +130,7 @@ def faq_schema_jsonld() -> dict:
                 "name": "Kozbeyli Konağı nerede ve nasıl gidilir?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "İzmir'in Foça ilçesine bağlı 600 yıllık tarihi Kozbeyli Köyü'nde yer alır. Foça merkeze 13 km mesafededir.",
+                    "text": "İzmir'in Foça ilçesine bağlı 600 yıllık tarihi Kozbeyli Köyü'nde yer alır. Yeni Foça'ya yakın konumdadır.",
                 },
             },
             {

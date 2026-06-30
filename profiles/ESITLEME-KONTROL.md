@@ -9,7 +9,7 @@ Hedef: her platform tek NAP'a (fixes/04) + tek web'e (.com) + tek telefona (+90 
 - [ ] Instagram bio link = .com/WhatsApp; marka adı sabit.
 - [ ] Facebook About: web/telefon/adres/kategori.
 - [ ] kozbeylikonagiotel.com: yanlış telefonu kaldır (fixes/01).
-- [ ] Tüm mesafe metni: "Foça'ya ~13 km".
+- [ ] Tüm mesafe metni: "Yeni Foça'ya yakın" (kesin km doğrulanmadı).
 - [ ] Yorum toplama akışı aktif (fixes/06) — TripAdvisor + Google.
 
 Doğrulama: "Kozbeyli Konağı" + "kozbeyli otel" ara → tutarlı NAP, doğru telefon, .com üst sırada mı?

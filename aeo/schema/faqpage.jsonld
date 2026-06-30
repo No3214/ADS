@@ -13,7 +13,7 @@
     {"@type": "Question", "name": "Otopark var mı?",
      "acceptedAnswer": {"@type": "Answer", "text": "Evet, ücretsiz otoparkımız bulunmaktadır."}},
     {"@type": "Question", "name": "İzmir Havalimanı'na uzaklık nedir?",
-     "acceptedAnswer": {"@type": "Answer", "text": "İzmir Adnan Menderes Havalimanı'na yaklaşık 82 km mesafededir; Foça merkeze ise ~13 km."}},
+     "acceptedAnswer": {"@type": "Answer", "text": "İzmir Adnan Menderes Havalimanı'na yaklaşık 82 km mesafededir; Yeni Foça'ya ise ~10 km."}},
     {"@type": "Question", "name": "Restoran konaklama dışı misafirlere açık mı?",
      "acceptedAnswer": {"@type": "Answer", "text": "Evet, restoranımız konaklamayan misafirlere de rezervasyonla açıktır."}},
     {"@type": "Question", "name": "Aileler için uygun mu?",

@@ -80,3 +80,34 @@ def test_config_tracking_fields():
     assert "gtm_status:" in cfg
     assert "measurement_gap:" in cfg
     assert "GTM-KCG6B4MJ" in cfg
+
+
+# ---- doğrulanmamış mesafe iddiası: müşteriye dönük "13 km" asla -------------
+def test_no_unverified_distance_in_customer_copy():
+    """13 km DOĞRULANMADI (MEB: Yeni Foça ~10 km). Reklam/GBP/OTA/şema metninde
+    sabit yanlış mesafe = uyum/itibar riski. Sadece iç denetim docs/ hariç."""
+    import re as _re
+    targets = ["campaigns", "profiles", "fixes", "aeo"]
+    src = ["kads/data/__init__.py", "kads/data_ext.py", "kads/seo.py", "kads/presence.py"]
+    bad = []
+    for d in targets:
+        p = ROOT / d
+        if not p.exists():
+            continue
+        for f in p.rglob("*"):
+            if f.suffix in {".md", ".csv", ".json", ".jsonld", ".txt", ".html"} and "13 km" in f.read_text(encoding="utf-8"):
+                bad.append(str(f.relative_to(ROOT)))
+    for s in src:
+        if "13 km" in (ROOT / "kads" / Path(s).name).read_text(encoding="utf-8"):
+            bad.append(s)
+    assert not bad, f"doğrulanmamış '13 km' müşteri metninde: {bad}"
+
+
+def test_brand_rsa_pinned_to_position_one():
+    """Marka kampanyasında marka adı 1. pozisyona sabit (OTA savunması)."""
+    from kads.platforms import google as _g
+    marka = [r for r in _g.rsa_rows() if r["Ad Group"] == "Marka"]
+    assert marka, "Marka RSA yok"
+    r = marka[0]
+    assert r.get("Headline 1 position") == 1 and r.get("Headline 2 position") == 1
+    assert "Kozbeyli" in r["Headline 1"]

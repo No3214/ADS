@@ -147,7 +147,7 @@ FIXES = [
         "Mesafe/şehir tutarsız",
         "Site + OTA",
         "Orta",
-        "Tek metin: 'Foça merkeze ~13 km'",
+        "Tek metin: 'Yeni Foça'ya yakın'",
     ),
     (
         13,

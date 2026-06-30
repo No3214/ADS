@@ -1,5 +1,11 @@
 # Değişiklik Günlüğü
 
+## v1.33.0 — McKinsey audit Wave-6: Marka pin + doğrulanmamış mesafe temizliği
+- **Marka RSA pin (B2)**: marka adı (H1+H2) artık 1. pozisyona sabit → OTA/rakip marka teriminde üstte komisyonsuz site görünür (en yüksek-CVR savunma).
+- **Doğrulanmamış "13 km" KALDIRILDI (Compliance)**: reklam RSA, Meta metni, GBP, OTA, schema, AEO/FAQ ve llms.txt'te sabit "Foça'ya 13 km" iddiası vardı (MEB: Yeni Foça ~10 km; 13 km DOĞRULANMADI). Hepsi MEB-doğrulanmış "Yeni Foça'ya yakın / ~10 km" diline çevrildi. Yanlış-sabit-sayı = uyum/itibar riski elimine.
+- Regresyon kilidi: `test_no_unverified_distance_in_customer_copy` + `test_brand_rsa_pinned_to_position_one`. 454 pytest geçer.
+
+
 ## v1.32.0 — McKinsey audit Wave-5: Ölçüm dedup + Meta A/B duplikasyon fix
 - **events.ts purchase**: `event_id` artık `transactionId` (HMS rezervasyon no) — Pixel + CAPI + GA4 AYNI id ile tekilleştirme garantili (önceden rastgele `pur_*` → dedup kırıktı, çift sayım riski).
 - **meta.py A/B üretimi**: hook körlemesine prepend ediliyordu → C-Aciliyet "Bu hafta birkaç oda boş." WhatsApp konseptinde literal çift metin üretiyordu. Hook zaten metinde varsa tekrar etmiyor.

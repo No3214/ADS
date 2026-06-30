@@ -135,6 +135,10 @@ def rsa_rows() -> list[dict]:
                 row[f"Headline {i}"] = h
             for i, d in enumerate(a["descriptions"][:4], 1):
                 row[f"Description {i}"] = d
+            if g == "Marka":
+                # OTA savunmasi: marka adi (H1+H2) her zaman 1. pozisyonda gorunsun
+                row["Headline 1 position"] = 1
+                row["Headline 2 position"] = 1
             rows.append(row)
     return rows
 

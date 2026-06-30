@@ -1,3 +1,3 @@
 """kads — Kozbeyli Konagi reklam operasyonlari paketi. Tek kaynak surum."""
 
-__version__ = "1.32.0"
+__version__ = "1.33.0"

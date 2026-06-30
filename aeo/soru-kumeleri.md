@@ -13,7 +13,7 @@ Foça/Kozbeyli/Ege bağlamı. Her küme bir sayfaya veya FAQ bloğuna eşlenir.
 "Foça mı Alaçatı mı? / Foça mı Çeşme mi?" · "Butik otel mi tatil köyü mü?" · "köy konağı mı?"
 
 ## D. Konum/yerel → /lokasyon + yeni "Foça'ya nasıl gidilir"
-"Foça'ya ne kadar uzak?" (~13 km) · "İzmir Havalimanı'na?" (~82 km) · "nasıl gidilir?"
+"Yeni Foça'ya ne kadar uzak?" (~10 km) · "İzmir Havalimanı'na?" (~82 km) · "nasıl gidilir?"
 
 ## E. Güven → /sss
 "Aileler için uygun mu?" · "Çiftler için romantik mi?" · "Evcil kabul?" · "Ödeme güvenli mi?"

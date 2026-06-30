@@ -240,7 +240,7 @@ COMPETITORS = [
         "rakip": "Huri Nuri Hotel",
         "konum": "Eski Foça, denize yürüme",
         "vurgu": "konum + butik",
-        "karsi_mesaj": "13 km özel kaçış + köy kahvaltısı",
+        "karsi_mesaj": "Yeni Foça'ya yakın özel kaçış + köy kahvaltısı",
         "izle": "paket/erken rez., yorum, sosyal aktiflik",
     },
     {
