@@ -3,7 +3,7 @@ from datetime import datetime
 from kads.data.ingestion.google_ads import fetch_google_campaigns
 from kads.data.ingestion.meta_ads import fetch_meta_campaigns
 from kads.data.warehouse.db import SessionLocal
-from kads.data.warehouse.models import DimCampaignState, FactAdPerformanceHourly, FactTrackingHealth
+from kads.data.warehouse.models import DimCampaignState, FactAdPerformanceHourly, FactTrackingHealth, FactActionJournal
 
 logger = logging.getLogger("kads.scheduler")
 
@@ -87,16 +87,75 @@ def job_p0_health_check():
 def job_p1_optimization():
     """
     P1 Optimization (Every 1 hour):
-    - Run bid & budget optimization analysis.
+    - Fetches latest campaign data from both platforms.
+    - Runs Agent Council (Decision Engine) to produce proposed actions.
+    - Persists new pending actions into the warehouse for dashboard review.
     """
+    from kads.decision.engine import run_agent_council
+
     logger.info("Executing P1 Optimization Job...")
-    # Interfaces with Decision engine in future PRs
-    logger.info("P1 Optimization Job completed.")
+    db = SessionLocal()
+    try:
+        google_camps = fetch_google_campaigns()
+        meta_camps = fetch_meta_campaigns()
+
+        proposed_actions = run_agent_council(google_camps, meta_camps)
+        new_count = 0
+
+        for action in proposed_actions:
+            # Skip if an identical pending action already exists (avoid duplicates across runs)
+            existing = db.query(FactActionJournal).filter_by(
+                entity_id=action.entity_id,
+                action_type=action.action_type,
+                status="pending"
+            ).first()
+            if existing:
+                continue
+
+            record = FactActionJournal(
+                action_id=action.action_id,
+                platform=action.platform,
+                entity_type=action.entity_type,
+                entity_id=action.entity_id,
+                action_type=action.action_type,
+                current_state=action.current_state,
+                proposed_state=action.proposed_state,
+                expected_impact=action.expected_impact,
+                risk_score=action.risk_score,
+                confidence=action.confidence,
+                requires_approval=action.requires_approval,
+                approval_reason=action.approval_reason,
+                rollback_plan=action.rollback_plan,
+                status=action.status,
+            )
+            db.add(record)
+            new_count += 1
+
+        db.commit()
+        logger.info(f"P1 Optimization Job completed. {new_count} new actions proposed, {len(proposed_actions) - new_count} duplicates skipped.")
+    except Exception as e:
+        db.rollback()
+        logger.error(f"Error executing P1 Optimization: {e}")
+    finally:
+        db.close()
 
 def job_reflection():
     """
     Reflection & Learning (Daily 02:00):
-    - Analyze decision quality and extract heuristics.
+    - Calls Memory module to review executed actions and extract lessons.
+    - Logs lessons for future heuristic improvement.
     """
+    from kads.memory.decision_memory import reflect_on_past_actions
+
     logger.info("Executing Reflection Job...")
-    logger.info("Reflection Job completed.")
+    db = SessionLocal()
+    try:
+        lessons = reflect_on_past_actions(db)
+        for lesson in lessons:
+            logger.info(f"Lesson [{lesson['action_id']}]: {lesson['lesson']} (quality: {lesson['decision_quality']})")
+        logger.info(f"Reflection Job completed. {len(lessons)} lessons extracted.")
+    except Exception as e:
+        logger.error(f"Error executing Reflection Job: {e}")
+    finally:
+        db.close()
+
