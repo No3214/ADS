@@ -1,5 +1,10 @@
 # Değişiklik Günlüğü
 
+## v1.40.1 — Teslim paketi tutarlılık düzeltmesi (öz-denetim)
+- **HotelRunner** yazımı düzeltildi (yanlış "HoterRunner" 4 yerde → doğru ad; kullanıcı spesifikasyonuyla uyum).
+- Bütçe dağılımı çapraz-referans notu: teslim paketi #2 dağılımı ile `kads plan`/data.PLAN taban planı arasındaki fark açıklandı (ikisi de 15k+15k; canlı veride `kads allocate` tek doğru kaynak). İki sessiz-çelişen tablo riski elimine.
+
+
 ## v1.40.0 — Reklam teslim paketi (#2-#10) + kads deliver + ads-delivery skill
 - **docs/REKLAM-TESLIM-PAKETI.md**: strateji, 12 kreatif (hook+reels+feed+CTA), keyword/negatif, tracking QA (18 madde), landing QA, WhatsApp satış şablonları, haftalık optimizasyon (8 kural), risk listesi (10), 30 gün planı. Repo sabitleriyle tutarlı (.com, "Yeni Foça'ya yakın", ölçüm-canlı-değil kapısı).
 - **kads deliver**: teslim durumu özeti (9 kalem, HAZIR/ÖLÇÜM-BEKLİYOR/KAPI); table+json pipe-temiz. `dx.DELIVERY_STATUS`.

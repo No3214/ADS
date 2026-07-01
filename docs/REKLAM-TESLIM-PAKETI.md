@@ -11,7 +11,7 @@
 | Meta Pixel | `1781546559309505` (Ad Account `act_2115950531494`) |
 | GTM | `GTM-KCG6B4MJ` |
 | Rezervasyon motoru | HMS Otel (`kozbeyli-konagi.hmshotel.net`) |
-| Kanal yönetimi | HoterRunner (OTA parite) |
+| Kanal yönetimi | HotelRunner (OTA parite) |
 | Site | `www.kozbeylikonagi.com` (Vercel) — **`.com.tr` KAPSAM DIŞI** |
 | Marka renkleri | Zeytin Yeşili `#505D4B` · Antik Altın `#C4A265` · Fildişi `#F8F5F0` |
 | Bütçe | **30.000 TL/ay** — Meta 15.000 · Google 15.000 |
@@ -56,6 +56,11 @@ GBP optimizasyonu → **FBL** → **Marka Search** → **NonBrand Search** → *
 | Kahvaltı/Restoran | %20 | 3.000 | Yerel + ilgi hedefleme |
 | Retargeting | %15 | 2.250 | Site + IG/FB etkileşim + video izleyen |
 | Düğün/Organizasyon | %10 | 1.500 | Lead form / WhatsApp |
+
+> **Not (tutarlılık):** Bu dağılım #2 teslim **rafinasyonudur** (FBL/PMax + Remarketing + Düğün ayrı satır). `kads plan`
+> (data.PLAN) ise ilk **fazlı taban** plandır (Marka 4500 · NonBrand 9000 · Test 1500 / Meta Prospecting 10500 · WhatsApp
+> 4500 · Retargeting 3000). İkisi de 15k+15k'ye toplanır; küçük satır farkları normaldir. Canlı veri gelince tek doğru
+> kaynak **`kads allocate`** ile güncellenir — iki tabloyu elle senkron tutmayın.
 
 ### Düşük bütçe kuralı
 Az ad set (havuzu bölme) · ucuz event optimizasyonu (WhatsApp/Lead) · **marka search önce** (garanti dönüşüm) · geniş eşleme YALNIZCA smart bidding + veri sonrası.
@@ -207,7 +212,7 @@ Rezerve olan WhatsApp lead'i → `kads conversions` ile Google/Meta'ya **offline
 > Rutin: `kads monitor` + `kads rules`. Haftada 1, sabit gün.
 
 ### 13 maddelik kontrol
-1. Ölçüm skoru hâlâ 80+ mı · 2. Harcama/bütçe pacing · 3. Marka vs NonBrand CVR · 4. En pahalı 5 keyword · 5. Negatif eklenecek arama terimi · 6. Meta frekans (>3 → yorgunluk) · 7. En iyi/en kötü kreatif · 8. Retargeting havuz büyüklüğü · 9. WhatsApp yanıt süresi · 10. Landing CVR · 11. OTA parite (HoterRunner) · 12. FBL/PMax rezervasyon · 13. Bütçe yeniden dağıtımı.
+1. Ölçüm skoru hâlâ 80+ mı · 2. Harcama/bütçe pacing · 3. Marka vs NonBrand CVR · 4. En pahalı 5 keyword · 5. Negatif eklenecek arama terimi · 6. Meta frekans (>3 → yorgunluk) · 7. En iyi/en kötü kreatif · 8. Retargeting havuz büyüklüğü · 9. WhatsApp yanıt süresi · 10. Landing CVR · 11. OTA parite (HotelRunner) · 12. FBL/PMax rezervasyon · 13. Bütçe yeniden dağıtımı.
 
 ### 8 karar kuralı
 1. **CTR düşük** (<%2 nonbrand) → hook değiştir (kreatif).
@@ -227,7 +232,7 @@ Rezerve olan WhatsApp lead'i → `kads conversions` ile Google/Meta'ya **offline
 | 1 | Ölçüm canlı değil | Kör harcama, 0 dönüşüm | GTM etiket + test rezervasyon (KAPI) |
 | 2 | Yanlış event optimizasyonu | Algoritma boş event'e koşar | Düşük bütçede WhatsApp/Lead, veri sonra Purchase |
 | 3 | Consent Mode v2 eksik | AB/AEA trafiği ölçülmez + uyum | Sertifikalı CMP + Consent Mode v2 |
-| 4 | OTA parite bozulması | Booking/OTA cezası, güven kaybı | HoterRunner ile fiyat/müsaitlik senkron |
+| 4 | OTA parite bozulması | Booking/OTA cezası, güven kaybı | HotelRunner ile fiyat/müsaitlik senkron |
 | 5 | Zayıf sosyal kanıt (4.2) | CTR/CVR düşer | Taze yorum kampanyası + yanıt |
 | 6 | Bütçe parçalanması | Öğrenme fazına ulaşılamaz | Az ad set, ucuz event, marka önce |
 | 7 | Marka teriminde OTA rekabeti | Komisyonlu tıklama | Marka Search + poz-1 pin savunma |

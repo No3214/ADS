@@ -16,7 +16,7 @@ Durum özeti için önce **`kads deliver`** çalıştır, ölçüm için **`kads
 
 ## 0) ÖNCE OKU — değişmez sabitler
 - GA4 `G-V3R66C3MEF` · Google Ads `AW-800024713` · Meta Pixel `1781546559309505` · GTM `GTM-KCG6B4MJ`
-- Rezervasyon: HMS Otel · Kanal/parite: HoterRunner · Site: `www.kozbeylikonagi.com` (**`.com.tr` KULLANMA**)
+- Rezervasyon: HMS Otel · Kanal/parite: HotelRunner · Site: `www.kozbeylikonagi.com` (**`.com.tr` KULLANMA**)
 - Bütçe: 30.000 TL/ay (Meta 15.000 · Google 15.000)
 - Marka renkleri: Zeytin `#505D4B` · Altın `#C4A265` · Fildişi `#F8F5F0`
 - Konum dili: **"Yeni Foça'ya yakın"** — sabit/yanlış km ("13 km" vb.) YAZMA (doğrulanmadı).
