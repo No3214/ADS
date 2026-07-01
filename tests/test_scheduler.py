@@ -4,8 +4,7 @@ from sqlalchemy.orm import sessionmaker
 
 from kads.data.warehouse import db as db_mod
 from kads.data.warehouse.models import (DimCampaignState,
-                                        FactAdPerformanceHourly,
-                                        FactTrackingHealth)
+                                        FactAdPerformanceHourly)
 from kads.scheduler.jobs import job_p0_health_check
 from kads.scheduler.worker import start_worker
 

@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from kads.data.warehouse import db as db_mod
-from kads.data.warehouse.models import DimCampaignState, FactActionJournal, FactTrackingHealth
+from kads.data.warehouse.models import DimCampaignState, FactActionJournal
 from kads.execution.executor import execute_action, rollback_action, CircuitBreakerState, get_circuit_breaker_state
 
 
@@ -151,3 +151,111 @@ def test_budget_cap_guardrail_blocks(test_db):
     test_db.commit()
     assert execute_action(action, test_db) is False
     assert camp.budget == 150.0  # değişmedi
+
+
+def test_status_not_approved_blocks(test_db):
+    """approved olmayan aksiyon yürütülemez."""
+    a = FactActionJournal(
+        action_id="pending_act", platform="google", entity_type="budget", entity_id="g_x",
+        action_type="budget_increase", current_state={"budget": 100.0},
+        proposed_state={"budget": 120.0}, risk_score=0.1, confidence=0.9, status="pending",
+    )
+    test_db.add(a); test_db.commit()
+    assert execute_action(a, test_db) is False
+    assert a.status == "pending"
+
+
+def test_invalid_budget_guardrail_blocks(test_db):
+    """Sayı olmayan proposed budget -> guardrail ENGELLE (TypeError/ValueError yolu)."""
+    camp = DimCampaignState(campaign_id="g_inv", campaign_name="x", platform="google",
+                            status="active", budget=100.0, bid_strategy="tCPA")
+    a = FactActionJournal(
+        action_id="inv_act", platform="google", entity_type="budget", entity_id="g_inv",
+        action_type="budget_increase", current_state={"budget": 100.0},
+        proposed_state={"budget": "abc"}, risk_score=0.1, confidence=0.9, status="approved",
+    )
+    test_db.add_all([camp, a]); test_db.commit()
+    assert execute_action(a, test_db) is False
+    assert camp.budget == 100.0
+
+
+def test_flapping_guardrail_blocks(test_db):
+    """Aynı entity 24s'de >=3 bütçe değişimi yapmışsa 4.'sü ENGELLE (flapping)."""
+    import datetime
+    camp = DimCampaignState(campaign_id="g_flap", campaign_name="x", platform="google",
+                            status="active", budget=100.0, bid_strategy="tCPA")
+    test_db.add(camp)
+    now = datetime.datetime.utcnow()
+    for i in range(3):  # 3 executed bütçe değişimi (tavan altı)
+        test_db.add(FactActionJournal(
+            action_id=f"flap_{i}", platform="google", entity_type="budget", entity_id="g_flap",
+            action_type="budget_increase", current_state={"budget": 100.0},
+            proposed_state={"budget": 110.0}, risk_score=0.1, confidence=0.9,
+            status="executed", executed_at=now))
+    a = FactActionJournal(
+        action_id="flap_new", platform="google", entity_type="budget", entity_id="g_flap",
+        action_type="budget_increase", current_state={"budget": 100.0},
+        proposed_state={"budget": 120.0},  # tavan altı ama flapping
+        risk_score=0.1, confidence=0.9, status="approved")
+    test_db.add(a); test_db.commit()
+    assert execute_action(a, test_db) is False
+
+
+def test_execute_campaign_exception_sets_failed(test_db):
+    """try-bloğunda hata olursa status=failed olmalı (proposed_state bozuk)."""
+    camp = DimCampaignState(campaign_id="g_err", campaign_name="x", platform="google",
+                            status="active", budget=100.0, bid_strategy="tCPA")
+    a = FactActionJournal(
+        action_id="err_act", platform="google", entity_type="campaign", entity_id="g_err",
+        action_type="pause", current_state={"status": "active"},
+        proposed_state=["bozuk"],  # list -> .get() AttributeError
+        risk_score=0.1, confidence=0.9, status="approved")
+    test_db.add_all([camp, a]); test_db.commit()
+    assert execute_action(a, test_db) is False
+    assert a.status == "failed"
+    assert a.executed_at is not None
+
+
+def test_rollback_requires_executed(test_db):
+    """executed olmayan aksiyon geri alınamaz."""
+    a = FactActionJournal(
+        action_id="ro_pending", platform="google", entity_type="budget", entity_id="g_x",
+        action_type="budget_increase", current_state={"budget": 100.0},
+        proposed_state={"budget": 120.0}, risk_score=0.1, confidence=0.9, status="approved")
+    test_db.add(a); test_db.commit()
+    assert rollback_action(a, test_db) is False
+
+
+def test_rollback_campaign_restores_status(test_db):
+    """Kampanya pause'u geri al -> status eski haline döner."""
+    camp = DimCampaignState(campaign_id="g_ro", campaign_name="x", platform="google",
+                            status="active", budget=100.0, bid_strategy="tCPA")
+    a = FactActionJournal(
+        action_id="ro_camp", platform="google", entity_type="campaign", entity_id="g_ro",
+        action_type="pause", current_state={"status": "active"},
+        proposed_state={"status": "PAUSED"}, risk_score=0.1, confidence=0.9,
+        status="approved", rollback_plan={"status": "active"})
+    test_db.add_all([camp, a]); test_db.commit()
+    assert execute_action(a, test_db) is True
+    assert camp.status == "paused"
+    assert rollback_action(a, test_db) is True
+    assert camp.status == "active"
+
+
+def test_rollback_exception_returns_false(test_db):
+    """Rollback try-bloğu hata -> False (rollback_plan bozuk)."""
+    camp = DimCampaignState(campaign_id="g_rerr", campaign_name="x", platform="google",
+                            status="paused", budget=100.0, bid_strategy="tCPA")
+    a = FactActionJournal(
+        action_id="ro_err", platform="google", entity_type="campaign", entity_id="g_rerr",
+        action_type="pause", current_state=["bozuk"], proposed_state={"status": "PAUSED"},
+        risk_score=0.1, confidence=0.9, status="executed", rollback_plan=None)
+    test_db.add_all([camp, a]); test_db.commit()
+    # rollback_plan None + current_state list -> .get AttributeError -> False
+    assert rollback_action(a, test_db) is False
+
+
+def test_is_circuit_breaker_tripped_helper(test_db):
+    """is_circuit_breaker_tripped() CLOSED durumda False döner."""
+    from kads.execution.executor import is_circuit_breaker_tripped
+    assert is_circuit_breaker_tripped(test_db) is False

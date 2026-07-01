@@ -86,7 +86,6 @@ def test_config_tracking_fields():
 def test_no_unverified_distance_in_customer_copy():
     """13 km DOĞRULANMADI (MEB: Yeni Foça ~10 km). Reklam/GBP/OTA/şema metninde
     sabit yanlış mesafe = uyum/itibar riski. Sadece iç denetim docs/ hariç."""
-    import re as _re
     targets = ["campaigns", "profiles", "fixes", "aeo"]
     src = ["kads/data/__init__.py", "kads/data_ext.py", "kads/seo.py", "kads/presence.py"]
     bad = []

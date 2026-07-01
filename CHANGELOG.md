@@ -1,5 +1,12 @@
 # Değişiklik Günlüğü
 
+## v1.36.0 — Kalite Wave-9: guardrail/security/rules test coverage
+- **executor.py %75→%100**: bütçe-tavanı bloğu, flapping bloğu, geçersiz-bütçe yolu, circuit-breaker OPEN/HALF_OPEN, kampanya-exception→failed, rollback (executed-gerekliliği, kampanya restore, exception), is_circuit_breaker_tripped helper.
+- **security.py %79→%93**: evaluate_change tüm karar dalları (bilinmeyen platform, HARD_BLOCKED, allowlist-dışı, bütçe-tavanı/geçersiz, ENABLE ikinci-onay, approval eşleşme matrisi).
+- **rules.py %65→%100**: geçersiz metrik atlama, boş metrik, öncelik sıralaması, load_metrics_csv (Türkçe ondalık + bozuk satır).
+- pyflakes hem kads/ hem tests/ TAMAMEN temiz. 484 pytest geçer (+29).
+
+
 ## v1.35.0 — McKinsey audit Wave-8: Kod kalitesi + rakip dürüstlük + reflection honesty
 - **Pyflakes TAMAMEN temiz**: 8 kullanılmayan import/değişken kaldırıldı (security, db, anomaly, risk_score, google_ads, meta_ads, decision_memory).
 - **decision_memory honesty**: reflection "actual_outcome" değerlerinin SABİT-SİMÜLE olduğu açıkça işaretlendi (ölçüm canlıya geçmeden heuristik'e PROMOTE etme uyarısı) + ölü DB sorgusu kaldırıldı.
