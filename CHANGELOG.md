@@ -1,5 +1,10 @@
 # Değişiklik Günlüğü
 
+## v1.37.0 — Kalite Wave-10: decision + scheduler + core coverage (TOPLAM %90)
+- **mmm.py %86→%100** (sıfır-harcama, underperforming/stable/scalable dalları, ROAS-cesaret), **decision_memory %78→%100** (pause dersi dalı), **risk_score %84→%95** (bütçe/tracking/creation/activation dalları, clamp, seviyeler), **engine %85→%92** (cross-platform bütçe transferi), **core %76→%94** (emit json/csv/yaml/md/table, mask, is_placeholder, kv, banner), **scheduler/jobs %56→%90** (P1 idempotent + reflection).
+- 512 pytest geçer (+28). pyflakes temiz. Toplam coverage %87→%90.
+
+
 ## v1.36.0 — Kalite Wave-9: guardrail/security/rules test coverage
 - **executor.py %75→%100**: bütçe-tavanı bloğu, flapping bloğu, geçersiz-bütçe yolu, circuit-breaker OPEN/HALF_OPEN, kampanya-exception→failed, rollback (executed-gerekliliği, kampanya restore, exception), is_circuit_breaker_tripped helper.
 - **security.py %79→%93**: evaluate_change tüm karar dalları (bilinmeyen platform, HARD_BLOCKED, allowlist-dışı, bütçe-tavanı/geçersiz, ENABLE ikinci-onay, approval eşleşme matrisi).
