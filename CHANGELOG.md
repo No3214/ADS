@@ -1,5 +1,12 @@
 # Değişiklik Günlüğü
 
+## v1.42.0 — Test coverage %93→%95 + rules json pipe-temiz fix
+- **rules --metrics json/csv modu pipe-temiz**: tetik yoksa `[]`, dim ipucu sadece table modunda (önceden yeşil+dim metin json'u kirletiyordu — gerçek bug).
+- **+44 cli branch testi** (test_cli_branches.py): seo/presence alt komutları, rules/report --metrics, guard, büyüme alt komutları (pmax/demandgen/remarketing/allocate/conversions/season/b2b/aeo), format matrisi (yaml/md/csv), utm build --url, aeo score dolu.
+- **Dürüst pragma**: ingestion gerçek-SDK yolları (canlı kimlik gerektirir) + worker bloklayan döngü `# pragma: no cover`; __main__ shim omit. TOPLAM kapsam **%95**.
+- 582 pytest geçer, pyflakes temiz.
+
+
 ## v1.41.0 — AEO/GEO (AI motoru görünürlüğü) sistemi
 - **docs/aeo-strategy.md**: platform-bazlı strateji (ChatGPT %94 Google/Places · Claude Wikidata · Perplexity Reddit ~%47 · Gemini Knowledge Graph). Otel AEO gerçeği: atıflar aracı kaynaklara gider, ~%71 yorumla sürüklenir (hacim+yıldız), RRF fusion çoklu-kaynak ödüllendirir, Wikidata küçük işletme için #1 ulaşılabilir entity. Tem 2026 web araştırması + kaynaklar.
 - **kads aeo güçlendirildi**: `queries` (20 test sorgusu TR+EN/6 kategori) + `score` (görünürlük % + platform bazlı + rakip Share-of-Voice). `dx.AEO_TEST_QUERIES` + `dx.aeo_visibility_score()` (boş hücre paydaya girmez = dürüst kısmi skor) + `AEO_COMPETITORS_TRACK`.

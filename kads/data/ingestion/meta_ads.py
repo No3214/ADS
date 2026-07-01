@@ -59,7 +59,7 @@ def fetch_meta_campaigns() -> list[dict]:
             },
         ]
 
-    try:
+    try:  # pragma: no cover (gercek Meta SDK + canli kimlik gerektirir)
         from facebook_business.adobjects.adaccount import AdAccount
         from facebook_business.api import FacebookAdsApi
 

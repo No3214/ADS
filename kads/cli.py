@@ -817,7 +817,10 @@ def cmd_rules(args):
             return core.EX_NOINPUT
         trig = rx.evaluate(rx.load_metrics_csv(mp))
         if not trig:
-            print(core.green("Tetiklenen kural yok (metrikler esik icinde)."))
+            if fmt == "json":
+                print("[]")  # pipe-temiz
+            elif fmt == "table":
+                print(core.green("Tetiklenen kural yok (metrikler esik icinde)."))
             return core.EX_OK
         core.emit(
             trig,
@@ -825,11 +828,12 @@ def cmd_rules(args):
             title="Tetiklenen optimizasyon onerileri",
             columns=["oncelik", "id", "metrik", "deger", "kosul", "aksiyon"],
         )
-        print(
-            core.dim(
-                "\n  Oneri: degisiklik kads guard + acik onaydan gecer (otomatik uygulanmaz)."
+        if fmt == "table":
+            print(
+                core.dim(
+                    "\n  Oneri: degisiklik kads guard + acik onaydan gecer (otomatik uygulanmaz)."
+                )
             )
-        )
         return core.EX_OK
     core.emit(
         rx.rule_rows(),

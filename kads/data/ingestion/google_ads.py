@@ -58,7 +58,7 @@ def fetch_google_campaigns() -> list[dict]:
             },
         ]
 
-    try:
+    try:  # pragma: no cover (gercek Google Ads SDK + canli kimlik gerektirir)
         from google.ads.googleads.client import GoogleAdsClient
 
         credentials = {

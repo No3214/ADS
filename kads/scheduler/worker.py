@@ -39,7 +39,7 @@ def start_worker(blocking: bool = True):
     if not blocking:
         return scheduler
 
-    try:
+    try:  # pragma: no cover (bloklayan sonsuz dongu - test edilemez)
         while True:
             time.sleep(1)
     except (KeyboardInterrupt, SystemExit):

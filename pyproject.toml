@@ -35,6 +35,7 @@ addopts = "-q"
 
 [tool.coverage.run]
 source = ["kads"]
+omit = ["kads/__main__.py"]  # 3-satir giris shim, mantik yok
 # OneDrive dosya kilidini önlemek için kapsam verisi ayrı yola yazılabilir:
 #   COVERAGE_FILE=/tmp/.cov python -m pytest --cov=kads
 branch = false
