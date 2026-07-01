@@ -53,6 +53,7 @@ def _match_to_editor(term: str, match: str) -> tuple[str, str]:
 
 
 def campaigns_rows() -> list[dict]:
+    """Google Editor kampanya satırları."""
     rows = []
     for name, daily, _ in CAMPAIGNS:
         rows.append(
@@ -73,6 +74,7 @@ def campaigns_rows() -> list[dict]:
 
 
 def ad_groups_rows() -> list[dict]:
+    """Google Editor reklam grubu satırları."""
     rows = []
     for name, _, groups in CAMPAIGNS:
         for g in groups:
@@ -88,6 +90,7 @@ def ad_groups_rows() -> list[dict]:
 
 
 def keywords_rows() -> list[dict]:
+    """Google Editor anahtar kelime satırları."""
     rows = []
     for name, _, groups in CAMPAIGNS:
         for g in groups:
@@ -117,6 +120,7 @@ def keywords_rows() -> list[dict]:
 
 
 def rsa_rows() -> list[dict]:
+    """Google Editor RSA satırları (grup-bazlı, marka pinli)."""
     rows = []
     for name, _, groups in CAMPAIGNS:
         for g in groups:
@@ -145,6 +149,7 @@ def rsa_rows() -> list[dict]:
 
 
 def negatives_rows() -> list[dict]:
+    """Paylaşımlı negatif anahtar kelime satırları."""
     # Hesap duzeyinde paylasilan negatif liste; ayrica non-brand kampanyalara da uygula.
     rows = []
     for term in data.NEGATIVES:
@@ -159,6 +164,7 @@ def negatives_rows() -> list[dict]:
 
 
 def sitelinks_rows() -> list[dict]:
+    """Sitelink uzantı satırları."""
     return [
         {
             "Sitelink text": s["text"],
@@ -171,10 +177,12 @@ def sitelinks_rows() -> list[dict]:
 
 
 def callouts_rows() -> list[dict]:
+    """Callout uzantı satırları."""
     return [{"Callout text": c} for c in data.CALLOUTS]
 
 
 def snippets_rows() -> list[dict]:
+    """Yapılandırılmış snippet satırları."""
     return [
         {"Header": s["header"], "Values": "; ".join(s["values"])}
         for s in data.STRUCTURED_SNIPPETS
@@ -221,6 +229,7 @@ Bu klasördeki CSV'ler **import-hazırdır** ve tüm kampanyaları **PAUSED** ol
 
 
 def display_rows() -> list[dict]:
+    """Display remarketing kampanya satırı."""
     d = dx.GOOGLE_DISPLAY
     row = {
         "Campaign": d["campaign"],

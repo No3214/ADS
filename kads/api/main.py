@@ -28,7 +28,7 @@ app.include_router(approval_router)
 
 
 @app.get("/health")
-def health_check():
+def health_check() -> dict:
     """
     Returns API status combined with the current Tracking Health audit.
     """

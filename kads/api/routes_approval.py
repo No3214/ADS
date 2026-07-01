@@ -8,7 +8,7 @@ router = APIRouter(tags=["Approvals"])
 
 
 @router.get("/approvals")
-def list_pending_approvals(db: Session = Depends(get_db)):
+def list_pending_approvals(db: Session = Depends(get_db)) -> list:
     """
     Returns all pending optimization actions that require human approval.
     """
@@ -36,7 +36,7 @@ def list_pending_approvals(db: Session = Depends(get_db)):
 
 
 @router.post("/actions/{action_id}/approve")
-def approve_action(action_id: str, db: Session = Depends(get_db)):
+def approve_action(action_id: str, db: Session = Depends(get_db)) -> dict:
     """
     Approves a pending action.
     """
@@ -54,7 +54,7 @@ def approve_action(action_id: str, db: Session = Depends(get_db)):
 
 
 @router.post("/actions/{action_id}/reject")
-def reject_action(action_id: str, db: Session = Depends(get_db)):
+def reject_action(action_id: str, db: Session = Depends(get_db)) -> dict:
     """
     Rejects a pending action.
     """

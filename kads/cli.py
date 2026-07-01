@@ -79,7 +79,8 @@ def cmd_doctor(args: list[str]) -> int:
     env = core.load_env()
     rows: list[dict] = []
 
-    def add(name, ok, detail):
+    def add(name, ok, detail) -> None:
+        """Doctor kontrol satırı ekler."""
         rows.append(
             {"kontrol": name, "durum": ("OK" if ok else "UYARI"), "detay": detail}
         )
@@ -469,7 +470,8 @@ def _length_problems() -> list[dict]:
     Google Editor reddeder / Meta keser)."""
     bad = []
 
-    def chk(grp, tip, text, limit):
+    def chk(grp, tip, text, limit) -> None:
+        """Uzunluk ihlali kontrol satırı ekler."""
         if text and len(text) > limit:
             bad.append({"grup": grp, "tip": tip, "metin": text, "uzunluk": len(text)})
 
@@ -933,7 +935,8 @@ def cmd_golive(args: list[str]) -> int:
     env = core.load_env()
     fmt = _fmt(args)
 
-    def ok(b):
+    def ok(b) -> str:
+        """Bool durumu OK/EKSIK metnine çevirir."""
         return "OK" if b else "EKSIK"
 
     g_id = "".join(c for c in env.get("GOOGLE_ADS_CUSTOMER_ID", "") if c.isdigit())
@@ -1863,7 +1866,8 @@ def cmd_selfcheck(args: list[str]) -> int:
     fmt = _fmt(args)
     checks = []
 
-    def add(name, ok, detail=""):
+    def add(name, ok, detail="") -> None:
+        """Selfcheck kontrol satırı ekler."""
         checks.append(
             {"kontrol": name, "sonuç": "GEÇTİ" if ok else "HATA", "detay": detail}
         )
@@ -2080,7 +2084,7 @@ def main(argv: list[str] | None = None) -> int:
     for _s in (sys.stdout, sys.stderr):
         _enc = (getattr(_s, "encoding", "") or "").lower().replace("-", "")
         if _enc not in ("utf8", "utf8mb4", "cp65001"):
-            try:
+            try:  # pragma: no cover (ortam-savunmasi: Windows cp1254 reconfigure)
                 _s.reconfigure(encoding="utf-8", errors="replace")
             except Exception:
                 pass
@@ -2145,11 +2149,11 @@ def main(argv: list[str] | None = None) -> int:
         return core.EX_USAGE
     try:
         return fn(rest)
-    except KeyboardInterrupt:
+    except KeyboardInterrupt:  # pragma: no cover (kullanici Ctrl-C)
         return 130
-    except BrokenPipeError:
+    except BrokenPipeError:  # pragma: no cover (pipe kapandi, or. | head)
         return core.EX_OK
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     raise SystemExit(main())

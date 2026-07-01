@@ -27,12 +27,14 @@ KPI_FIELDS = [
 
 
 def metrics_template_rows() -> list[dict]:
+    """Blended KPI metrik şablonu satırları (boş değerlerle)."""
     rows = [{"metrik": k, "deger": v} for k, v in METRICS_TEMPLATE]
     rows += [{"metrik": k, "deger": 0} for k in KPI_FIELDS]
     return rows
 
 
 def compute(metrics: dict) -> dict:
+    """Metrik sözlüğünden blended KPI'ları hesaplar."""
     g = float(metrics.get("google_spend_try", 0) or 0)
     m = float(metrics.get("meta_spend_try", 0) or 0)
     rev = float(metrics.get("tracked_revenue_try", 0) or 0)
@@ -62,6 +64,7 @@ def compute(metrics: dict) -> dict:
 
 
 def write_template(path: Path) -> int:
+    """Metrik giriş şablonu CSV'sini yazar."""
     path.parent.mkdir(parents=True, exist_ok=True)
     rows = metrics_template_rows()
     with path.open("w", encoding="utf-8-sig", newline="") as fh:

@@ -163,10 +163,12 @@ _PRI = {"Kritik": 0, "Yüksek": 1, "Orta": 2, "Düşük": 3, "Kapandı": 4}
 
 
 def property_rows() -> list[dict]:
+    """Dijital mülk envanteri satırları (site/Maps/OTA/sosyal)."""
     return PROPERTIES
 
 
 def fix_rows() -> list[dict]:
+    """Önceliklendirilmiş dijital varlık düzeltme satırları."""
     return [
         {"#": n, "bulgu": b, "mülk": m, "öncelik": p, "aksiyon": a}
         for n, b, m, p, a in sorted(FIXES, key=lambda x: _PRI.get(x[3], 9))
@@ -174,6 +176,7 @@ def fix_rows() -> list[dict]:
 
 
 def counts() -> dict:
+    """Önem derecesine göre düzeltme sayıları özeti."""
     c = {"Kritik": 0, "Yüksek": 0, "Orta": 0, "Düşük": 0}
     for f in FIXES:
         c[f[3]] = c.get(f[3], 0) + 1

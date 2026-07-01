@@ -245,15 +245,15 @@ def run_agent_council(
     strategist = StrategistAgent()
 
     # Define execution wrappers
-    def run_analyst():
+    def run_analyst() -> list:
         """Analist ajanı thread havuzunda çalıştırır."""
         return analyst.evaluate(all_campaigns, tracking_score)
         
-    def run_creative():
+    def run_creative() -> list:
         """Kreatif ajanı thread havuzunda çalıştırır."""
         return creative.evaluate(all_campaigns, tracking_score)
         
-    def run_strategist():
+    def run_strategist() -> list:
         """Stratejist ajanı thread havuzunda çalıştırır."""
         return strategist.evaluate(google_campaigns, meta_campaigns, tracking_score)
 

@@ -11,7 +11,7 @@ from kads.data.warehouse.models import (DimCampaignState, FactActionJournal,
 logger = logging.getLogger("kads.scheduler")
 
 
-def job_p0_health_check():
+def job_p0_health_check() -> None:
     """
     P0 Health Check (Every 15 min):
     - Ingests latest campaign states and updates warehouse dim_campaign_state.
@@ -97,7 +97,7 @@ def job_p0_health_check():
         db.close()
 
 
-def job_p1_optimization():
+def job_p1_optimization() -> None:
     """
     P1 Optimization (Every 1 hour):
     - Fetches latest campaign data from both platforms.
@@ -159,7 +159,7 @@ def job_p1_optimization():
         db.close()
 
 
-def job_reflection():
+def job_reflection() -> None:
     """
     Reflection & Learning (Daily 02:00):
     - Calls Memory module to review executed actions and extract lessons.

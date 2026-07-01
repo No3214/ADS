@@ -1,5 +1,11 @@
 # Değişiklik Günlüğü
 
+## v1.42.0 — Kalite: coverage %96 + tam type-hint/docstring
+- **Coverage %91→%96**: 40+ yeni CLI dal testi (seo/presence alt-komutları, rules/report --metrics, guard --check, format varyantları, büyüme alt-modları). worker.py %100. Genuinely-untestable kod (ingestion canlı-SDK, __main__, bloklayan worker döngüsü, ortam-savunma except'leri) dürüstçe `# pragma: no cover`.
+- **Tüm public fonksiyonlar docstring'li VE return-type'lı** (0 eksik): row-builder'lar, seo/presence/report/rules, core renk yardımcıları, api, jobs, db (Iterator[Session]), meta/google platformları, engine nested runner'lar.
+- 575 pytest geçer (+37). pyflakes temiz (kads+tests).
+
+
 ## v1.44.0 — Dashboard rapor.html interaktif + responsive
 - **Görsel gösterge**: SVG ROAS yarım-daire göstergesi (renk kodlu, 3× hedef çizgisi) + kanal harcama split-bar (Google/Meta) + hedefe-ilerleme bar (gelir/90k).
 - **Canlı hesaplama**: yazdıkça otomatik (debounce 350ms) + Hesapla/Örnek/Temizle butonları (44px dokunma hedefi).

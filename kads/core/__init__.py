@@ -43,26 +43,32 @@ def _c(code: str, s: str) -> str:
 
 
 def green(s: str) -> str:
+    """Metni yeşile boyar (ANSI)."""
     return _c("32", s)
 
 
 def red(s: str) -> str:
+    """Metni kırmızıya boyar (ANSI)."""
     return _c("31", s)
 
 
 def yellow(s: str) -> str:
+    """Metni sarıya boyar (ANSI)."""
     return _c("33", s)
 
 
 def cyan(s: str) -> str:
+    """Metni camgöbeğine boyar (ANSI)."""
     return _c("36", s)
 
 
 def bold(s: str) -> str:
+    """Metni kalınlaştırır (ANSI)."""
     return _c("1", s)
 
 
 def dim(s: str) -> str:
+    """Metni soluklaştırır (ANSI)."""
     return _c("2", s)
 
 
@@ -114,6 +120,7 @@ def mask(key: str, value: str) -> str:
 
 
 def is_placeholder(value: str) -> bool:
+    """Değer yer-tutucu/boş mu (replace-me vb.) kontrol eder."""
     if not value:
         return True
     v = value.strip().lower()
@@ -191,6 +198,7 @@ def kv(title: str, pairs: list[tuple[str, str]], fmt: str = "table") -> None:
 
 
 def banner(text: str) -> None:
+    """Başlık kutusu çizer (cp1254 konsolda ASCII'ye düşer)."""
     try:
         line = "─" * (len(text) + 2)
         print(cyan(f"┌{line}┐"))

@@ -1,7 +1,8 @@
 from pathlib import Path
+from typing import Iterator
 
 from sqlalchemy import create_engine
-from sqlalchemy.orm import declarative_base, sessionmaker
+from sqlalchemy.orm import Session, declarative_base, sessionmaker
 
 from kads.core import load_env
 
@@ -24,7 +25,8 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
 
-def get_db():
+def get_db() -> Iterator[Session]:
+    """FastAPI bağımlılığı: DB oturumu üretir ve kapatır."""
     db = SessionLocal()
     try:
         yield db
@@ -32,6 +34,7 @@ def get_db():
         db.close()
 
 
-def init_db():
+def init_db() -> None:
+    """SQLite/lokal geliştirme için tabloları oluşturur."""
     # Helper to create tables for SQLite/Local Dev (Alembic will handle migrations in Prod)
     Base.metadata.create_all(bind=engine)

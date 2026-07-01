@@ -25,6 +25,7 @@ def _post_text(concept_key: str, channel: str) -> str:
 
 
 def generate(days: int = 30, start: _dt.date | None = None) -> list[dict]:
+    """30 günlük çok kanallı içerik takvimi satırları üretir."""
     start = start or _dt.date.today()
     rows = []
     for i in range(days):
@@ -45,6 +46,7 @@ def generate(days: int = 30, start: _dt.date | None = None) -> list[dict]:
 
 
 def write_csv(path: Path, rows: list[dict]) -> int:
+    """Takvim satırlarını CSV'ye yazar; yazılan satır sayısını döndürür."""
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8-sig", newline="") as fh:
         w = csv.DictWriter(

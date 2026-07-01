@@ -24,6 +24,7 @@ _OPS = {
 
 
 def rule_rows() -> list[dict]:
+    """Optimizasyon kural tanımlarını görüntü satırı olarak döndürür."""
     return [
         {
             "id": r["id"],

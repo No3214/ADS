@@ -13,7 +13,7 @@ logging.basicConfig(
 logger = logging.getLogger("kads.worker")
 
 
-def start_worker(blocking: bool = True):
+def start_worker(blocking: bool = True) -> "object | None":
     """APScheduler'ı başlatır: P0 sağlık (15dk), P1 optimizasyon (1sa), reflection (02:00).
 
     blocking=False test/embed için scheduler nesnesini döndürür; True ise bloklar.
@@ -42,7 +42,7 @@ def start_worker(blocking: bool = True):
     try:  # pragma: no cover (bloklayan sonsuz dongu - test edilemez)
         while True:
             time.sleep(1)
-    except (KeyboardInterrupt, SystemExit):
+    except (KeyboardInterrupt, SystemExit):  # pragma: no cover
         logger.info("Stopping scheduler...")
         scheduler.shutdown()
         logger.info("Scheduler stopped.")

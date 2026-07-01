@@ -253,18 +253,22 @@ BRAND_DOMINATION = [
 
 
 def gbp_rows() -> list[dict]:
+    """Google İşletme Profili kontrol listesi satırları."""
     return [{"alan": a, "yapılacak": b, "öncelik": c} for a, b, c in GBP_CHECKLIST]
 
 
 def citation_rows() -> list[dict]:
+    """NAP tutarlılığı / atıf (citation) satırları."""
     return [{"platform": a, "öncelik": b, "not": c} for a, b, c in CITATIONS]
 
 
 def brand_rows() -> list[dict]:
+    """Marka hâkimiyeti (SERP) kontrol satırları."""
     return [{"yüzey": a, "taktik": b, "beklenti": c} for a, b, c in BRAND_DOMINATION]
 
 
 def build(out_dir: Path) -> list[tuple[str, int]]:
+    """SEO çıktı dosyalarını üretir (JSON-LD/GBP); (dosya,sayı) döndürür."""
     out_dir.mkdir(parents=True, exist_ok=True)
     schema = schema_jsonld()
     (out_dir / "schema-lodgingbusiness.jsonld").write_text(

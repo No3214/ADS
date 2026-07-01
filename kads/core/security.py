@@ -48,6 +48,7 @@ def _digits(s: str) -> str:
 
 
 def load_security_config() -> dict:
+    """Ortamdan güvenlik konfigürasyonunu (allowlist, tavan, writes) yükler."""
     env = load_env()
     cfg = {
         "google_monthly_try": float(env.get("GOOGLE_MONTHLY_BUDGET_TRY", "15000")),
@@ -117,6 +118,7 @@ def check_anti_loop_policy(change: dict) -> bool:
 def evaluate_change(
     change: dict, cfg: dict, approval: Optional[str]
 ) -> Tuple[str, List[str]]:
+    """Değişikliği guardrail'lerden geçirir: (ALLOW/DENY/NEEDS_APPROVAL, gerekçeler)."""
     reasons = []
     
     if check_anti_loop_policy(change):

@@ -79,6 +79,7 @@ PHASE2 = [
 
 
 def campaign_rows() -> list[dict]:
+    """Meta kampanya yapı satırları (konsept bazlı)."""
     rows = []
     for faz, items in (("Ay 1", PHASE1), ("Ay 2+", PHASE2)):
         for c in items:
@@ -99,6 +100,7 @@ def campaign_rows() -> list[dict]:
 
 
 def copy_rows() -> list[dict]:
+    """Meta reklam metni satırları (primary/başlık/CTA)."""
     rows = []
     for key, c in data.META_COPY.items():
         for i, pt in enumerate(c["primary_text"], 1):
@@ -129,6 +131,7 @@ def _audiences_md() -> str:
 
 
 def build_sheet_md() -> str:
+    """Meta kurulum rehberini markdown olarak üretir."""
     h = data.HOTEL
     lines = [
         f"# Meta Ads Manager — Kurulum Rehberi ({h['name']})",
@@ -193,6 +196,7 @@ def _write_csv(path: Path, rows: list[dict]) -> int:
 
 
 def placement_rows() -> list[dict]:
+    """Yerleşim (placement) öneri satırları."""
     rows = []
     for pl, spec in dx.META_PLACEMENT_SPECS.items():
         rows.append(
@@ -209,6 +213,7 @@ def placement_rows() -> list[dict]:
 
 
 def audiences_rows() -> list[dict]:
+    """Retargeting/Lookalike kitle satırları."""
     return [
         {
             "Kitle": a["ad"],
@@ -242,6 +247,7 @@ def copy_ab_rows() -> list[dict]:
 
 
 def build(out_dir: Path) -> list[tuple[str, int]]:
+    """Meta çıktı dosyalarını üretir; (dosya,sayı) listesi döndürür."""
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "meta-kurulum-rehberi.md").write_text(build_sheet_md(), encoding="utf-8")
     res = [

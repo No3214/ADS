@@ -15,6 +15,7 @@ from kads import calendar as cal
 
 # Postiz/n8n dostu sütunlar
 def to_postiz_rows(rows: list[dict]) -> list[dict]:
+    """Takvimi Postiz içe-aktarma satırlarına dönüştürür."""
     out = []
     for r in rows:
         out.append(
@@ -31,6 +32,7 @@ def to_postiz_rows(rows: list[dict]) -> list[dict]:
 
 
 def write_csv(path: Path, days: int = 30) -> int:
+    """Postiz-hazır yayın CSV'sini yazar; satır sayısını döndürür."""
     rows = to_postiz_rows(cal.generate(days=days))
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8-sig", newline="") as fh:
