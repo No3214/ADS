@@ -74,6 +74,7 @@ def _net(host: str, port: int = 443, timeout: float = 4.0) -> bool:
 
 
 def cmd_doctor(args: list[str]) -> int:
+    """Ortam + config + kanal teşhisi"""
     fmt = _fmt(args)
     env = core.load_env()
     rows: list[dict] = []
@@ -201,6 +202,7 @@ def cmd_doctor(args: list[str]) -> int:
 
 # ---- config ----------------------------------------------------------------
 def cmd_config(args: list[str]) -> int:
+    """Çözülmüş ayarlar (secret maskeli)"""
     env = core.load_env()
     keys = [
         "GA4_MEASUREMENT_ID",
@@ -230,6 +232,7 @@ def cmd_config(args: list[str]) -> int:
 
 # ---- plan ------------------------------------------------------------------
 def cmd_plan(args: list[str]) -> int:
+    """30.000 TL çapraz kanal planı"""
     core.emit(
         data.PLAN["channels"],
         fmt=_fmt(args),
@@ -241,6 +244,7 @@ def cmd_plan(args: list[str]) -> int:
 
 # ---- budget ----------------------------------------------------------------
 def cmd_budget(args: list[str]) -> int:
+    """Bütçe dağılımı + tavanlar"""
     p, caps = data.PLAN, data.BUDGET_CAPS
     rows = [
         {"kalem": "Toplam aylık", "TRY": p["total_monthly_try"]},
@@ -260,6 +264,7 @@ def cmd_budget(args: list[str]) -> int:
 
 # ---- kpi -------------------------------------------------------------------
 def cmd_kpi(args: list[str]) -> int:
+    """Blended ROAS / rezervasyon matematiği"""
     rev = _opt(args, "--revenue")
     spend = _opt(args, "--spend")
     if rev and spend:
@@ -312,6 +317,7 @@ def cmd_kpi(args: list[str]) -> int:
 
 # ---- keywords --------------------------------------------------------------
 def cmd_keywords(args: list[str]) -> int:
+    """Google anahtar kelime setleri"""
     rows = []
     for grp, spec in data.KEYWORDS.items():
         for term in spec["terms"]:
@@ -335,6 +341,7 @@ def cmd_keywords(args: list[str]) -> int:
 
 # ---- creative --------------------------------------------------------------
 def cmd_creative(args: list[str]) -> int:
+    """RSA / Meta reklam metinleri"""
     platform = args[0] if args and not args[0].startswith("-") else "google"
     fmt = _fmt(args)
     if platform == "meta":
@@ -365,6 +372,7 @@ def cmd_creative(args: list[str]) -> int:
 
 # ---- build -----------------------------------------------------------------
 def cmd_build(args: list[str]) -> int:
+    """Import-hazır dosyalar üret"""
     target = args[0] if args and not args[0].startswith("-") else "all"
     out = Path(_opt(args, "--out", str(OUT)))
     results: list[dict] = []
@@ -397,6 +405,7 @@ def cmd_build(args: list[str]) -> int:
 
 # ---- seo (yerel SEO + Google Isletme Profili) ------------------------------
 def cmd_seo(args: list[str]) -> int:
+    """Yerel SEO + Google İşletme Profili"""
     sub = args[0] if args and not args[0].startswith("-") else "all"
     fmt = _fmt(args)
     if sub in ("schema", "jsonld"):
@@ -489,6 +498,7 @@ def _length_problems() -> list[dict]:
 
 
 def cmd_validate(args: list[str]) -> int:
+    """RSA uzunluk + bütçe + CSV doğrulama"""
     fmt = _fmt(args)
     checks: list[dict] = []
     bad = _length_problems()
@@ -550,6 +560,7 @@ def cmd_validate(args: list[str]) -> int:
 
 # ---- guard (guardrails.py sarmalayici) -------------------------------------
 def cmd_guard(args: list[str]) -> int:
+    """Değişiklik guardrail kontrolü"""
     gp = ROOT / "scripts" / "guardrails.py"
     if not gp.exists():
         print(core.red("scripts/guardrails.py yok"))
@@ -580,6 +591,7 @@ def cmd_guard(args: list[str]) -> int:
 
 # ---- monitor ---------------------------------------------------------------
 def cmd_monitor(args: list[str]) -> int:
+    """Salt-okunur izleme yolu"""
     env = core.load_env()
     meta_ok = env.get("META_AD_ACCOUNT_ID", "").startswith(
         "act_"
@@ -618,6 +630,7 @@ def cmd_monitor(args: list[str]) -> int:
 
 # ---- brief -----------------------------------------------------------------
 def cmd_brief(args: list[str]) -> int:
+    """Haftalık brief şablonu"""
     out = Path(_opt(args, "--out", str(OUT)))
     out.mkdir(parents=True, exist_ok=True)
     p = out / "haftalik-brief-sablonu.md"
@@ -660,6 +673,7 @@ Dönem: ____ – ____   (önceki hafta ile karşılaştır)
 
 # ---- presence (dijital varlik denetimi) ------------------------------------
 def cmd_presence(args: list[str]) -> int:
+    """Dijital varlık denetimi + düzeltmeler"""
     sub = args[0] if args and not args[0].startswith("-") else "all"
     fmt = _fmt(args)
     if sub in ("fix", "fixes", "todo"):
@@ -714,7 +728,8 @@ def cmd_presence(args: list[str]) -> int:
 
 
 # ---- mcp ---------------------------------------------------------------------
-def cmd_mcp(args):
+def cmd_mcp(args: list[str]) -> int:
+    """Baglanti durumu (Google read / Meta connector)"""
     env = core.load_env()
     have = (ROOT / ".mcp.json").exists()
     rows = [
@@ -760,7 +775,8 @@ def cmd_mcp(args):
 
 
 # ---- skills ------------------------------------------------------------------
-def cmd_skills(args):
+def cmd_skills(args: list[str]) -> int:
+    """Meta reklam Claude skill paketi + kurulum"""
     rows = [
         {
             "skill": "/spy",
@@ -807,7 +823,8 @@ def cmd_skills(args):
 
 
 # ---- rules -------------------------------------------------------------------
-def cmd_rules(args):
+def cmd_rules(args: list[str]) -> int:
+    """Butce/teklif optimizasyon kurallari"""
     fmt = _fmt(args)
     mfile = _opt(args, "--metrics")
     if mfile:
@@ -851,7 +868,8 @@ def cmd_rules(args):
 
 
 # ---- audiences ---------------------------------------------------------------
-def cmd_audiences(args):
+def cmd_audiences(args: list[str]) -> int:
+    """Retargeting / Lookalike kitleleri"""
     core.emit(
         mx.audiences_rows(),
         fmt=_fmt(args),
@@ -864,7 +882,8 @@ def cmd_audiences(args):
 
 
 # ---- report ------------------------------------------------------------------
-def cmd_report(args):
+def cmd_report(args: list[str]) -> int:
+    """Blended KPI raporu / metrik sablonu"""
     fmt = _fmt(args)
     mfile = _opt(args, "--metrics")
     if mfile:
@@ -909,7 +928,8 @@ def cmd_report(args):
 
 
 # ---- golive (fazli yayina alma kapisi) --------------------------------------
-def cmd_golive(args):
+def cmd_golive(args: list[str]) -> int:
+    """Fazli yayina alma kapisi (hazirlik denetimi)"""
     env = core.load_env()
     fmt = _fmt(args)
 
@@ -1011,7 +1031,8 @@ def cmd_golive(args):
 
 
 # ---- competitors -------------------------------------------------------------
-def cmd_competitors(args):
+def cmd_competitors(args: list[str]) -> int:
+    """Rakip izleme listesi"""
     core.emit(
         dx.COMPETITORS,
         fmt=_fmt(args),
@@ -1028,7 +1049,8 @@ def cmd_competitors(args):
 
 
 # ---- calendar ----------------------------------------------------------------
-def cmd_calendar(args):
+def cmd_calendar(args: list[str]) -> int:
+    """Cok kanalli icerik takvimi"""
     fmt = _fmt(args)
     try:
         days = int(_opt(args, "--days", "30"))
@@ -1060,7 +1082,8 @@ def cmd_calendar(args):
 
 
 # ---- publish (Postiz-hazir) --------------------------------------------------
-def cmd_publish(args):
+def cmd_publish(args: list[str]) -> int:
+    """Postiz-hazir yayin takvimi (oto publisher)"""
     try:
         days = int(_opt(args, "--days", "30"))
     except ValueError:
@@ -1087,7 +1110,8 @@ def cmd_publish(args):
 
 
 # ---- setup -------------------------------------------------------------------
-def cmd_setup(args):
+def cmd_setup(args: list[str]) -> int:
+    """Kurulum asistani (.env/.mcp.json)"""
     fmt = _fmt(args)
     if fmt == "table":
         core.banner("kads setup - kurulum asistani")
@@ -1134,7 +1158,8 @@ def cmd_setup(args):
 
 
 # ---- status (sistem ozeti capstone) -----------------------------------------
-def cmd_status(args):
+def cmd_status(args: list[str]) -> int:
+    """Sistem ozeti (paketler + hazirlik)"""
     fmt = _fmt(args)
     packs = [
         ("Reklam kampanyalari", "campaigns"),
@@ -1207,7 +1232,8 @@ def cmd_status(args):
 
 
 # ---- apify (web veri actor receteleri) --------------------------------------
-def cmd_apify(args):
+def cmd_apify(args: list[str]) -> int:
+    """Web veri actor receteleri (yorum/fiyat/SERP)"""
     core.emit(
         dx.APIFY_ACTORS,
         fmt=_fmt(args),
@@ -1229,7 +1255,8 @@ def cmd_apify(args):
 
 
 # ---- aeo (AI motoru gorunurlugu) --------------------------------------------
-def cmd_aeo(args):
+def cmd_aeo(args: list[str]) -> int:
+    """AI motoru gorunurlugu (AEO/GEO): sorgular + gorunurluk skoru + JSON-LD"""
     sub = args[0] if args and not args[0].startswith("-") else "all"
     fmt = _fmt(args)
     if sub in ("queries", "sorgular"):
@@ -1317,7 +1344,7 @@ def cmd_aeo(args):
     return core.EX_OK
 
 
-def cmd_tracking(args):
+def cmd_tracking(args: list[str]) -> int:
     """Ölçüm durumu raporu (GTM/GA4/Ads/Pixel) — canlı doğrulanmış veriden."""
     fmt = _fmt(args)
     if fmt == "table":
@@ -1340,7 +1367,7 @@ def cmd_tracking(args):
     return core.EX_OK
 
 
-def cmd_deliver(args):
+def cmd_deliver(args: list[str]) -> int:
     """Reklam teslim paketi (#2-#10) durum ozeti — docs/REKLAM-TESLIM-PAKETI.md."""
     fmt = _fmt(args)
     if fmt == "table":
@@ -1369,7 +1396,8 @@ def cmd_deliver(args):
 
 
 # ---- season / funnel / offers -----------------------------------------------
-def cmd_season(args):
+def cmd_season(args: list[str]) -> int:
+    """Sezon plani / donusum hunisi / teklifler"""
     fmt = _fmt(args)
     sub = args[0] if args and not args[0].startswith("-") else ""
     if sub in ("detail", "detay"):
@@ -1411,7 +1439,8 @@ def cmd_season(args):
     return core.EX_OK
 
 
-def cmd_funnel(args):
+def cmd_funnel(args: list[str]) -> int:
+    """kads funnel komutu."""
     core.emit(
         dx.FUNNEL_STAGES,
         fmt=_fmt(args),
@@ -1427,7 +1456,8 @@ def cmd_funnel(args):
     return core.EX_OK
 
 
-def cmd_offers(args):
+def cmd_offers(args: list[str]) -> int:
+    """kads offers komutu."""
     core.emit(
         dx.OFFERS,
         fmt=_fmt(args),
@@ -1438,7 +1468,8 @@ def cmd_offers(args):
 
 
 # ---- web (frontend kontrol listesi) -----------------------------------------
-def cmd_web(args):
+def cmd_web(args: list[str]) -> int:
+    """Frontend kontrol listesi (perf/a11y/PWA/meta)"""
     core.emit(
         dx.WEB_CHECKLIST,
         fmt=_fmt(args),
@@ -1455,7 +1486,8 @@ def cmd_web(args):
 
 
 # ---- b2b (kurumsal Aliağa) ---------------------------------------------------
-def cmd_b2b(args):
+def cmd_b2b(args: list[str]) -> int:
+    """Kurumsal motor (Aliağa sanayi) hedef + paket"""
     sub = args[0] if args and not args[0].startswith("-") else "targets"
     fmt = _fmt(args)
     if sub in ("packages", "paket", "mice"):
@@ -1485,7 +1517,8 @@ def cmd_b2b(args):
 
 
 # ---- buyume: PMax / Demand Gen / Google remarketing -------------------------
-def cmd_pmax(args):
+def cmd_pmax(args: list[str]) -> int:
+    """Performance Max asset group + varlik + kurulum"""
     fmt = _fmt(args)
     sub = args[0] if args and not args[0].startswith("-") else "groups"
     if sub in ("specs", "spec", "varlik"):
@@ -1522,7 +1555,8 @@ def cmd_pmax(args):
     return core.EX_OK
 
 
-def cmd_demandgen(args):
+def cmd_demandgen(args: list[str]) -> int:
+    """Demand Gen format + kitle + varlik"""
     fmt = _fmt(args)
     sub = args[0] if args and not args[0].startswith("-") else "formats"
     if sub in ("audiences", "kitle"):
@@ -1559,7 +1593,8 @@ def cmd_demandgen(args):
     return core.EX_OK
 
 
-def cmd_remarketing(args):
+def cmd_remarketing(args: list[str]) -> int:
+    """Google remarketing liste + RLSA + kanal akisi"""
     fmt = _fmt(args)
     sub = args[0] if args and not args[0].startswith("-") else "lists"
     if sub in ("rlsa",):
@@ -1597,7 +1632,8 @@ def cmd_remarketing(args):
 
 
 # ---- buyume: UTM standardi/builder + attribution ----------------------------
-def cmd_utm(args):
+def cmd_utm(args: list[str]) -> int:
+    """UTM standardi + tutarli link uretici"""
     fmt = _fmt(args)
     sub = args[0] if args and not args[0].startswith("-") else "matrix"
     if sub == "build":
@@ -1669,7 +1705,8 @@ def cmd_utm(args):
     return core.EX_OK
 
 
-def cmd_attribution(args):
+def cmd_attribution(args: list[str]) -> int:
+    """Attribution modeli + cift sayim dedup"""
     fmt = _fmt(args)
     core.emit(
         dg.ATTRIBUTION,
@@ -1690,7 +1727,8 @@ def cmd_attribution(args):
 
 
 # ---- buyume: butce dagitim matrisi ------------------------------------------
-def cmd_allocate(args):
+def cmd_allocate(args: list[str]) -> int:
+    """Butce dagitim matrisi (kanal x huni x ay)"""
     fmt = _fmt(args)
     sub = args[0] if args and not args[0].startswith("-") else "channels"
     if sub in ("funnel", "huni"):
@@ -1743,7 +1781,8 @@ def cmd_allocate(args):
 
 
 # ---- buyume: donusum olcum dongusu (online + offline/call) -------------------
-def cmd_conversions(args):
+def cmd_conversions(args: list[str]) -> int:
+    """Donusum olcum dongusu (online + offline/call import)"""
     fmt = _fmt(args)
     sub = args[0] if args and not args[0].startswith("-") else "actions"
     if sub in ("offline", "oci"):
@@ -1797,7 +1836,8 @@ def cmd_conversions(args):
 
 
 # ---- buyume: yerel talep etkinlikleri (web-reach guncel) --------------------
-def cmd_events(args):
+def cmd_events(args: list[str]) -> int:
+    """Yerel talep etkinlikleri (Foca festival vb.) + zamanlama"""
     core.emit(
         dg.LOCAL_EVENTS,
         fmt=_fmt(args),
@@ -1814,7 +1854,8 @@ def cmd_events(args):
 
 
 # ---- selfcheck (kirilmaz / butunluk denetimi) -------------------------------
-def cmd_selfcheck(args):
+def cmd_selfcheck(args: list[str]) -> int:
+    """Sistem bütünlük denetimi (kırılmaz)"""
     import glob as _glob
     import json as _json
     import tempfile as _tmp
@@ -1904,6 +1945,7 @@ def cmd_selfcheck(args):
 
 # ---- godtier-audit & inject-audiences ----------------------------------------
 def cmd_godtier_audit(args: list[str]) -> int:
+    """God Tier Entegrasyon denetimi (CAPI/OCT vb.)"""
     fmt = _fmt(args)
     if fmt == "table":
         core.banner("kads godtier-audit - God Tier Entegrasyon Denetimi")
@@ -1939,6 +1981,7 @@ def cmd_godtier_audit(args: list[str]) -> int:
 
 
 def cmd_inject_audiences(args: list[str]) -> int:
+    """VIP CRM listelerini reklam platformlarına hashli gönder"""
     fmt = _fmt(args)
     if fmt == "table":
         core.banner("kads inject-audiences - CRM Kitle Yükleme (God Tier)")
@@ -1966,6 +2009,7 @@ def cmd_inject_audiences(args: list[str]) -> int:
 
 # ---- help / version --------------------------------------------------------
 def cmd_help(args: list[str]) -> int:
+    """Komut listesi + kisa aciklamalar."""
     core.banner(f"kads {VERSION} — {data.HOTEL['name']} Reklam Operasyonları")
     cmds = [
         ("doctor", "Ortam + config + kanal teşhisi"),
@@ -2030,6 +2074,7 @@ def cmd_help(args: list[str]) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """kads giriş noktası: argümanı çözer, komutu dağıtır, çıkış kodu döndürür."""
     # Windows konsolu cp1254 (Turkce) olabilir; UTF-8'e zorla ki kutu-cizim ve
     # Turkce karakterler UnicodeEncodeError ile cokmesin (Linux/UTF-8'de no-op).
     for _s in (sys.stdout, sys.stderr):

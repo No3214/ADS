@@ -1,5 +1,12 @@
 # Değişiklik Günlüğü
 
+## v1.43.0 — Type hints + docstrings + CLI help tutarlılığı
+- **44 komut fonksiyonuna docstring** (help açıklamalarından türetildi → help ile birebir tutarlı) + `main()` docstring.
+- **Tüm cmd_ fonksiyonları `(args: list[str]) -> int`** signature'a normalize edildi (b2b dahil).
+- **Kalite kilidi** (test_cli_quality.py): her komut docstring + `-> int` + `args: list[str]` taşımalı — regresyon önler.
+- 585 pytest geçer, pyflakes temiz.
+
+
 ## v1.42.0 — Test coverage %93→%95 + rules json pipe-temiz fix
 - **rules --metrics json/csv modu pipe-temiz**: tetik yoksa `[]`, dim ipucu sadece table modunda (önceden yeşil+dim metin json'u kirletiyordu — gerçek bug).
 - **+44 cli branch testi** (test_cli_branches.py): seo/presence alt komutları, rules/report --metrics, guard, büyüme alt komutları (pmax/demandgen/remarketing/allocate/conversions/season/b2b/aeo), format matrisi (yaml/md/csv), utm build --url, aeo score dolu.
