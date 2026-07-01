@@ -1,5 +1,11 @@
 # Değişiklik Günlüğü
 
+## v1.38.0 — Kalite Wave-10b: API approval + warehouse db coverage
+- **routes_approval.py %66→%100**: approve/reject 404 (aksiyon yok) + 400 (zaten işlenmiş) güvenlik dalları; reject happy-path. İnsan-onay kapısı artık tam test kapsamında.
+- **warehouse/db.py %79→%100**: get_db generator (close), init_db.
+- 519 pytest geçer. pyflakes temiz.
+
+
 ## v1.37.0 — Kalite Wave-10: decision + scheduler + core coverage (TOPLAM %90)
 - **mmm.py %86→%100** (sıfır-harcama, underperforming/stable/scalable dalları, ROAS-cesaret), **decision_memory %78→%100** (pause dersi dalı), **risk_score %84→%95** (bütçe/tracking/creation/activation dalları, clamp, seviyeler), **engine %85→%92** (cross-platform bütçe transferi), **core %76→%94** (emit json/csv/yaml/md/table, mask, is_placeholder, kv, banner), **scheduler/jobs %56→%90** (P1 idempotent + reflection).
 - 512 pytest geçer (+28). pyflakes temiz. Toplam coverage %87→%90.

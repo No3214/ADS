@@ -97,3 +97,19 @@ def test_action_journal_json_fields(test_db):
     assert queried.current_state["budget"] == 100
     assert queried.proposed_state["budget"] == 120
     assert queried.approval_reason == ["budget increase above 15%"]
+
+
+def test_get_db_generator_closes():
+    """get_db() bir session üretir ve finally'de kapatır."""
+    from kads.data.warehouse.db import get_db
+    gen = get_db()
+    sess = next(gen)
+    assert sess is not None
+    gen.close()  # finally -> db.close() çalışır (28-32)
+
+
+def test_init_db_creates_tables():
+    """init_db() metadata tablolarını oluşturur (idempotent)."""
+    from kads.data.warehouse import db as dbm
+    dbm.init_db()  # hata vermemeli
+    assert dbm.Base.metadata.tables  # en az bir tablo tanımlı

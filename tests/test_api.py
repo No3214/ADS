@@ -79,3 +79,42 @@ def test_approvals_list_and_lifecycle():
     )
     assert action_in_db.status == "approved"
     session.close()
+
+
+def _seed_pending(action_id="act_seed"):
+    session = db_mod.SessionLocal()
+    session.add(FactActionJournal(
+        action_id=action_id, platform="meta", entity_type="budget", entity_id="m_1",
+        action_type="update_budget", current_state={"budget": 100.0},
+        proposed_state={"budget": 120.0}, risk_score=0.2, confidence=0.9,
+        requires_approval=True, status="pending"))
+    session.commit(); session.close()
+
+
+def test_approve_nonexistent_404():
+    assert client.post("/actions/yok_boyle/approve").status_code == 404
+
+
+def test_reject_nonexistent_404():
+    assert client.post("/actions/yok_boyle/reject").status_code == 404
+
+
+def test_reject_happy_path():
+    _seed_pending("act_rej")
+    r = client.post("/actions/act_rej/reject")
+    assert r.status_code == 200 and r.json()["status"] == "rejected"
+
+
+def test_approve_already_processed_400():
+    _seed_pending("act_twice")
+    assert client.post("/actions/act_twice/approve").status_code == 200
+    # ikinci kez -> 400 (zaten approved)
+    r = client.post("/actions/act_twice/approve")
+    assert r.status_code == 400 and "already" in r.json()["detail"]
+
+
+def test_reject_already_processed_400():
+    _seed_pending("act_rej2")
+    client.post("/actions/act_rej2/reject")
+    r = client.post("/actions/act_rej2/reject")
+    assert r.status_code == 400
