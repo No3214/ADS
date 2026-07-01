@@ -55,7 +55,7 @@ def get_circuit_breaker_state(db: Session) -> CircuitBreakerState:
     return CircuitBreakerState.CLOSED
 
 def is_circuit_breaker_tripped(db: Session) -> bool:
-    # Backwards compatibility
+    """Geriye-uyumluluk: devre kesici OPEN durumundaysa True (aksiyon yürütme durur)."""
     return get_circuit_breaker_state(db) == CircuitBreakerState.OPEN
 
 

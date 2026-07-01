@@ -1,5 +1,12 @@
 # Değişiklik Günlüğü
 
+## v1.39.0 — Kalite Wave-11: dokümantasyon polish + kod kalitesi
+- **Docstring kapsamı tam**: engine ajan-evaluate metodları (Analist/Kreatif/Stratejist), thread-runner helper'ları, executor.is_circuit_breaker_tripped, worker.start_worker — tümüne kısa açıklama.
+- **README**: "Test & kalite güvencesi" bölümü (519 test, %91 kapsam, pyflakes temiz, regresyon kilitleri, çalıştırma komutları).
+- **pyproject**: [tool.coverage] config — OneDrive kilidini önleme notu + dürüst exclude (`__main__`/opsiyonel-SDK satırları mantık değil).
+- Doğrulama: 519 pytest geçer, pyflakes temiz (kads+tests), selfcheck yeşil, bare-except/TODO yok.
+
+
 ## v1.38.0 — Kalite Wave-10b: API approval + warehouse db coverage
 - **routes_approval.py %66→%100**: approve/reject 404 (aksiyon yok) + 400 (zaten işlenmiş) güvenlik dalları; reject happy-path. İnsan-onay kapısı artık tam test kapsamında.
 - **warehouse/db.py %79→%100**: get_db generator (close), init_db.

@@ -32,3 +32,20 @@ kads = ["data.py"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
+
+[tool.coverage.run]
+source = ["kads"]
+# OneDrive dosya kilidini önlemek için kapsam verisi ayrı yola yazılabilir:
+#   COVERAGE_FILE=/tmp/.cov python -m pytest --cov=kads
+branch = false
+
+[tool.coverage.report]
+# Mantık olmayan / canlı-kimlik gerektiren satırları dürüstçe hariç tut.
+exclude_lines = [
+    "pragma: no cover",
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError",
+    "except ImportError",
+]
+# Gerçek platform SDK'sı (canlı kimlik) gerektiren ingestion yolları birim-testle
+# kapsanamaz; mock fallback'i test edilir. Dürüstlük için raporda işaretli bırakılır.

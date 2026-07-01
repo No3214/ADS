@@ -22,6 +22,7 @@ class AnalystAgent(BaseAgent):
         super().__init__("AnalystAgent")
 
     def evaluate(self, campaigns: List[Dict], tracking_score: float) -> List[ActionSchema]:
+        """Analist: anomali + 3x-kill kuralıyla kampanyaları değerlendirir; önerilen aksiyonları döndürür."""
         actions = []
         # Check Anomalies
         anomalies = detect_anomalies(campaigns)
@@ -81,6 +82,7 @@ class CreativeAgent(BaseAgent):
         super().__init__("CreativeAgent")
 
     def evaluate(self, campaigns: List[Dict], tracking_score: float) -> List[ActionSchema]:
+        """Kreatif: düşük CTR + reklam yorgunluğu sinyaliyle A/B testi önerir."""
         actions = []
         for c in campaigns:
             spend = c["spend"]
@@ -116,6 +118,7 @@ class StrategistAgent(BaseAgent):
         super().__init__("StrategistAgent")
 
     def evaluate(self, google_campaigns: List[Dict], meta_campaigns: List[Dict], tracking_score: float) -> List[ActionSchema]:
+        """Stratejist: MMM doygunluğuyla ölçekleme + platformlar arası bütçe transferi önerir."""
         actions = []
         all_camps = google_campaigns + meta_campaigns
         
@@ -243,12 +246,15 @@ def run_agent_council(
 
     # Define execution wrappers
     def run_analyst():
+        """Analist ajanı thread havuzunda çalıştırır."""
         return analyst.evaluate(all_campaigns, tracking_score)
         
     def run_creative():
+        """Kreatif ajanı thread havuzunda çalıştırır."""
         return creative.evaluate(all_campaigns, tracking_score)
         
     def run_strategist():
+        """Stratejist ajanı thread havuzunda çalıştırır."""
         return strategist.evaluate(google_campaigns, meta_campaigns, tracking_score)
 
     # Execute agents concurrently

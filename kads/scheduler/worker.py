@@ -14,6 +14,10 @@ logger = logging.getLogger("kads.worker")
 
 
 def start_worker(blocking: bool = True):
+    """APScheduler'ı başlatır: P0 sağlık (15dk), P1 optimizasyon (1sa), reflection (02:00).
+
+    blocking=False test/embed için scheduler nesnesini döndürür; True ise bloklar.
+    """
     logger.info("Initializing KADS Warehouse DB...")
     init_db()
 
