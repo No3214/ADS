@@ -688,3 +688,28 @@ TRACKING_STATE = [
         "aksiyon": "Opsiyonel: sunucu-taraflı CAPI + event dedup",
     },
 ]
+
+
+# ---- Reklam teslim paketi (#2-#10) durum özeti ------------------------------
+# Tam metin: docs/REKLAM-TESLIM-PAKETI.md · Skill: skills/ads-delivery/SKILL.md
+# durum: HAZIR (repoda uygulanabilir) | ÖLÇÜM BEKLİYOR (canlı tag şart) | AKSİYON (elle iş)
+DELIVERY_STATUS = [
+    {"no": "#2", "baslik": "Strateji (kanal rolleri + bütçe)", "durum": "HAZIR",
+     "konum": "docs/REKLAM-TESLIM-PAKETI.md · kads allocate", "aksiyon": "-"},
+    {"no": "#3", "baslik": "12 kreatif (R/K/T/M/D) + takvim", "durum": "HAZIR",
+     "konum": "creatives/ · docs/REKLAM-TESLIM-PAKETI.md", "aksiyon": "üret + A/B test"},
+    {"no": "#4", "baslik": "Keyword dosyası + negatifler", "durum": "HAZIR",
+     "konum": "campaigns/google-editor/03_keywords.csv · kads keywords", "aksiyon": "-"},
+    {"no": "#5", "baslik": "Tracking QA (18 madde, skor 80+)", "durum": "ÖLÇÜM BEKLİYOR",
+     "konum": "kads tracking · golive/GTM-KURULUM.html", "aksiyon": "GTM GA4/Ads etiketi + test rezervasyon"},
+    {"no": "#6", "baslik": "Landing page QA + eşleme", "durum": "HAZIR",
+     "konum": "docs/26-site-onpage-seo-denetimi.md", "aksiyon": "taze yorum hızı"},
+    {"no": "#7", "baslik": "WhatsApp satış (şablon+offline conv)", "durum": "HAZIR",
+     "konum": "docs/REKLAM-TESLIM-PAKETI.md · kads conversions", "aksiyon": "şablonları kur"},
+    {"no": "#8", "baslik": "Haftalık optimizasyon (8 kural)", "durum": "HAZIR",
+     "konum": "kads monitor · kads rules", "aksiyon": "-"},
+    {"no": "#9", "baslik": "Risk listesi (10)", "durum": "HAZIR",
+     "konum": "docs/REKLAM-TESLIM-PAKETI.md", "aksiyon": "-"},
+    {"no": "#10", "baslik": "30 gün planı", "durum": "ÖLÇÜM KAPISI",
+     "konum": "docs/REKLAM-TESLIM-PAKETI.md", "aksiyon": "Gün 1-3 ölçüm önce"},
+]

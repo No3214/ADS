@@ -1,5 +1,12 @@
 # Değişiklik Günlüğü
 
+## v1.40.0 — Reklam teslim paketi (#2-#10) + kads deliver + ads-delivery skill
+- **docs/REKLAM-TESLIM-PAKETI.md**: strateji, 12 kreatif (hook+reels+feed+CTA), keyword/negatif, tracking QA (18 madde), landing QA, WhatsApp satış şablonları, haftalık optimizasyon (8 kural), risk listesi (10), 30 gün planı. Repo sabitleriyle tutarlı (.com, "Yeni Foça'ya yakın", ölçüm-canlı-değil kapısı).
+- **kads deliver**: teslim durumu özeti (9 kalem, HAZIR/ÖLÇÜM-BEKLİYOR/KAPI); table+json pipe-temiz. `dx.DELIVERY_STATUS`.
+- **skills/ads-delivery/SKILL.md**: teslim paketini referans alan kampanya kurulum + optimizasyon rehber skill'i.
+- README komut referansı + cmd_help + BASLA (44 komut) güncellendi. 524 pytest geçer (+5), pyflakes temiz.
+
+
 ## v1.39.0 — Kalite Wave-11: dokümantasyon polish + kod kalitesi
 - **Docstring kapsamı tam**: engine ajan-evaluate metodları (Analist/Kreatif/Stratejist), thread-runner helper'ları, executor.is_circuit_breaker_tripped, worker.start_worker — tümüne kısa açıklama.
 - **README**: "Test & kalite güvencesi" bölümü (519 test, %91 kapsam, pyflakes temiz, regresyon kilitleri, çalıştırma komutları).

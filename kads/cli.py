@@ -1287,6 +1287,34 @@ def cmd_tracking(args):
     return core.EX_OK
 
 
+def cmd_deliver(args):
+    """Reklam teslim paketi (#2-#10) durum ozeti — docs/REKLAM-TESLIM-PAKETI.md."""
+    fmt = _fmt(args)
+    if fmt == "table":
+        core.banner("kads deliver - reklam teslim paketi (#2-#10)")
+    core.emit(
+        dx.DELIVERY_STATUS,
+        fmt=fmt,
+        title="Teslim kalemleri",
+        columns=["no", "baslik", "durum", "konum", "aksiyon"],
+    )
+    if fmt == "table":
+        bekleyen = sum(
+            1 for r in dx.DELIVERY_STATUS if r["durum"] != "HAZIR"
+        )
+        print(
+            core.dim(
+                f"\n  {bekleyen} kalem olcum/aksiyon bekliyor (kritik: #5 Tracking + #10 Gun 1-3)."
+            )
+        )
+        print(
+            core.dim(
+                "  Tam metin: docs/REKLAM-TESLIM-PAKETI.md  -  Skill: skills/ads-delivery/SKILL.md  -  Olcum: kads tracking"
+            )
+        )
+    return core.EX_OK
+
+
 # ---- season / funnel / offers -----------------------------------------------
 def cmd_season(args):
     fmt = _fmt(args)
@@ -1924,6 +1952,7 @@ def cmd_help(args: list[str]) -> int:
         ),
         ("events", "Yerel talep etkinlikleri (Foca festival vb.) + zamanlama"),
         ("tracking", "Olcum durumu: GTM/GA4/Ads/Pixel canli mi + acik kalemler"),
+        ("deliver", "Reklam teslim paketi #2-#10 durum ozeti (docs/REKLAM-TESLIM-PAKETI.md)"),
         ("selfcheck", "Sistem bütünlük denetimi (kırılmaz)"),
         ("build google|meta|seo|all [--out DIR]", "Import-hazır dosyalar üret"),
         ("validate", "RSA uzunluk + bütçe + CSV doğrulama"),
@@ -2003,6 +2032,7 @@ def main(argv: list[str] | None = None) -> int:
         "conversions": cmd_conversions,
         "events": cmd_events,
         "tracking": cmd_tracking,
+        "deliver": cmd_deliver,
         "validate": cmd_validate,
         "guard": cmd_guard,
         "monitor": cmd_monitor,

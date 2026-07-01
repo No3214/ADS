@@ -72,6 +72,7 @@ kads plan                 # 30.000 TL çapraz kanal planı
 | `kads conversions [offline|enhanced|calls]` | Dönüşüm ölçüm döngüsü (online + offline/call import) |
 | `kads events` | Yerel talep etkinlikleri (Foça festival vb.) + zamanlama |
 | `kads tracking` | **Ölçüm durumu**: GTM/GA4/Ads/Pixel canlı mı + açık kalemler |
+| `kads deliver` | **Reklam teslim paketi** (#2–#10) durum özeti · `docs/REKLAM-TESLIM-PAKETI.md` |
 | `kads selfcheck` | Sistem bütünlük denetimi (kırılmaz) |
 | `kads golive` | Fazlı yayına alma kapısı (hazırlık denetimi) |
 | `kads guard --check change.json` | Değişiklik guardrail kontrolü (yazma için) |
@@ -152,11 +153,4 @@ Agent-Reach (channels, doctor, safe/dry-run, SKILL kaydı) · OpenCLI (birleşik
 
 | Belirti | Olası neden | Teşhis | Çözüm |
 |---|---|---|---|
-| Google Ads 0 dönüşüm | GTM içinde GA4/Ads conversion etiketi yok | `kads tracking` (EKSİK kalemler) | docs/24: GTM'e GA4 Config + Conversion ekle, test rezervasyonla doğrula |
-| `kads` çöküyor (UnicodeEncode) | Windows cp1254 konsol | `kads doctor` | UTF-8 zorlanıyor; PowerShell `[Console]::OutputEncoding=[Text.Encoding]::UTF8` |
-| MCP bağlanmıyor | OAuth/connector yetkisi yok | `kads mcp` | claude.ai connector ayarları ya da `/mcp` ile yetkilendir |
-| Eksik ID uyarısı | .env placeholder | `kads doctor` | .env'i gerçek ID'lerle doldur (GA4/Ads/Pixel/Meta act_/Customer ID) |
-| pytest collection error | Bağımlılık eksik (pydantic/fastapi) | `pip install -r requirements.txt` | Geliştirme bağımlılıklarını kur |
-| Reklam yazma çalışmıyor | `ADS_WRITES_ENABLED=false` (güvenli varsayılan) | `kads doctor` | Ölçüm doğrulanınca + guardrail allowlist dolunca açılır |
-
-Daha fazla: `kads doctor` (ortam), `kads tracking` (ölçüm), `kads selfcheck` (bütünlük).
+| Google Ads 0 dönüşüm | GTM içinde GA4/Ads conversion etiketi yok | `kads tracking` (EKSİK kalemler) |

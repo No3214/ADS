@@ -110,3 +110,43 @@ def test_brand_rsa_pinned_to_position_one():
     r = marka[0]
     assert r.get("Headline 1 position") == 1 and r.get("Headline 2 position") == 1
     assert "Kozbeyli" in r["Headline 1"]
+
+
+# ---- kads deliver: reklam teslim paketi durumu ------------------------------
+def test_deliver_ok():
+    assert main(["deliver"]) == core.EX_OK
+
+
+def test_deliver_json_pipe_clean(capsys):
+    rc = main(["deliver", "--format", "json"])
+    assert rc == core.EX_OK
+    out = capsys.readouterr().out.strip()
+    assert out and out[0] == "[", "json banner ile kirlenmemeli"
+    json.loads(out)
+
+
+def test_delivery_status_structure():
+    assert len(dx.DELIVERY_STATUS) == 9  # #2..#10
+    cols = {"no", "baslik", "durum", "konum", "aksiyon"}
+    for r in dx.DELIVERY_STATUS:
+        assert cols <= set(r.keys())
+    d = {r["no"]: r["durum"] for r in dx.DELIVERY_STATUS}
+    assert d["#5"] != "HAZIR", "Tracking kalemi ölçüm-bekliyor işaretli olmalı"
+    assert d["#10"] != "HAZIR", "30 gün planı ölçüm-kapısı işaretli olmalı"
+
+
+def test_deliver_package_doc_exists():
+    assert (ROOT / "docs" / "REKLAM-TESLIM-PAKETI.md").exists()
+
+
+def test_ads_delivery_skill_valid():
+    """skills/ads-delivery/SKILL.md var ve name/description frontmatter'ı geçerli."""
+    p = ROOT / "skills" / "ads-delivery" / "SKILL.md"
+    assert p.exists(), "SKILL.md yok"
+    txt = p.read_text(encoding="utf-8")
+    assert txt.startswith("---"), "YAML frontmatter yok"
+    fm = txt.split("---", 2)[1]
+    assert "name: ads-delivery" in fm
+    assert "description:" in fm
+    # gövde teslim paketini referans almalı
+    assert "REKLAM-TESLIM-PAKETI.md" in txt and "kads deliver" in txt
