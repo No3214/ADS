@@ -24,3 +24,10 @@ sayfadaki görünür içerikle eşleşmeli. **Sahte yorum/puan/ödül/fiyat YOK.
 5. Ölçüm (GA4 AI kanalı + sunucu log + alıntı testi).
 
 Komut: `kads aeo` (soru kümeleri + şema kontrol listesi). Doğrula: Google Rich Results Test + Schema Markup Validator.
+
+
+## Strateji + Ölçüm (v1.41)
+- Tam strateji: `docs/aeo-strategy.md` (platform bazlı: ChatGPT/Claude/Perplexity/Gemini).
+- Test sorguları: `kads aeo queries` (20 sorgu, TR+EN).
+- Görünürlük skoru: `aeo/alinti-testi.csv` doldur → `kads aeo score` (genel % + platform + rakip SoV).
+- Skill: `skills/aeo-mastery/SKILL.md`.

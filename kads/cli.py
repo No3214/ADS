@@ -1228,6 +1228,55 @@ def cmd_apify(args):
 def cmd_aeo(args):
     sub = args[0] if args and not args[0].startswith("-") else "all"
     fmt = _fmt(args)
+    if sub in ("queries", "sorgular"):
+        core.emit(
+            dx.AEO_TEST_QUERIES,
+            fmt=fmt,
+            title="AI gorunurluk test sorgulari (haftalik)",
+            columns=["sorgu", "kategori", "dil"],
+        )
+        if fmt == "table":
+            print(
+                core.dim(
+                    f"\n  {len(dx.AEO_TEST_QUERIES)} sorgu x 4 platform (ChatGPT/Perplexity/Gemini/Claude). "
+                    "Doldur: aeo/alinti-testi.csv (2=onerildi/kaynak, 1=bahsedildi, 0=yok). Sonra: kads aeo score."
+                )
+            )
+        return core.EX_OK
+    if sub in ("score", "skor"):
+        import csv as _csv
+        results = _opt(args, "--results") or str(ROOT / "aeo" / "alinti-testi.csv")
+        rp = Path(results)
+        if not rp.exists():
+            print(core.red(f"Sonuc dosyasi bulunamadi: {results}"))
+            return core.EX_NOINPUT
+        with rp.open(encoding="utf-8-sig") as fh:
+            rows = list(_csv.DictReader(fh))
+        sc = dx.aeo_visibility_score(rows)
+        out = [
+            {"metrik": "Genel gorunurluk", "deger": f"%{sc['overall_pct']}"},
+            {"metrik": "Olculen hucre", "deger": f"{sc['filled']}/{sc['total_cells']}"},
+        ]
+        for plat, val in sc["per_platform"].items():
+            out.append({"metrik": plat, "deger": ("olculmedi" if val is None else f"%{val}")})
+        core.emit(out, fmt=fmt, title="AI gorunurluk skoru", columns=["metrik", "deger"])
+        if fmt == "table":
+            if sc["filled"] == 0:
+                print(
+                    core.dim(
+                        "\n  Henuz doldurulmamis. aeo/alinti-testi.csv'yi 4 platformda test edip doldur (2/1/0).\n"
+                        "  Yontem + strateji: docs/aeo-strategy.md"
+                    )
+                )
+            else:
+                print(
+                    core.dim(
+                        "\n  Rakip Share-of-Voice: ayni sorgulari su rakipler icin de test et -> "
+                        + ", ".join(dx.AEO_COMPETITORS_TRACK)
+                        + "\n  Kimin daha cok cikitigini karsilastir. Strateji: docs/aeo-strategy.md"
+                    )
+                )
+        return core.EX_OK
     if sub in ("schema", "sema"):
         core.emit(
             dx.AEO_SCHEMA_CHECKLIST,
@@ -1936,7 +1985,7 @@ def cmd_help(args: list[str]) -> int:
         ("setup", "Kurulum asistani (.env/.mcp.json)"),
         ("status", "Sistem ozeti (paketler + hazirlik)"),
         ("apify", "Web veri actor receteleri (yorum/fiyat/SERP)"),
-        ("aeo [schema]", "AI motoru gorunurlugu: soru kumeleri + JSON-LD"),
+        ("aeo [schema|queries|score]", "AI motoru gorunurlugu (AEO/GEO): sorgular + gorunurluk skoru + JSON-LD"),
         ("season / funnel / offers", "Sezon plani / donusum hunisi / teklifler"),
         ("web", "Frontend kontrol listesi (perf/a11y/PWA/meta)"),
         ("b2b [packages]", "Kurumsal motor (Aliağa sanayi) hedef + paket"),

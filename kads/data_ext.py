@@ -713,3 +713,72 @@ DELIVERY_STATUS = [
     {"no": "#10", "baslik": "30 gün planı", "durum": "ÖLÇÜM KAPISI",
      "konum": "docs/REKLAM-TESLIM-PAKETI.md", "aksiyon": "Gün 1-3 ölçüm önce"},
 ]
+
+
+# ---- AEO/GEO: AI görünürlük test sorguları + skor -------------------------
+# Haftalık 4 platformda (ChatGPT/Perplexity/Gemini/Claude) test edilir.
+# Değerleme: 2=önerildi/kaynak, 1=bahsedildi, 0=yok. Bkz. docs/aeo-strategy.md
+AEO_TEST_QUERIES = [
+    {"sorgu": "Foça'da tarihi taş konak otel", "kategori": "butik", "dil": "tr"},
+    {"sorgu": "Kozbeyli Konağı nedir nerede", "kategori": "marka", "dil": "tr"},
+    {"sorgu": "Foça butik otel önerisi", "kategori": "butik", "dil": "tr"},
+    {"sorgu": "İzmir'de köy düğünü mekanı", "kategori": "organizasyon", "dil": "tr"},
+    {"sorgu": "Foça'da kahvaltısı güzel otel", "kategori": "kahvaltı", "dil": "tr"},
+    {"sorgu": "Foça'ya yakın sakin otel", "kategori": "butik", "dil": "tr"},
+    {"sorgu": "Foça mı Alaçatı mı nerede kalınır", "kategori": "karşılaştırma", "dil": "tr"},
+    {"sorgu": "Foça'da çiftler için romantik otel", "kategori": "romantik", "dil": "tr"},
+    {"sorgu": "evcil hayvan kabul eden Foça oteli", "kategori": "evcil", "dil": "tr"},
+    {"sorgu": "Foça'da Ege mutfağı restoran", "kategori": "restoran", "dil": "tr"},
+    {"sorgu": "İzmir taş konak otel öner", "kategori": "butik", "dil": "tr"},
+    {"sorgu": "Yeni Foça'da butik konaklama", "kategori": "bölge", "dil": "tr"},
+    {"sorgu": "Foça'da köy kahvaltısı nerede yapılır", "kategori": "kahvaltı", "dil": "tr"},
+    {"sorgu": "Foça'da canlı müzikli restoran", "kategori": "restoran", "dil": "tr"},
+    {"sorgu": "Foça'da nişan kına mekanı", "kategori": "organizasyon", "dil": "tr"},
+    {"sorgu": "best boutique hotel near Foça Turkey", "kategori": "butik", "dil": "en"},
+    {"sorgu": "historic stone house hotel Izmir Turkey", "kategori": "butik", "dil": "en"},
+    {"sorgu": "where to stay in Foça village Turkey", "kategori": "bölge", "dil": "en"},
+    {"sorgu": "pet friendly boutique hotel Aegean Turkey", "kategori": "evcil", "dil": "en"},
+    {"sorgu": "Foça vs Alacati where to stay", "kategori": "karşılaştırma", "dil": "en"},
+]
+
+# Haftalık ölçümde Kozbeyli ile karşılaştırılacak rakipler (share of voice).
+AEO_COMPETITORS_TRACK = ["Bülbül Yuvası Hotel", "Huri Nuri Hotel", "Foça Ensar Otel"]
+
+AEO_PLATFORMS = ["ChatGPT", "Perplexity", "Gemini", "Claude"]
+
+
+def aeo_visibility_score(rows: list) -> dict:
+    """Doldurulmuş alıntı-testi satırlarından AI görünürlük skorunu hesaplar.
+
+    rows: her biri en az {ChatGPT,Perplexity,Gemini,Claude} anahtarlı dict
+    (değerler 0/1/2 veya boş). Döndürür: {overall_pct, per_platform, filled, total_cells}.
+    Boş hücre ölçülmemiş sayılır (paydaya girmez) — dürüst kısmi skor.
+    """
+    per = {p: {"sum": 0, "max": 0} for p in AEO_PLATFORMS}
+    filled = 0
+    for r in rows:
+        for p in AEO_PLATFORMS:
+            v = str(r.get(p, "")).strip()
+            if v == "":
+                continue
+            try:
+                val = int(float(v.replace(",", ".")))
+            except (TypeError, ValueError):
+                continue
+            val = max(0, min(2, val))
+            per[p]["sum"] += val
+            per[p]["max"] += 2
+            filled += 1
+    total_sum = sum(p["sum"] for p in per.values())
+    total_max = sum(p["max"] for p in per.values())
+    overall = round(total_sum / total_max * 100, 1) if total_max else 0.0
+    per_platform = {
+        p: (round(d["sum"] / d["max"] * 100, 1) if d["max"] else None)
+        for p, d in per.items()
+    }
+    return {
+        "overall_pct": overall,
+        "per_platform": per_platform,
+        "filled": filled,
+        "total_cells": len(rows) * len(AEO_PLATFORMS),
+    }

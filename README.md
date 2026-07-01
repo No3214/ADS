@@ -59,7 +59,7 @@ kads plan                 # 30.000 TL çapraz kanal planı
 | `kads calendar / publish` | Çok kanallı içerik takvimi · Postiz-hazır yayın (oto publisher) |
 | `kads setup / status` | Kurulum asistanı · sistem özeti |
 | `kads apify` | Web veri actor reçeteleri (yorum/fiyat/SERP) |
-| `kads aeo [schema]` | AI motoru görünürlüğü: soru kümeleri + JSON-LD |
+| `kads aeo [schema\|queries\|score]` | **AI motoru görünürlüğü** (AEO/GEO): test sorguları + görünürlük skoru + rakip SoV · `docs/aeo-strategy.md` |
 | `kads season [detail] / funnel / offers` | Sezon planı (+detay) · dönüşüm hunisi · teklif/paketler |
 | `kads web` | Frontend kontrol listesi (perf / a11y / PWA / meta) |
 | `kads b2b [packages]` | Kurumsal motor (Aliağa sanayi): hedef + MICE paket |
@@ -95,13 +95,13 @@ docs/                  00-04 mimari/güvenlik · 05 optimizasyon · 06 benchmark
                        22 bütçe-dostu reklam/AEO · 23 Meta Pixel denetimi · 24 GTM etiket kurulumu
 scripts/               guardrails.py (güvenlik kalbi) · preflight.py
 assets/ tracking/ plans/ config/   RSA/kreatif · Consent+GTM+HMS · 30k plan · doğrulanmış config
-tests/                 519 pytest — guardrail/executor/security/decision/scheduler/API + regresyon (kapsam %91)
+tests/                 538 pytest — guardrail/executor/security/decision/scheduler/API + regresyon (kapsam %91)
 .claude/skills/        monitor (salt okunur) + change (guardrail'li)
 ```
 
 ## ✅ Test & kalite güvencesi
 
-- **519 pytest** geçer (Windows + Linux). Kapsam **%91** (`executor`, `security`, `rules`, `mmm`, `decision_memory`, `warehouse/db`, `api/approval` = %100).
+- **538 pytest** geçer (Windows + Linux). Kapsam **%91** (`executor`, `security`, `rules`, `mmm`, `decision_memory`, `warehouse/db`, `api/approval` = %100).
 - **pyflakes temiz** (hem `kads/` hem `tests/`). Bare-except yok, TODO/FIXME yok, tüm public fonksiyonlar docstring'li.
 - Regresyon kilitleri: `.com.tr` asla geri gelmez · doğrulanmamış "13 km" mesafe müşteri metninde olamaz · marka RSA poz-1 pin · NonBrand grupları farklı · ölçüm-durumu (GTM/Pixel/GA4/Ads ID'leri).
 

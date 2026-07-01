@@ -1,5 +1,13 @@
 # Değişiklik Günlüğü
 
+## v1.41.0 — AEO/GEO (AI motoru görünürlüğü) sistemi
+- **docs/aeo-strategy.md**: platform-bazlı strateji (ChatGPT %94 Google/Places · Claude Wikidata · Perplexity Reddit ~%47 · Gemini Knowledge Graph). Otel AEO gerçeği: atıflar aracı kaynaklara gider, ~%71 yorumla sürüklenir (hacim+yıldız), RRF fusion çoklu-kaynak ödüllendirir, Wikidata küçük işletme için #1 ulaşılabilir entity. Tem 2026 web araştırması + kaynaklar.
+- **kads aeo güçlendirildi**: `queries` (20 test sorgusu TR+EN/6 kategori) + `score` (görünürlük % + platform bazlı + rakip Share-of-Voice). `dx.AEO_TEST_QUERIES` + `dx.aeo_visibility_score()` (boş hücre paydaya girmez = dürüst kısmi skor) + `AEO_COMPETITORS_TRACK`.
+- **aeo/alinti-testi.csv** 10→20 sorgu (kategori+dil kolonları) — tek kaynak AEO_TEST_QUERIES'ten üretilir.
+- **skills/aeo-mastery/SKILL.md**: platform stratejisi + ölçüm + aylık optimizasyon rutini. Etik sınır: sahte yorum/spam YOK.
+- 538 pytest geçer (+14), pyflakes temiz, .com.tr CLEAN. aymar.tech'in ~4490 TL/ay işini kendi altyapıda ücretsiz.
+
+
 ## v1.40.1 — Teslim paketi tutarlılık düzeltmesi (öz-denetim)
 - **HotelRunner** yazımı düzeltildi (yanlış "HoterRunner" 4 yerde → doğru ad; kullanıcı spesifikasyonuyla uyum).
 - Bütçe dağılımı çapraz-referans notu: teslim paketi #2 dağılımı ile `kads plan`/data.PLAN taban planı arasındaki fark açıklandı (ikisi de 15k+15k; canlı veride `kads allocate` tek doğru kaynak). İki sessiz-çelişen tablo riski elimine.
