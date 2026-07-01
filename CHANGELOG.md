@@ -1,5 +1,13 @@
 # Değişiklik Günlüğü
 
+## v1.44.0 — Dashboard rapor.html interaktif + responsive
+- **Görsel gösterge**: SVG ROAS yarım-daire göstergesi (renk kodlu, 3× hedef çizgisi) + kanal harcama split-bar (Google/Meta) + hedefe-ilerleme bar (gelir/90k).
+- **Canlı hesaplama**: yazdıkça otomatik (debounce 350ms) + Hesapla/Örnek/Temizle butonları (44px dokunma hedefi).
+- **Responsive**: KPI grid 4→2→1 kolon (760/440px), grafik ≤680px yığılır, mobil padding, print-friendly.
+- **Dürüstlük korundu**: varsayılan tüm-0 (sahte pozitif yok), UYARI bandı, örnek veri açıkça "test" butonuyla. Offline (CDN yok).
+- Kilit testi: SVG + input-listener + mobil breakpoint + sahte-veri-yok. 586 pytest geçer.
+
+
 ## v1.43.0 — Type hints + docstrings + CLI help tutarlılığı
 - **44 komut fonksiyonuna docstring** (help açıklamalarından türetildi → help ile birebir tutarlı) + `main()` docstring.
 - **Tüm cmd_ fonksiyonları `(args: list[str]) -> int`** signature'a normalize edildi (b2b dahil).

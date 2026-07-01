@@ -65,3 +65,15 @@ def test_dashboards_no_fake_rating():
         low = (ROOT / rel).read_text(encoding="utf-8").lower()
         for bad in ("★★★", "5/5 yıldız", "ödüllü otel", "ratingvalue"):
             assert bad not in low, f"{rel}: sahte puan/odul izi -> {bad}"
+
+
+def test_rapor_interactive_responsive():
+    """rapor.html: SVG gösterge + canlı hesaplama + responsive + sahte-veri yok."""
+    html = (ROOT / "dashboard" / "rapor.html").read_text(encoding="utf-8")
+    assert "<svg" in html and "gauge" in html, "SVG ROAS göstergesi eksik"
+    assert 'addEventListener("input"' in html, "canlı (input) hesaplama eksik"
+    assert "@media(max-width:440px)" in html, "mobil (1-kolon) breakpoint eksik"
+    assert "splitbar" in html and "goalbar" in html, "kanal/hedef bar eksik"
+    # dürüstlük: açılışta sahte pozitif gelir yüklenmemeli (varsayılan 0)
+    assert "tracked_revenue_try,0" in html
+    assert "tracked_revenue_try,95000" not in html
