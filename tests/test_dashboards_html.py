@@ -77,3 +77,8 @@ def test_rapor_interactive_responsive():
     # dürüstlük: açılışta sahte pozitif gelir yüklenmemeli (varsayılan 0)
     assert "tracked_revenue_try,0" in html
     assert "tracked_revenue_try,95000" not in html
+    # interaktif geliştirmeler: kalıcılık + tema + export + trend
+    assert "localStorage" in html, "kalıcılık (localStorage) eksik"
+    assert "toggleTheme" in html and "body.dark" in html, "dark mode eksik"
+    assert "exportCsv" in html and "copySummary" in html, "export/kopyala eksik"
+    assert "sparkline" in html, "ROAS trend sparkline eksik"

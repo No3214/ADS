@@ -1,5 +1,15 @@
 # Değişiklik Günlüğü
 
+## v1.43.0 — Dashboard rapor.html interaktif + responsive
+- **Dark mode** (tema toggle, tercih tarayıcıda kalıcı) + light/dark CSS değişken setleri.
+- **localStorage kalıcılık**: yapıştırılan metrikler + tema + ROAS trend geçmişi tarayıcıda saklanır (yeniden açınca geri gelir). Not: standalone dosya, claude.ai artifact değil.
+- **ROAS trend sparkline** (son 12 ölçüm, hedef-3× çizgisi) — hesapladıkça birikir.
+- **CSV export** (hesaplanan KPI'yı indir) + **özet kopyala** (panoya).
+- Animasyonlu gauge/bar geçişleri, focus-visible a11y, gelişmiş mobil (sticky başlık, dokunma hedefleri ≥44px).
+- Sahte-veri uyarısı + varsayılan sıfır korundu (dürüstlük). test_rapor_interactive_responsive güçlendirildi.
+- 575 pytest geçer (dashboard testi güçlendirildi). pyflakes temiz.
+
+
 ## v1.42.0 — Kalite: coverage %96 + tam type-hint/docstring
 - **Coverage %91→%96**: 40+ yeni CLI dal testi (seo/presence alt-komutları, rules/report --metrics, guard --check, format varyantları, büyüme alt-modları). worker.py %100. Genuinely-untestable kod (ingestion canlı-SDK, __main__, bloklayan worker döngüsü, ortam-savunma except'leri) dürüstçe `# pragma: no cover`.
 - **Tüm public fonksiyonlar docstring'li VE return-type'lı** (0 eksik): row-builder'lar, seo/presence/report/rules, core renk yardımcıları, api, jobs, db (Iterator[Session]), meta/google platformları, engine nested runner'lar.

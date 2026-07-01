@@ -2,22 +2,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kozbeyli Konağı — Raporlama (KPI / ROAS / Optimizasyon)</title>
 <style>
-:root{color-scheme:light;--bg:#f6f3ec;--panel:#fffdf8;--ink:#26241f;--muted:#7c766b;--line:#e7e0d2;
---green:#3f6b4f;--terra:#c1583a;--amber:#c98a2b;--blue:#3a6b8c;
+:root{color-scheme:light dark;--bg:#f6f3ec;--panel:#fffdf8;--ink:#26241f;--muted:#7c766b;--line:#e7e0d2;
+--green:#3f6b4f;--terra:#c1583a;--amber:#c98a2b;--blue:#3a6b8c;--arc:#efe9db;
 --shadow:0 1px 2px rgba(40,36,28,.06),0 8px 24px rgba(40,36,28,.06)}
+body.dark{--bg:#1a1815;--panel:#242019;--ink:#efe9db;--muted:#a49b8a;--line:#3a352c;--arc:#332f27;
+--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.3)}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);
-font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;transition:background .2s,color .2s}
 .wrap{max-width:1000px;margin:0 auto;padding:26px 20px 60px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
 h1{font-size:22px;margin:0} .sub{color:var(--muted);font-size:13px;margin:2px 0 18px}
 h2{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:26px 0 10px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
 textarea{width:100%;min-height:170px;border:1px solid var(--line);border-radius:10px;padding:11px;
-font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;background:#fffefb;color:var(--ink);resize:vertical}
+font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;background:var(--panel);color:var(--ink);resize:vertical}
 button{background:var(--green);color:#fff;border:0;border-radius:9px;padding:11px 18px;font-size:14px;
 font-weight:650;cursor:pointer;margin-top:10px;min-height:44px}
 button.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
-button:hover{filter:brightness(1.05)}
-.btnrow{display:flex;gap:10px;flex-wrap:wrap}
+button.mini{margin:0;padding:7px 12px;min-height:38px;font-size:13px}
+button:hover{filter:brightness(1.06)} button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .grid{display:grid;gap:13px;grid-template-columns:repeat(4,1fr);margin-top:4px}
 @media(max-width:760px){.grid{grid-template-columns:1fr 1fr}.wrap{padding:18px 14px 48px}h1{font-size:20px}}
 @media(max-width:440px){.grid{grid-template-columns:1fr}}
@@ -26,8 +30,8 @@ button:hover{filter:brightness(1.05)}
 .charts{display:grid;gap:13px;grid-template-columns:280px 1fr;margin-top:4px}
 @media(max-width:680px){.charts{grid-template-columns:1fr}}
 .gauge-wrap{text-align:center} .gauge-cap{font-size:12px;color:var(--muted);margin-top:2px}
-.bar{height:26px;border-radius:8px;overflow:hidden;display:flex;background:#efe9db;border:1px solid var(--line)}
-.bar span{display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:650;white-space:nowrap}
+.bar{height:26px;border-radius:8px;overflow:hidden;display:flex;background:var(--arc);border:1px solid var(--line)}
+.bar span{display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:650;white-space:nowrap;transition:width .3s ease}
 .barlbl{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin:8px 2px 0}
 table{width:100%;border-collapse:collapse;font-size:13.5px} th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
 th{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
@@ -35,17 +39,25 @@ th{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--mute
 .r{background:#f6e2db;color:var(--terra)} .f{background:#dcebe1;color:var(--green)} .o{background:#dde8f0;color:var(--blue)}
 .good{color:var(--green)} .warn{color:var(--amber)} .bad{color:var(--terra)}
 .note{color:var(--muted);font-size:12px;margin-top:22px;border-top:1px dashed var(--line);padding-top:12px}
-code{background:#f0ece1;border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:12.5px}
+code{background:var(--arc);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:12.5px}
 .warnbox{margin:0 0 8px;padding:8px 10px;background:#fdf2f3;border:1px solid #f0c0c4;border-radius:6px;color:#8a1f2a;font-size:12.5px}
+body.dark .warnbox{background:#2e1a1c;border-color:#5a2b30;color:#f0a8ae}
+.saved{font-size:11.5px;color:var(--green);margin-left:4px;opacity:0;transition:opacity .3s}
+.saved.on{opacity:1}
 @media print{button,.btnrow{display:none}body{background:#fff}.card{box-shadow:none}}
 </style></head><body><div class="wrap">
-<h1>Kozbeyli Konağı — Raporlama</h1>
-<div class="sub">Blended KPI (ROAS · CPA · CTR · CPC) + görsel gösterge + otomatik optimizasyon önerileri. Tamamen çevrimdışı, canlı hesaplama.</div>
+<div class="top">
+  <div>
+    <h1>Kozbeyli Konağı — Raporlama</h1>
+    <div class="sub">Blended KPI (ROAS · CPA · CTR · CPC) + görsel gösterge + otomatik öneriler. Çevrimdışı, canlı hesaplama, tarayıcıda kalıcı.</div>
+  </div>
+  <div class="btnrow"><button class="ghost mini" id="themeBtn" onclick="toggleTheme()" aria-label="Koyu/açık tema">Tema</button></div>
+</div>
 
-<h2>1) Metrikleri yapıştır</h2>
+<h2>1) Metrikleri yapıştır <span class="saved" id="saved">kaydedildi</span></h2>
 <div class="card">
 <p class="warnbox"><b>UYARI:</b> Aşağıdaki alan boştur (örnek değil). ÖLÇÜM doğrulanana kadar gerçek dönüşüm yoktur (Ads 0 dönüşüm). Kendi metriğini yapıştır.</p>
-<p style="margin:0 0 8px;color:var(--muted);font-size:12.5px">Format: <code>metrik,deger</code> (her satır). <code>kads report --template</code> ile şablon üret, doldur, yapıştır. Yazdıkça otomatik hesaplanır.</p>
+<p style="margin:0 0 8px;color:var(--muted);font-size:12.5px">Format: <code>metrik,deger</code> (her satır). <code>kads report --template</code> ile şablon üret, doldur, yapıştır. Yazdıkça otomatik hesaplanır ve tarayıcıda saklanır.</p>
 <textarea id="inp" aria-label="Metrik girisi">metrik,deger
 google_spend_try,0
 meta_spend_try,0
@@ -64,9 +76,11 @@ conversions_30d,0
 spend_pace_pct,0
 whatsapp_leads,0</textarea>
 <div class="btnrow">
-<button onclick="run()">Hesapla</button>
+<button onclick="run(true)">Hesapla</button>
 <button class="ghost" onclick="loadSample()">Örnek veri yükle (test)</button>
 <button class="ghost" onclick="clearAll()">Temizle</button>
+<button class="ghost" onclick="exportCsv()">KPI'yı CSV indir</button>
+<button class="ghost" onclick="copySummary()">Özeti kopyala</button>
 </div>
 </div>
 
@@ -79,6 +93,8 @@ whatsapp_leads,0</textarea>
     <div class="barlbl"><span id="gLbl">Google —</span><span id="mLbl">Meta —</span></div>
     <div style="font-size:12px;color:var(--muted);margin-top:14px">Hedefe ilerleme (izlenen gelir / 90.000 TL = 3×)</div>
     <div class="bar" id="goalbar" style="margin-top:6px"><span style="background:var(--amber);width:0%">0%</span></div>
+    <div style="font-size:12px;color:var(--muted);margin-top:14px">ROAS trendi (son ölçümler · bu tarayıcıda)</div>
+    <div id="trend" style="margin-top:6px"></div>
   </div>
 </div>
 
@@ -94,19 +110,23 @@ Hedef: blended ROAS ≥3× (90.000 TL) / 4× (120.000 TL). Sayılar planlama tah
 </div>
 
 <script>
+var LS_M="kozbeyli_rapor_metrics_v1",LS_T="kozbeyli_rapor_theme_v1",LS_H="kozbeyli_rapor_trend_v1";
 var RULES=[
- ["ROAS_SCALE","blended_roas",">=",3.0,"Bütçeyi kademeli +%20 artır (tavana kadar)","f"],
- ["ROAS_CUT","blended_roas","<",2.0,"Bütçeyi kıs / düşük performans öğeyi duraklat","r"],
- ["CPA_OVER","blended_cpa_try",">",2000,"Hedef CPA aşıldı: kitle/keyword daralt, teklif düşür","r"],
- ["CTR_LOW_NB","nonbrand_ctr_pct","<",2.0,"Non-brand CTR düşük: başlık/uzantı testi, keyword daralt","o"],
- ["FREQ_HIGH","meta_frequency",">",2.5,"Kreatif yorgunluğu: kreatifi yenile (A/B değiştir)","o"],
- ["CPC_SPIKE","cpc_try",">",12.0,"CPC TR ort. üstünde: CPC limiti gözden geçir, negatif ekle","o"],
- ["LEARN_LIMITED","weekly_conversions","<",50,"Öğrenme sınırlı: ad set birleştir, bütçe topla","o"],
- ["BID_GRADUATE","conversions_30d",">=",15,"Maximize Conversions / tCPA geçişini değerlendir","f"],
- ["PACING_LOW","spend_pace_pct","<",70,"Harcama düşük: bütçe/teklif artır veya hedef genişlet","o"],
- ["PACING_HIGH","spend_pace_pct",">",120,"Aşırı harcama: günlük tavanı/teklifi düşür","r"]
+ ["ROAS_SCALE","blended_roas",">=",3.0,"Butceyi kademeli +%20 artir (tavana kadar)","f"],
+ ["ROAS_CUT","blended_roas","<",2.0,"Butceyi kis / dusuk performans ogeyi duraklat","r"],
+ ["CPA_OVER","blended_cpa_try",">",2000,"Hedef CPA asildi: kitle/keyword daralt, teklif dusur","r"],
+ ["CTR_LOW_NB","nonbrand_ctr_pct","<",2.0,"Non-brand CTR dusuk: baslik/uzanti testi, keyword daralt","o"],
+ ["FREQ_HIGH","meta_frequency",">",2.5,"Kreatif yorgunlugu: kreatifi yenile (A/B degistir)","o"],
+ ["CPC_SPIKE","cpc_try",">",12.0,"CPC TR ort. ustunde: CPC limiti gozden gecir, negatif ekle","o"],
+ ["LEARN_LIMITED","weekly_conversions","<",50,"Ogrenme sinirli: ad set birlestir, butce topla","o"],
+ ["BID_GRADUATE","conversions_30d",">=",15,"Maximize Conversions / tCPA gecisini degerlendir","f"],
+ ["PACING_LOW","spend_pace_pct","<",70,"Harcama dusuk: butce/teklif artir veya hedef genislet","o"],
+ ["PACING_HIGH","spend_pace_pct",">",120,"Asiri harcama: gunluk tavani/teklifi dusur","r"]
 ];
 var SAMPLE="metrik,deger\ngoogle_spend_try,5200\nmeta_spend_try,4100\ntracked_revenue_try,31000\ngoogle_clicks,1450\ngoogle_impressions,32000\ngoogle_conversions,6\nmeta_clicks,900\nmeta_impressions,55000\nmeta_purchases,5\nmeta_frequency,3.1\nnonbrand_ctr_pct,1.4\ncpc_try,4.6\nweekly_conversions,11\nconversions_30d,44\nspend_pace_pct,96\nwhatsapp_leads,18";
+var LAST=null;
+function store(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+function load(k){try{return localStorage.getItem(k);}catch(e){return null;}}
 function parse(t){var m={};t.split(/\n/).forEach(function(l){var p=l.split(",");if(p.length>=2){var k=p[0].trim();var v=parseFloat(String(p[1]).replace(",",".").trim());if(k&&k!=="metrik"&&!isNaN(v))m[k]=v;}});return m;}
 function num(m,k){return m[k]||0;}
 function compute(m){var g=num(m,"google_spend_try"),mt=num(m,"meta_spend_try"),rev=num(m,"tracked_revenue_try");
@@ -121,39 +141,61 @@ function gauge(roas){var cap=5,frac=Math.max(0,Math.min(roas/cap,1));
  var tx=cx+r*Math.cos(Math.PI*(1-3/cap)),ty=cy-r*Math.sin(Math.PI*(1-3/cap));
  var large=frac>0.5?1:0;
  return '<svg viewBox="0 0 220 130" width="100%" style="max-width:240px" role="img" aria-label="ROAS gostergesi">'
- +'<path d="M20 110 A90 90 0 0 1 200 110" fill="none" stroke="#efe9db" stroke-width="16" stroke-linecap="round"/>'
- +'<path d="M20 110 A90 90 0 '+large+' 1 '+x.toFixed(1)+' '+y.toFixed(1)+'" fill="none" stroke="'+col+'" stroke-width="16" stroke-linecap="round"/>'
+ +'<path d="M20 110 A90 90 0 0 1 200 110" fill="none" stroke="var(--arc)" stroke-width="16" stroke-linecap="round"/>'
+ +'<path d="M20 110 A90 90 0 '+large+' 1 '+x.toFixed(1)+' '+y.toFixed(1)+'" fill="none" stroke="'+col+'" stroke-width="16" stroke-linecap="round" style="transition:all .4s ease"/>'
  +'<line x1="'+cx+'" y1="'+cy+'" x2="'+tx.toFixed(1)+'" y2="'+ty.toFixed(1)+'" stroke="#3f6b4f" stroke-width="2" stroke-dasharray="3 3"/>'
- +'<text x="110" y="98" text-anchor="middle" font-size="30" font-weight="750" fill="'+col+'">'+roas.toFixed(2)+'×</text>'
- +'<text x="110" y="118" text-anchor="middle" font-size="11" fill="#7c766b">0× — 5×</text></svg>';}
+ +'<text x="110" y="98" text-anchor="middle" font-size="30" font-weight="750" fill="'+col+'">'+roas.toFixed(2)+'x</text>'
+ +'<text x="110" y="118" text-anchor="middle" font-size="11" fill="#7c766b">0x - 5x</text></svg>';}
+function sparkline(hist){if(!hist.length){return '<div style="font-size:12px;color:var(--muted)">Henuz veri yok - hesapladikca birikir.</div>';}
+ var w=280,H=44,mx=Math.max(3.2,Math.max.apply(null,hist)),mn=0,n=hist.length;
+ var pts=hist.map(function(v,i){var x=n<2?w:(i/(n-1))*w;var y=H-((v-mn)/(mx-mn))*H;return x.toFixed(1)+','+y.toFixed(1);}).join(' ');
+ var last=hist[n-1],col=last>=3?'#3f6b4f':(last<2?'#c1583a':'#c98a2b');
+ var ty=H-((3-mn)/(mx-mn))*H;
+ return '<svg viewBox="0 0 '+w+' '+H+'" width="100%" style="max-width:100%" role="img" aria-label="ROAS trend">'
+ +'<line x1="0" y1="'+ty.toFixed(1)+'" x2="'+w+'" y2="'+ty.toFixed(1)+'" stroke="#3f6b4f" stroke-width="1" stroke-dasharray="3 3" opacity=".5"/>'
+ +'<polyline points="'+pts+'" fill="none" stroke="'+col+'" stroke-width="2.5" stroke-linejoin="round"/>'
+ +'<circle cx="'+w+'" cy="'+(H-((last-mn)/(mx-mn))*H).toFixed(1)+'" r="3" fill="'+col+'"/></svg>';}
 function pct(x){return Math.round(x)+'%';}
-function run(){var m=parse(document.getElementById("inp").value);var k=compute(m);
-document.getElementById("gauge").innerHTML=gauge(k.roas);
-var tot=k.g+k.mt,gp=tot?k.g/tot*100:50,mp=tot?k.mt/tot*100:50;
-document.getElementById("splitbar").innerHTML='<span style="background:var(--green);width:'+gp+'%">'+(gp>12?'Google':'')+'</span><span style="background:var(--blue);width:'+mp+'%">'+(mp>12?'Meta':'')+'</span>';
-document.getElementById("gLbl").textContent='Google '+Math.round(k.g).toLocaleString('tr')+' TL ('+pct(gp)+')';
-document.getElementById("mLbl").textContent='Meta '+Math.round(k.mt).toLocaleString('tr')+' TL ('+pct(mp)+')';
-var gpct=Math.max(0,Math.min(k.rev/90000*100,100));
-document.getElementById("goalbar").innerHTML='<span style="background:'+(gpct>=100?'var(--green)':'var(--amber)')+';width:'+gpct+'%">'+pct(gpct)+'</span>';
-var roasCls=k.roas>=3?'good':(k.roas<2?'bad':'warn');var cpaCls=k.cpa>2000?'bad':'good';
-var h=card(k.roas.toFixed(2)+'×','Blended ROAS',k.roas>=3?'Hedefte':'<3× optimize',roasCls)
- +card(Math.round(k.cpa).toLocaleString('tr')+' TL','Blended CPA',k.cpa>2000?'Hedef üstü':'iyi',cpaCls)
- +card(k.ctr.toFixed(2)+'%','Blended CTR','',k.ctr<1.5?'warn':'good')
- +card(k.cpc.toFixed(2)+' TL','Blended CPC','',k.cpc>12?'warn':'good')
- +card(Math.round(k.spend).toLocaleString('tr')+' TL','Toplam harcama','')
- +card(Math.round(k.rev).toLocaleString('tr')+' TL','İzlenen gelir','')
- +card(k.conv.toFixed(0),'Dönüşüm','')
- +card(num(m,'whatsapp_leads').toFixed(0),'WhatsApp lead','');
-document.getElementById("kpis").innerHTML=h;
-var all={};for(var x in m)all[x]=m[x];all.blended_roas=k.roas;all.blended_cpa_try=k.cpa;
-var pri={r:0,f:1,o:2},trig=[];
-RULES.forEach(function(R){var v=all[R[1]];if(v===undefined)return;var ok=R[2]===">="?v>=R[3]:R[2]===">"?v>R[3]:R[2]==="<"?v<R[3]:R[2]==="<="?v<=R[3]:v===R[3];if(ok)trig.push(R);});
-trig.sort(function(a,b){return pri[a[5]]-pri[b[5]];});
-var lbl={r:'Risk',f:'Fırsat',o:'Orta'};
-var tb=trig.map(function(R){var val=all[R[1]];return '<tr><td><span class="tag '+R[5]+'">'+lbl[R[5]]+'</span></td><td>'+R[0]+'</td><td>'+R[1]+'</td><td>'+(typeof val==="number"?val.toFixed(2):val)+'</td><td>'+R[4]+'</td></tr>';}).join('');
-document.querySelector("#sug tbody").innerHTML=tb||'<tr><td colspan="5">Tetiklenen kural yok (metrikler eşik içinde).</td></tr>';}
-function loadSample(){document.getElementById("inp").value=SAMPLE;run();}
-function clearAll(){document.getElementById("inp").value="metrik,deger\n";run();}
-var _t;document.getElementById("inp").addEventListener("input",function(){clearTimeout(_t);_t=setTimeout(run,350);});
-run();
+function getHist(){try{return JSON.parse(load(LS_H)||"[]");}catch(e){return [];}}
+function pushHist(r){var h=getHist();h.push(Math.round(r*100)/100);if(h.length>12)h=h.slice(-12);store(LS_H,JSON.stringify(h));}
+var _sv;function flashSaved(){var s=document.getElementById("saved");s.classList.add("on");clearTimeout(_sv);_sv=setTimeout(function(){s.classList.remove("on");},1200);}
+function run(save){var m=parse(document.getElementById("inp").value);var k=compute(m);LAST=k;
+ document.getElementById("gauge").innerHTML=gauge(k.roas);
+ var tot=k.g+k.mt,gp=tot?k.g/tot*100:50,mp=tot?k.mt/tot*100:50;
+ document.getElementById("splitbar").innerHTML='<span style="background:var(--green);width:'+gp+'%">'+(gp>12?'Google':'')+'</span><span style="background:var(--blue);width:'+mp+'%">'+(mp>12?'Meta':'')+'</span>';
+ document.getElementById("gLbl").textContent='Google '+Math.round(k.g).toLocaleString('tr')+' TL ('+pct(gp)+')';
+ document.getElementById("mLbl").textContent='Meta '+Math.round(k.mt).toLocaleString('tr')+' TL ('+pct(mp)+')';
+ var gpct=Math.max(0,Math.min(k.rev/90000*100,100));
+ document.getElementById("goalbar").innerHTML='<span style="background:'+(gpct>=100?'var(--green)':'var(--amber)')+';width:'+gpct+'%">'+pct(gpct)+'</span>';
+ var roasCls=k.roas>=3?'good':(k.roas<2?'bad':'warn');var cpaCls=k.cpa>2000?'bad':'good';
+ var h=card(k.roas.toFixed(2)+'x','Blended ROAS',k.roas>=3?'Hedefte':'<3x optimize',roasCls)
+  +card(Math.round(k.cpa).toLocaleString('tr')+' TL','Blended CPA',k.cpa>2000?'Hedef ustu':'iyi',cpaCls)
+  +card(k.ctr.toFixed(2)+'%','Blended CTR','',k.ctr<1.5?'warn':'good')
+  +card(k.cpc.toFixed(2)+' TL','Blended CPC','',k.cpc>12?'warn':'good')
+  +card(Math.round(k.spend).toLocaleString('tr')+' TL','Toplam harcama','')
+  +card(Math.round(k.rev).toLocaleString('tr')+' TL','Izlenen gelir','')
+  +card(k.conv.toFixed(0),'Donusum','')
+  +card(num(m,'whatsapp_leads').toFixed(0),'WhatsApp lead','');
+ document.getElementById("kpis").innerHTML=h;
+ var all={};for(var x in m)all[x]=m[x];all.blended_roas=k.roas;all.blended_cpa_try=k.cpa;
+ var pri={r:0,f:1,o:2},trig=[];
+ RULES.forEach(function(R){var v=all[R[1]];if(v===undefined)return;var ok=R[2]===">="?v>=R[3]:R[2]===">"?v>R[3]:R[2]==="<"?v<R[3]:R[2]==="<="?v<=R[3]:v===R[3];if(ok)trig.push(R);});
+ trig.sort(function(a,b){return pri[a[5]]-pri[b[5]];});
+ var lbl={r:'Risk',f:'Firsat',o:'Orta'};
+ var tb=trig.map(function(R){var val=all[R[1]];return '<tr><td><span class="tag '+R[5]+'">'+lbl[R[5]]+'</span></td><td>'+R[0]+'</td><td>'+R[1]+'</td><td>'+(typeof val==="number"?val.toFixed(2):val)+'</td><td>'+R[4]+'</td></tr>';}).join('');
+ document.querySelector("#sug tbody").innerHTML=tb||'<tr><td colspan="5">Tetiklenen kural yok (metrikler esik icinde).</td></tr>';
+ if(save){store(LS_M,document.getElementById("inp").value);flashSaved();if(k.spend>0)pushHist(k.roas);}
+ document.getElementById("trend").innerHTML=sparkline(getHist());}
+function loadSample(){document.getElementById("inp").value=SAMPLE;run(true);}
+function clearAll(){document.getElementById("inp").value="metrik,deger\n";store(LS_H,"[]");run(true);}
+function exportCsv(){if(!LAST)run(false);var k=LAST;var rows=[["metrik","deger"],["blended_roas",k.roas.toFixed(2)],["blended_cpa_try",Math.round(k.cpa)],["blended_ctr_pct",k.ctr.toFixed(2)],["blended_cpc_try",k.cpc.toFixed(2)],["toplam_harcama_try",Math.round(k.spend)],["izlenen_gelir_try",Math.round(k.rev)],["donusum",k.conv]];
+ var csv=rows.map(function(r){return r.join(",");}).join("\n");
+ var b=new Blob([csv],{type:"text/csv;charset=utf-8"});var a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="kozbeyli-kpi.csv";a.click();}
+function copySummary(){if(!LAST)run(false);var k=LAST;var t="Kozbeyli KPI - ROAS "+k.roas.toFixed(2)+"x CPA "+Math.round(k.cpa)+" TL CTR "+k.ctr.toFixed(2)+"% CPC "+k.cpc.toFixed(2)+" TL Harcama "+Math.round(k.spend)+" TL Gelir "+Math.round(k.rev)+" TL";
+ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t);flashSaved();}else{alert(t);}}
+function toggleTheme(){var d=document.body.classList.toggle("dark");store(LS_T,d?"dark":"light");}
+(function init(){if(load(LS_T)==="dark")document.body.classList.add("dark");
+ var saved=load(LS_M);if(saved&&saved.indexOf("metrik")>-1)document.getElementById("inp").value=saved;
+ var _t;document.getElementById("inp").addEventListener("input",function(){clearTimeout(_t);_t=setTimeout(function(){run(true);},350);});
+ run(false);})();
 </script></div></body></html>
